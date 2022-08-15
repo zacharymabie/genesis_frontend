@@ -1,0 +1,54 @@
+[
+    {
+    "_id": "62f8d3f63a467dbcbab78307",
+    "name": "Classic",
+    "author": {
+        "followed": [],
+        "following": [],
+        "_id": "62f627a8fc65975e12b69c05",
+        "username": "zachmabie4",
+        "name": "Alpha Sigma",
+        "email": "sigma@alpha.com",
+        "passwordHash": "$2a$10$JG34uImoGiyJ/beoRoQrruynm58oUzfTL6QKw/srWWSKNSYvAtx5a",
+        "isAdmin": true,
+        "age": 21,
+        "weight": 90,
+        "height": 191,
+        "profilePic": "Some img url",
+        "__v": 0,
+        "id": "62f627a8fc65975e12b69c05"
+    },
+    "image": "http://localhost:4000/public/uploads/profilepic.png-1660474358014.png",
+    "description": "\"Comprehensive\"",
+    "workouts": [
+        {
+            "_id": "62f768c48d82c9b5c98a3542",
+            "name": "Classic",
+            "author": "62f627a8fc65975e12b69c05",
+            "description": "A good time",
+            "exercises": [
+                "62f64b427d6282ae503abae2"
+            ],
+            "__v": 0,
+            "id": "62f768c48d82c9b5c98a3542"
+        },
+        {
+            "_id": "62f763418a554dc63cd05637",
+            "name": "Classic all in one",
+            "author": "62f627a8fc65975e12b69c05",
+            "description": "Not an easy time lols",
+            "exercises": [
+                "62f64b427d6282ae503abae2"
+            ],
+            "__v": 0,
+            "id": "62f763418a554dc63cd05637"
+        }
+    ],
+    "level": 4.5,
+    "rating": 4.8,
+    "users": [],
+    "comments": [],
+    "__v": 0,
+    "id": "62f8d3f63a467dbcbab78307"
+    }
+]

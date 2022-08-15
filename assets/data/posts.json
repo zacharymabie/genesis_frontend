@@ -1,0 +1,372 @@
+[
+    {
+        "_id": "62f66da1e64cae9e5a44fdf3",
+        "author": null,
+        "caption": "Post 1",
+        "image": "image url",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-12T15:11:29.518Z",
+        "__v": 0,
+        "id": "62f66da1e64cae9e5a44fdf3"
+    },
+    {
+        "_id": "62f66eddced0498c745620d4",
+        "author": null,
+        "caption": "Post 2",
+        "image": "image url",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-12T15:16:45.649Z",
+        "__v": 0,
+        "id": "62f66eddced0498c745620d4"
+    },
+    {
+        "_id": "62f66ee1ced0498c745620d6",
+        "author": null,
+        "caption": "Post 3",
+        "image": "image url",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-12T15:16:49.248Z",
+        "__v": 0,
+        "id": "62f66ee1ced0498c745620d6"
+    },
+    {
+        "_id": "62f66ee4ced0498c745620d8",
+        "author": null,
+        "caption": "Post 4",
+        "image": "image url",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-12T15:16:52.005Z",
+        "__v": 0,
+        "id": "62f66ee4ced0498c745620d8"
+    },
+    {
+        "_id": "62f66ee6ced0498c745620da",
+        "author": null,
+        "caption": "Post 5",
+        "image": "image url",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-12T15:16:54.846Z",
+        "__v": 0,
+        "id": "62f66ee6ced0498c745620da"
+    },
+    {
+        "_id": "62f66eedced0498c745620dc",
+        "author": null,
+        "caption": "Post 6",
+        "image": "image url",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-12T15:17:01.417Z",
+        "__v": 0,
+        "id": "62f66eedced0498c745620dc"
+    },
+    {
+        "_id": "62f66ef1ced0498c745620de",
+        "author": null,
+        "caption": "Post 7",
+        "image": "image url",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-12T15:17:05.589Z",
+        "__v": 0,
+        "id": "62f66ef1ced0498c745620de"
+    },
+    {
+        "_id": "62f66ef5ced0498c745620e0",
+        "author": null,
+        "caption": "Post 8",
+        "image": "image url",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-12T15:17:09.204Z",
+        "__v": 0,
+        "id": "62f66ef5ced0498c745620e0"
+    },
+    {
+        "_id": "62f66ef9ced0498c745620e2",
+        "author": null,
+        "caption": "Post 9",
+        "image": "image url",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-12T15:17:13.733Z",
+        "__v": 0,
+        "id": "62f66ef9ced0498c745620e2"
+    },
+    {
+        "_id": "62f66efdced0498c745620e4",
+        "author": null,
+        "caption": "Post 10",
+        "image": "image url",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-12T15:17:17.465Z",
+        "__v": 0,
+        "id": "62f66efdced0498c745620e4"
+    },
+    {
+        "_id": "62f9129c0e333245609f72ca",
+        "author": {
+            "_id": "62f8cd7b1df83bbe60782743",
+            "name": "Zach",
+            "profilePic": "http://127.0.0.1:4000/public/uploads/PPmosh.jpg-1660476162511.jpeg",
+            "id": "62f8cd7b1df83bbe60782743"
+        },
+        "caption": "Post 1",
+        "image": "",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-14T15:19:56.023Z",
+        "__v": 0,
+        "id": "62f9129c0e333245609f72ca"
+    },
+    {
+        "_id": "62f912bd569fd3b1d3929f17",
+        "author": {
+            "_id": "62f8cd7b1df83bbe60782743",
+            "name": "Zach",
+            "profilePic": "http://127.0.0.1:4000/public/uploads/PPmosh.jpg-1660476162511.jpeg",
+            "id": "62f8cd7b1df83bbe60782743"
+        },
+        "caption": "Post 1",
+        "image": "",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-14T15:20:29.681Z",
+        "__v": 0,
+        "id": "62f912bd569fd3b1d3929f17"
+    },
+    {
+        "_id": "62f912d147167775dd4f7814",
+        "author": {
+            "_id": "62f8cd7b1df83bbe60782743",
+            "name": "Zach",
+            "profilePic": "http://127.0.0.1:4000/public/uploads/PPmosh.jpg-1660476162511.jpeg",
+            "id": "62f8cd7b1df83bbe60782743"
+        },
+        "caption": "Post 1",
+        "image": "",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-14T15:20:49.470Z",
+        "__v": 0,
+        "id": "62f912d147167775dd4f7814"
+    },
+    {
+        "_id": "62f912e147167775dd4f7816",
+        "author": {
+            "_id": "62f8cd7b1df83bbe60782743",
+            "name": "Zach",
+            "profilePic": "http://127.0.0.1:4000/public/uploads/PPmosh.jpg-1660476162511.jpeg",
+            "id": "62f8cd7b1df83bbe60782743"
+        },
+        "caption": "Post 1",
+        "image": "",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-14T15:21:05.634Z",
+        "__v": 0,
+        "id": "62f912e147167775dd4f7816"
+    },
+    {
+        "_id": "62f912f0ceb140b6cc8fc138",
+        "author": {
+            "_id": "62f8cd7b1df83bbe60782743",
+            "name": "Zach",
+            "profilePic": "http://127.0.0.1:4000/public/uploads/PPmosh.jpg-1660476162511.jpeg",
+            "id": "62f8cd7b1df83bbe60782743"
+        },
+        "caption": "Post 1",
+        "image": "",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-14T15:21:20.405Z",
+        "__v": 0,
+        "id": "62f912f0ceb140b6cc8fc138"
+    },
+    {
+        "_id": "62f91432ebf1643c2329e6b4",
+        "author": {
+            "_id": "62f8cbae7595551a917f4623",
+            "name": "damnbeastmode",
+            "profilePic": "http://127.0.0.1:4000/public/uploads/PPtrident.png-1660472238675.png",
+            "id": "62f8cbae7595551a917f4623"
+        },
+        "caption": "damn retard mode",
+        "image": "http://127.0.0.1:4000/public/uploads/POSTkokoma.jpg-1660490802298.jpeg",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-14T15:26:42.308Z",
+        "__v": 0,
+        "id": "62f91432ebf1643c2329e6b4"
+    },
+    {
+        "_id": "62f91454496ac55addf7988a",
+        "author": {
+            "_id": "62f8cbae7595551a917f4623",
+            "name": "damnbeastmode",
+            "profilePic": "http://127.0.0.1:4000/public/uploads/PPtrident.png-1660472238675.png",
+            "id": "62f8cbae7595551a917f4623"
+        },
+        "caption": "damn retard mode",
+        "image": "http://127.0.0.1:4000/public/uploads/POSTkokoma.jpg-1660490836677.jpeg",
+        "likes": [
+            {
+                "_id": "62f91a2cbae56401bed0627e",
+                "__v": 0,
+                "id": "62f91a2cbae56401bed0627e"
+            },
+            {
+                "_id": "62f91a2cbae56401bed0627f",
+                "__v": 0,
+                "id": "62f91a2cbae56401bed0627f"
+            }
+        ],
+        "comments": [
+            {
+                "_id": "62f91a7cc286f8182c38baff",
+                "author": {
+                    "_id": "62f8cbae7595551a917f4623",
+                    "username": "Anand",
+                    "name": "damnbeastmode",
+                    "email": "anand@gmail.com",
+                    "passwordHash": "$2a$10$BPZfBZtK9Lo.xLV.lI7mEeW/YkZhctvA4LpYtLmdfcTsMCPtct6le",
+                    "isAdmin": true,
+                    "age": 21,
+                    "weight": 80,
+                    "height": 180,
+                    "profilePic": "http://127.0.0.1:4000/public/uploads/PPtrident.png-1660472238675.png",
+                    "followed": [],
+                    "following": [],
+                    "__v": 0,
+                    "id": "62f8cbae7595551a917f4623"
+                },
+                "content": "PooPOo",
+                "timestamp": "2022-08-14T15:53:32.819Z",
+                "__v": 0,
+                "id": "62f91a7cc286f8182c38baff"
+            },
+            {
+                "_id": "62f91a7cc286f8182c38bb00",
+                "author": {
+                    "_id": "62f8cbae7595551a917f4623",
+                    "username": "Anand",
+                    "name": "damnbeastmode",
+                    "email": "anand@gmail.com",
+                    "passwordHash": "$2a$10$BPZfBZtK9Lo.xLV.lI7mEeW/YkZhctvA4LpYtLmdfcTsMCPtct6le",
+                    "isAdmin": true,
+                    "age": 21,
+                    "weight": 80,
+                    "height": 180,
+                    "profilePic": "http://127.0.0.1:4000/public/uploads/PPtrident.png-1660472238675.png",
+                    "followed": [],
+                    "following": [],
+                    "__v": 0,
+                    "id": "62f8cbae7595551a917f4623"
+                },
+                "content": "balls",
+                "timestamp": "2022-08-14T15:53:32.820Z",
+                "__v": 0,
+                "id": "62f91a7cc286f8182c38bb00"
+            }
+        ],
+        "timestamp": "2022-08-14T15:27:16.688Z",
+        "__v": 0,
+        "id": "62f91454496ac55addf7988a"
+    },
+    {
+        "_id": "62f9169dfcf797c5fc93c2f0",
+        "author": {
+            "_id": "62f8cd7b1df83bbe60782743",
+            "name": "Zach",
+            "profilePic": "http://127.0.0.1:4000/public/uploads/PPmosh.jpg-1660476162511.jpeg",
+            "id": "62f8cd7b1df83bbe60782743"
+        },
+        "caption": "YESSIR",
+        "image": "http://127.0.0.1:4000/public/uploads/POSTmosh.jpg-1660491421671.jpeg",
+        "likes": [],
+        "comments": [],
+        "timestamp": "2022-08-14T15:37:01.707Z",
+        "__v": 0,
+        "id": "62f9169dfcf797c5fc93c2f0"
+    },
+    {
+        "_id": "62f91decc286f8182c38bb0b",
+        "author": {
+            "_id": "62f8cbae7595551a917f4623",
+            "name": "damnbeastmode",
+            "profilePic": "http://127.0.0.1:4000/public/uploads/PPtrident.png-1660472238675.png",
+            "id": "62f8cbae7595551a917f4623"
+        },
+        "caption": "new post ",
+        "image": "http://127.0.0.1:4000/public/uploads/POSThks4uu938ga61.jpg-1660493292783.jpeg",
+        "likes": [
+            {
+                "_id": "62f91e19c286f8182c38bb12",
+                "__v": 0,
+                "id": "62f91e19c286f8182c38bb12"
+            },
+            {
+                "_id": "62f91e19c286f8182c38bb13",
+                "__v": 0,
+                "id": "62f91e19c286f8182c38bb13"
+            }
+        ],
+        "comments": [
+            {
+                "_id": "62f91e01c286f8182c38bb0d",
+                "author": {
+                    "_id": "62f8cbae7595551a917f4623",
+                    "username": "Anand",
+                    "name": "damnbeastmode",
+                    "email": "anand@gmail.com",
+                    "passwordHash": "$2a$10$BPZfBZtK9Lo.xLV.lI7mEeW/YkZhctvA4LpYtLmdfcTsMCPtct6le",
+                    "isAdmin": true,
+                    "age": 21,
+                    "weight": 80,
+                    "height": 180,
+                    "profilePic": "http://127.0.0.1:4000/public/uploads/PPtrident.png-1660472238675.png",
+                    "followed": [],
+                    "following": [],
+                    "__v": 0,
+                    "id": "62f8cbae7595551a917f4623"
+                },
+                "content": "PooPOo",
+                "timestamp": "2022-08-14T16:08:33.456Z",
+                "__v": 0,
+                "id": "62f91e01c286f8182c38bb0d"
+            },
+            {
+                "_id": "62f91e01c286f8182c38bb0e",
+                "author": {
+                    "_id": "62f8cbae7595551a917f4623",
+                    "username": "Anand",
+                    "name": "damnbeastmode",
+                    "email": "anand@gmail.com",
+                    "passwordHash": "$2a$10$BPZfBZtK9Lo.xLV.lI7mEeW/YkZhctvA4LpYtLmdfcTsMCPtct6le",
+                    "isAdmin": true,
+                    "age": 21,
+                    "weight": 80,
+                    "height": 180,
+                    "profilePic": "http://127.0.0.1:4000/public/uploads/PPtrident.png-1660472238675.png",
+                    "followed": [],
+                    "following": [],
+                    "__v": 0,
+                    "id": "62f8cbae7595551a917f4623"
+                },
+                "content": "balls",
+                "timestamp": "2022-08-14T16:08:33.457Z",
+                "__v": 0,
+                "id": "62f91e01c286f8182c38bb0e"
+            }
+        ],
+        "timestamp": "2022-08-14T16:08:12.802Z",
+        "__v": 0,
+        "id": "62f91decc286f8182c38bb0b"
+    }
+]

@@ -1,0 +1,52 @@
+[
+    {
+        "_id": "62f64b427d6282ae503abae2",
+        "name": "Barbell Squat",
+        "user": "62f627a8fc65975e12b69c05",
+        "restTime": 180,
+        "remarks": "Thicc booty",
+        "sets": [
+            {
+                "_id": "62f64b427d6282ae503abade",
+                "reps": 3,
+                "weight": 140,
+                "__v": 0,
+                "id": "62f64b427d6282ae503abade"
+            },
+            {
+                "_id": "62f64b427d6282ae503abadf",
+                "reps": 1,
+                "weight": 150,
+                "__v": 0,
+                "id": "62f64b427d6282ae503abadf"
+            }
+        ],
+        "__v": 0,
+        "id": "62f64b427d6282ae503abae2"
+    },
+    {
+        "_id": "62f6531f88434ff1308686d8",
+        "name": "Bench Press",
+        "user": "62f627a8fc65975e12b69c05",
+        "restTime": 150,
+        "remarks": "Queen of all things chest",
+        "sets": [
+            {
+                "_id": "62f6719a2453395414d8c9c5",
+                "reps": 6,
+                "weight": 120,
+                "__v": 0,
+                "id": "62f6719a2453395414d8c9c5"
+            },
+            {
+                "_id": "62f6719a2453395414d8c9c6",
+                "reps": 4,
+                "weight": 130,
+                "__v": 0,
+                "id": "62f6719a2453395414d8c9c6"
+            }
+        ],
+        "__v": 0,
+        "id": "62f6531f88434ff1308686d8"
+    }
+]

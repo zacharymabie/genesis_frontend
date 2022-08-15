@@ -1,0 +1,89 @@
+[
+    {
+        "_id": "62f8cd7b1df83bbe60782743",
+        "username": "zachmabie",
+        "name": "Zach",
+        "email": "zachmabie@gmail.com",
+        "isAdmin": true,
+        "age": 21,
+        "weight": 87,
+        "height": 200,
+        "profilePic": "http://127.0.0.1:4000/public/uploads/PPmosh.jpg-1660476162511.jpeg",
+        "followed": [
+            "62f8db4d9ad99740bee29711",
+            "62f8db4d9ad99740bee29712"
+        ],
+        "following": [
+            "62f8db4d9ad99740bee29715",
+            "62f8db4d9ad99740bee29716"
+        ],
+        "__v": 0,
+        "id": "62f8cd7b1df83bbe60782743"
+    },
+    {
+        "_id": "62f8cd7b1df83bbe60780000",
+        "username": "ZachElliot4",
+        "name": "Dickhead",
+        "email": "gay@gmail.com",
+        "isAdmin": true,
+        "age": 21,
+        "weight": 50,
+        "height": 150,
+        "profilePic": "http://127.0.0.1:4000/public/uploads/PPmosh.jpg-1660476162511.jpeg",
+        "followed": [
+            "62f8db4d9ad99740bee29711",
+            "62f8db4d9ad99740bee29712"
+        ],
+        "following": [
+            "62f8db4d9ad99740bee29715",
+            "62f8db4d9ad99740bee29716"
+        ],
+        "__v": 0,
+        "id": "62f8cd7b1df83bbe60782743"
+    },
+    {
+        "_id": "62f8cbae7595551a917f4623",
+        "username": "damnbeastmode",
+        "name": "Anand",
+        "email": "anand@gmail.com",
+        "isAdmin": true,
+        "age": 21,
+        "weight": 80,
+        "height": 180,
+        "profilePic": "http://127.0.0.1:4000/public/uploads/PPtrident.png-1660472238675.png",
+        "followed": [],
+        "following": [],
+        "__v": 0,
+        "id": "62f8cbae7595551a917f4623"
+    },
+    {
+        "_id": "0000cbae7595551a917f4623",
+        "username": "yanamtriGainz",
+        "name": "Albet",
+        "email": "albet@yanam.com",
+        "isAdmin": true,
+        "age": 24,
+        "weight": 85,
+        "height": 180,
+        "profilePic": "http://127.0.0.1:4000/public/uploads/PPtrident.png-1660472238675.png",
+        "followed": [],
+        "following": [],
+        "__v": 0,
+        "id": "0000cbae7595551a917f4623"
+    },
+    {
+        "_id": "1111cbae7595551a917f4623",
+        "username": "Paul",
+        "name": "mcspicy",
+        "email": "paul@mcdonalds.com",
+        "isAdmin": true,
+        "age": 20,
+        "weight": 86,
+        "height": 180,
+        "profilePic": "http://127.0.0.1:4000/public/uploads/PPtrident.png-1660472238675.png",
+        "followed": [],
+        "following": [],
+        "__v": 0,
+        "id": "1111cbae7595551a917f4623"
+    }
+]

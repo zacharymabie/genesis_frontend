@@ -1,0 +1,48 @@
+[
+    {
+        "_id": "62f763418a554dc63cd05637",
+        "name": "Classic all in one",
+        "author": "62f627a8fc65975e12b69c05",
+        "description": "Not an easy time lols",
+        "exercises": [
+            {
+                "_id": "62f64b427d6282ae503abae2",
+                "name": "Barbell Squat",
+                "user": "62f627a8fc65975e12b69c05",
+                "restTime": 180,
+                "remarks": "Thicc booty",
+                "sets": [
+                    "62f64b427d6282ae503abade",
+                    "62f64b427d6282ae503abadf"
+                ],
+                "__v": 0,
+                "id": "62f64b427d6282ae503abae2"
+            }
+        ],
+        "__v": 0,
+        "id": "62f763418a554dc63cd05637"
+    },
+    {
+        "_id": "62f768c48d82c9b5c98a3542",
+        "name": "Classic",
+        "author": "62f627a8fc65975e12b69c05",
+        "description": "A good time",
+        "exercises": [
+            {
+                "_id": "62f64b427d6282ae503abae2",
+                "name": "Barbell Squat",
+                "user": "62f627a8fc65975e12b69c05",
+                "restTime": 180,
+                "remarks": "Thicc booty",
+                "sets": [
+                    "62f64b427d6282ae503abade",
+                    "62f64b427d6282ae503abadf"
+                ],
+                "__v": 0,
+                "id": "62f64b427d6282ae503abae2"
+            }
+        ],
+        "__v": 0,
+        "id": "62f768c48d82c9b5c98a3542"
+    }
+]
