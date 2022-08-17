@@ -10,12 +10,20 @@ import {
 } from "react-native";
 
 import PostContainer from "./PostContainer";
-const data = require("../../assets/data/posts.json")
+import axios from "axios";
+import baseURL from '../../assets/common/baseUrl'
+// const data = require("../../assets/data/posts.json")
 
-var { width } = Dimensions.get('window')
+const { height, width } = Dimensions.get('window')
 
 const FeedContainer = () => {
-    const [posts, setPost] = useState(data);
+    const [posts, setPost] = useState([]);
+
+    axios.get(`${baseURL}posts`).then(res => {
+        setPost(res.data);
+    }).catch((error)=>{
+        console.log("API Error")
+    })
 
     return (
     <ScrollView>

@@ -5,31 +5,22 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
+
 import ProgramCard from "./ProgramCard";
 
-const ProgramList = () => {
+const { width, hegiht } = Dimensions.get;
+
+const ProgramList = (props) => {
+  const { item } = props;
+  console.log(item);
   return (
-    <ScrollView>
-      <TouchableOpacity>
-        <ProgramCard />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <ProgramCard />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <ProgramCard />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <ProgramCard />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <ProgramCard />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <ProgramCard />
-      </TouchableOpacity>
-    </ScrollView>
+    <TouchableOpacity>
+      <View>
+        <ProgramCard {...item} />
+      </View>
+    </TouchableOpacity>
   );
 };
 

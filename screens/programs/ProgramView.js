@@ -8,23 +8,28 @@ import {
   Image,
 } from "react-native";
 
-var { height, width } = Dimensions.get("window");
+import WorkoutListContainer from "../workouts/WorkoutListContainer";
+
+const { height, width } = Dimensions.get("window");
 
 const ProgramCard = (props) => {
-  const { name, author, image, description } = props;
+  const { item } = props;
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={require("/Users/zachelliott/Desktop/Genesis/genesis_frontend/assets/favicon.png")}
+          source={require("../../assets/test.png")}
           resizeMode="cover"
           style={styles.image}
         />
       </View>
-      <View style={styles.description}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.author}>{author.username}</Text>
-        <Text>{description}</Text>
+      <View style={styles.programInfo}>
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.author}>{item.age}</Text>
+        <Text>{item.description}</Text>
+      </View>
+      <View style={styles.workouts}>
+        <WorkoutListContainer />
       </View>
     </View>
   );
@@ -32,22 +37,26 @@ const ProgramCard = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
+    marginTop: 0,
     width: (width * 7) / 8,
-    height: height / 7,
+    height: height - 150,
     borderRadius: 15,
     borderWidth: 5,
-    flexDirection: "row",
+    flexDirection: "column",
   },
   imageContainer: {
     flex: 1,
-    borderRightWidth: 5,
   },
   image: { flex: 1, width: "100%", height: "100%" },
-  description: { flex: 2 },
+  programInfo: { flex: 1 },
   name: {
     fontSize: 30,
     padding: "2%",
+  },
+  workouts: {
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

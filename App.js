@@ -1,15 +1,17 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 
 import Login from "./screens/profile/Login";
 import Register from "./screens/profile/Register";
 import ProgramContainer from "./screens/programs/ProgramsContainer";
+import FeedContainer from "./screens/feed/FeedContainer";
+import ProfileContainer from "./screens/profile/ProfileContainer"
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <ProgramContainer />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ProfileContainer />
+    </SafeAreaView>
   );
 }
 

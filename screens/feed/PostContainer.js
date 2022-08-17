@@ -16,15 +16,15 @@ import LikeContainer from "./LikeContainer";
 
 const PostContainer = (props) => {
     const [renderComments, setRenderComments] = useState(false);
-    const [renderLikes, setRenderLikes] = useState(true);
+    const [renderLikes, setRenderLikes] = useState(false);
 
     const {name, profilePhoto, timestamp, caption, imagePost, likes, comments} = props;
 
-    console.log(
-        "BONKER//////////////////////////////////////",
-        profilePhoto,
-        imagePost,
-    );
+    // console.log(
+    //     "BONKER//////////////////////////////////////",
+    //     profilePhoto,
+    //     imagePost,
+    // );
 
     const profilePic = profilePhoto ? profilePhoto : require('../../assets/img.png');
     const image = imagePost ? imagePost : '../../assets/img.png';
@@ -35,6 +35,7 @@ const PostContainer = (props) => {
             <View style={styles.leftContainer}>
 
                 <Image style={styles.profileImage} source={{uri: "/Users/ZachMabie/Desktop/genesis_frontend/assets/photos/7.png"}}/>
+                {/* <Image style={styles.profileImage} source={{uri: profilePic}}/> */}
                 <View style={[styles.leftContainer, {flexDirection: 'column', padding:5}]}>
                     <Text style={[styles.text,{fontWeight:'bold', margin:0, width:width * .65}]}>{name}</Text>
                     <Text style={[styles.text,{fontSize:16, margin:0, width:width * .65}]}>{timestamp.substring(0,10)}</Text>
@@ -48,6 +49,7 @@ const PostContainer = (props) => {
         <View style={[styles.postMain, {maxHeight: caption.length > 140 ? width + 190 : width + 100}]}>
             <Text style={styles.text}>{caption}</Text>
             <Image style={styles.image} source={require("/Users/ZachMabie/Desktop/genesis_frontend/assets/photos/2.png")}/>
+            {/* <Image style={styles.image} source={{uri: imagePost}}/> */}
         </View>
 
         <View style={[{margin:5, flexDirection:'row', alignItems:'center'}]}>
