@@ -6,10 +6,13 @@ import {
   ScrollView,
   Dimensions,
   Text,
-  Image
+  Image,
+  FlatList,
+  Button
 } from "react-native";
 
 import PostContainer from "./PostContainer";
+import NewPost from "./NewPost";
 import axios from "axios";
 import baseURL from '../../assets/common/baseUrl'
 // const data = require("../../assets/data/posts.json")
@@ -18,6 +21,7 @@ const { height, width } = Dimensions.get('window')
 
 const FeedContainer = () => {
     const [posts, setPost] = useState([]);
+    const [newPost, setNewPost] = useState(false);
 
     axios.get(`${baseURL}posts`).then(res => {
         setPost(res.data);
@@ -26,9 +30,24 @@ const FeedContainer = () => {
     })
 
     return (
-    <ScrollView>
+    <View>
         <View style={styles.container}>
-            {posts.map(post => {
+            <FlatList
+                data={posts}
+                renderItem={({item}) => 
+                <PostContainer 
+                    key={item.id}
+                    name={item.author.name}
+                    profilePhoto={item.author.profilePic}
+                    timestamp={item.timestamp}
+                    caption={item.caption}
+                    imagePost={item.image}
+                    likes={item.likes}
+                    comments={item.comments}
+                />}
+                keyExtractor={item => item.id}
+            />
+            {/* {posts.map(post => {
                     return <PostContainer 
                         key={post.id}
                         name={post.author.name}
@@ -39,9 +58,14 @@ const FeedContainer = () => {
                         likes={post.likes}
                         comments={post.comments}
                     />
-            })}
+            })} */}
         </View>
-    </ScrollView>
+
+        <View style={styles.footer}>
+            <Button onPress={()=>setNewPost(true)} title="New Post" />
+            {newPost &&  <NewPost />}
+        </View>
+    </View>
     );
 };
 
@@ -52,6 +76,15 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       width: width,
+      maxHeight: (height/10)*9
+  },
+  footer:{
+    flex: 1,
+    backgroundColor: 'gainsboro',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: width,
+    maxHeight: (height/10)
   }
 });
 

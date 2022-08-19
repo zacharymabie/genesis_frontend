@@ -8,7 +8,8 @@ import {
   Text,
   Image,
   FlatList,
-  Button
+  Button,
+  TouchableHighlightComponent
 } from "react-native";
 
 import PostContainer from "../feed/PostContainer";
@@ -104,18 +105,6 @@ const ProfileContainer = (props) => {
             />}
             keyExtractor={item => item.id}
           />
-          {/* {posts ? posts.map(post => {
-              return <PostContainer 
-                  key={post.id}
-                  name={post.author.name}
-                  profilePhoto={post.author.profilePic}
-                  timestamp={post.timestamp}
-                  caption={post.caption}
-                  imagePost={post.image}
-                  likes={post.likes}
-                  comments={post.comments}
-              />
-          }) : console.log("no data")} */}
         </View>
     </View>
   );
