@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, ScrollView, FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  FlatList,
+  Button,
+} from "react-native";
 
 import ProgramList from "./ProgramList";
 import ProgramView from "./ProgramView.js";
@@ -17,14 +24,22 @@ const ProgramContainer = () => {
 
   return (
     <View style={styles.container}>
-      <Text>Programs</Text>
+      <Button title="Create New Program" />
       <View>
-        {/* <FlatList
+        <Text> Current Programs</Text>
+        <FlatList
+          horizontal={true}
           data={programs}
           renderItem={({ item }) => <ProgramList key={item.id} item={item} />}
           keyExtractor={(item) => item.id}
-        /> */}
-        <ProgramView key={programs.id} item={programs} />
+        />
+        <Text> Explore New Programs </Text>
+        <FlatList
+          data={programs}
+          renderItem={({ item }) => <ProgramList key={item.id} item={item} />}
+          keyExtractor={(item) => item.id}
+        />
+        {/* <ProgramView key={programs.id} item={programs} /> */}
       </View>
     </View>
   );
