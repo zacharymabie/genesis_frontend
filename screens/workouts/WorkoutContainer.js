@@ -5,13 +5,16 @@ import WorkoutView from "./WorkoutView";
 
 const data = require("../../assets/data/workouts.json");
 const WorkoutContainer = () => {
-  const [workouts, setWorkouts] = useState([]);
+  const [workouts, setWorkouts] = useState(null);
   useEffect(() => {
     setWorkouts(data);
     return () => {
-      setWorkouts([]);
+      setWorkouts(null);
     };
   }, []);
+  if (!workouts) {
+    return;
+  }
   return <WorkoutView key={workouts.id} item={workouts} />;
 };
 

@@ -1,0 +1,45 @@
+{
+  "_id": "62f763418a554dc63cd05637",
+  "name": "Classic all in one",
+  "author": {
+    "followed": [],
+    "following": [],
+    "_id": "62f627a8fc65975e12b69c05",
+    "username": "zachmabie4",
+    "name": "Alpha Sigma",
+    "email": "sigma@alpha.com",
+    "passwordHash": "$2a$10$JG34uImoGiyJ/beoRoQrruynm58oUzfTL6QKw/srWWSKNSYvAtx5a",
+    "isAdmin": true,
+    "age": 21,
+    "weight": 90,
+    "height": 191,
+    "profilePic": "Some img url",
+    "__v": 0,
+    "id": "62f627a8fc65975e12b69c05"
+  },
+  "description": "Not an easy time lols",
+  "exercises": [
+    {
+      "_id": "62f64b427d6282ae503abae2",
+      "name": "Barbell Squat",
+      "user": "62f627a8fc65975e12b69c05",
+      "restTime": 180,
+      "remarks": "Thicc booty",
+      "sets": ["62f64b427d6282ae503abade", "62f64b427d6282ae503abadf"],
+      "__v": 0,
+      "id": "62f64b427d6282ae503abae2"
+    },
+    {
+      "_id": "62f64b427d6282ae503abae2",
+      "name": "Barbell Bench",
+      "user": "62f627a8fc65975e12b69c05",
+      "restTime": 180,
+      "remarks": "Thicc booty",
+      "sets": ["62f64b427d6282ae503abade", "62f64b427d6282ae503abadf"],
+      "__v": 0,
+      "id": "62f64b427d6282ae503abae2"
+    }
+  ],
+  "__v": 0,
+  "id": "62f763418a554dc63cd05637"
+}
