@@ -29,10 +29,10 @@ const PostContainer = (props) => {
 
   const profilePic = profilePhoto
     ? profilePhoto
-    : require("/Users/zachelliott/Desktop/Genesis/genesis_frontend/assets/favicon.png");
+    : require("../../assets/photos/7.png");
   const image = imagePost
     ? imagePost
-    : "/Users/zachelliott/Desktop/Genesis/genesis_frontend/assets/favicon.png";
+    : require("../../assets/photos/3.png");
 
   return (
     <View style={styles.postContainer}>
@@ -40,9 +40,7 @@ const PostContainer = (props) => {
         <View style={styles.leftContainer}>
           <Image
             style={styles.profileImage}
-            source={{
-              uri: "/Users/zachelliott/Desktop/Genesis/genesis_frontend/assets/favicon.png",
-            }}
+            source={require("../../assets/photos/7.png")}
           />
           {/* <Image style={styles.profileImage} source={{uri: profilePic}}/> */}
           <View
@@ -83,7 +81,7 @@ const PostContainer = (props) => {
         <Text style={styles.text}>{caption}</Text>
         <Image
           style={styles.image}
-          source={require("/Users/zachelliott/Desktop/Genesis/genesis_frontend/assets/favicon.png")}
+          source={require("../../assets/photos/3.png")}
         />
         {/* <Image style={styles.image} source={{uri: imagePost}}/> */}
       </View>

@@ -7,26 +7,21 @@ import {
     TextInput,
     Button,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    SafeAreaView,
+
   } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
+import axios from "axios";
 
 var { height, width } = Dimensions.get('window')
 
 const NewPost = () => {
     const [text, onChangeText] = useState("Placeholder")
-
     const [uploadImage, setUploadImage] = useState("")
     const [image, setImage] = useState({url:'',public_id:''})
+    const [postData, setPostData] = useState({})
 
-    const chooseImage = () => {
-        console.warn("choose image")
-    }
-
-    const takeImage = () => {
-        console.warn("take image")
-
-    }
 
     const handleUpload = async () => {
         let permissionResult = 
@@ -49,55 +44,89 @@ const NewPost = () => {
 
     }
 
+    const handlePost = () => {
+        setPostData({
+            author: "62f8cd7b1df83bbe60782743", //TODO: get author
+            caption:text,
+            image:uploadImage,
+            likes:[],
+            comments:[]
+        })
+        const {data} = axios.post("http://127.0.0.1:4000/api/v1/posts",{
+            author: "62f8cd7b1df83bbe60782743", //TODO: get author
+            caption:text,
+            image:uploadImage,
+            likes:[],
+            comments:[]
+        },{
+            headers:{
+                "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
+            }
+        }).then(res => {
+            console.log(res);
+            console.log(res.data)
+        })
+        .catch(error => console.log(error.response.data));
+    }
 
     return (
-        <View style={styles.postContainer}>
-            <View style={styles.header}>
-                <Text style={styles.text}>New Post</Text>
-            </View>
-            <View style={styles.body}>
-                {image && image.url ? (
-                    <Image
-                    source={{uri: image}}
-                    style={{
-                        width:190,
-                        height:190,
-                        borderRadius: 100,
-                        marginVertical: 20
-                    }}
-                />
-                ): uploadImage ? 
-                    <Image
-                        source={{uri: uploadImage}}
+        <SafeAreaView style={styles.container}>
+
+            <View style={styles.postContainer}>
+                <View style={styles.header}>
+                    <Text style={[styles.text, {fontSize:24}]}>New Post</Text>
+                </View>
+                <View style={styles.body}>
+                    {image && image.url ? (
+                        <Image
+                        source={{uri: image}}
                         style={{
-                            width:190,
-                            height:190,
-                            borderRadius: 100,
+                            width:width,
+                            height:width,
                             marginVertical: 20
                         }}
                     />
-                : <View>
-                    <Text>Image Here</Text>
-                </View>}
-                <Button onPress={()=>handleUpload()} title="Choose Photo"/>
-                <Button onPress={()=>takeImage()} title="Take Photo"/>
-                <Text style={styles.text}>Caption:</Text>
-                <TextInput 
-                    style={styles.input}
-                    onChangeText={onChangeText}
-                    value={text}
-                    multiline={true}
-                />
-            </View>
-            <View style={styles.footer}>
-                <Button onPress={()=>""} title="Create"/>
-            </View>
+                    ): uploadImage ? 
+                        <Image
+                            source={{uri: uploadImage}}
+                            style={{
+                                width: width,
+                                height: width,
+                                marginVertical: 20
+                            }}
+                        />
+                    : <View>
+                        <Text>Image Here</Text>
+                    </View>}
+                    <Button onPress={()=>handleUpload()} title="Choose Photo"/>
+                    <Text style={styles.text}>Caption:</Text>
+                    <TextInput 
+                        style={styles.input}
+                        onChangeText={onChangeText}
+                        value={text}
+                        multiline={true}
+                    />
+                </View>
+                <View style={styles.footer}>
+                    <TouchableOpacity
+                        onPress={()=>handlePost()}
+                    >
+                        <Text style={{fontSize:22, color:'red'}}>Create</Text>
+                    </TouchableOpacity>
+                </View>
 
-        </View>
+            </View>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        backgroundColor:"#fff",
+        justifyContent:'center',
+        alignItems:'center'
+    },  
     postContainer:{
         flex: 1,
         width: "100%",
@@ -121,7 +150,7 @@ const styles = StyleSheet.create({
     input:{
         borderWidth: 1,
         borderRadius:10,
-        width: width*.8,
+        width: width*.95,
         height: width*.3,
         padding: 8,
         fontSize: 18

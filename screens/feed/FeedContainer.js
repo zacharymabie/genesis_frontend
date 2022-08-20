@@ -8,7 +8,8 @@ import {
   Text,
   Image,
   FlatList,
-  Button
+  Button,
+  SafeAreaView
 } from "react-native";
 
 import PostContainer from "./PostContainer";
@@ -30,47 +31,56 @@ const FeedContainer = () => {
     })
 
     return (
-    <View>
-        <View style={styles.container}>
-            <FlatList
-                data={posts}
-                renderItem={({item}) => 
-                <PostContainer 
-                    key={item.id}
-                    name={item.author.name}
-                    profilePhoto={item.author.profilePic}
-                    timestamp={item.timestamp}
-                    caption={item.caption}
-                    imagePost={item.image}
-                    likes={item.likes}
-                    comments={item.comments}
-                />}
-                keyExtractor={item => item.id}
-            />
-            {/* {posts.map(post => {
-                    return <PostContainer 
-                        key={post.id}
-                        name={post.author.name}
-                        profilePhoto={post.author.profilePic}
-                        timestamp={post.timestamp}
-                        caption={post.caption}
-                        imagePost={post.image}
-                        likes={post.likes}
-                        comments={post.comments}
-                    />
-            })} */}
-        </View>
+    <SafeAreaView style={styles.container}>
 
-        <View style={styles.footer}>
-            <Button onPress={()=>setNewPost(true)} title="New Post" />
-            {newPost &&  <NewPost />}
+        <View >
+            <View style={styles.main}>
+                <FlatList
+                    data={posts}
+                    renderItem={({item}) => 
+                    <PostContainer 
+                        key={item.id}
+                        name={item.author.name}
+                        profilePhoto={item.author.profilePic}
+                        timestamp={item.timestamp}
+                        caption={item.caption}
+                        imagePost={item.image}
+                        likes={item.likes}
+                        comments={item.comments}
+                    />}
+                    keyExtractor={item => item.id}
+                />
+                {/* {posts.map(post => {
+                        return <PostContainer 
+                            key={post.id}
+                            name={post.author.name}
+                            profilePhoto={post.author.profilePic}
+                            timestamp={post.timestamp}
+                            caption={post.caption}
+                            imagePost={post.image}
+                            likes={post.likes}
+                            comments={post.comments}
+                        />
+                })} */}
+            </View>
+
+            <View style={styles.footer}>
+                <Button onPress={()=>setNewPost(true)} title="New Post" />
+                {newPost &&  <NewPost />}
+            </View>
         </View>
-    </View>
+    </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-  container: {
+    container:{
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+  main: {
       flex: 1,
       backgroundColor: 'gainsboro',
       alignItems: 'center',

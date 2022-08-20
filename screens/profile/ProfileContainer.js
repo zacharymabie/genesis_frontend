@@ -9,7 +9,8 @@ import {
   Image,
   FlatList,
   Button,
-  TouchableHighlightComponent
+  TouchableHighlightComponent,
+  SafeAreaView
 } from "react-native";
 
 import PostContainer from "../feed/PostContainer";
@@ -22,14 +23,18 @@ const ProfileContainer = (props) => {
   const [user, setUser] = useState({});
   const [posts, setPosts] = useState([]);
 
-  axios
-    .get(`${baseURL}users/62f8cd7b1df83bbe60782743`)
-    .then((res) => {
-      setUser(res.data);
-    })
-    .catch((error) => {
-      console.log("API Error");
-    });
+  
+  useEffect(() => {
+    axios
+      .get(`${baseURL}users/62f8cd7b1df83bbe60782743`)
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((error) => {
+        console.log("API Error");
+      });
+    
+    },[]);
 
   //{
   //     "_id": "62f8cd7b1df83bbe60782743",
@@ -65,7 +70,7 @@ const ProfileContainer = (props) => {
     });
 
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <View style={styles.profile}>
           <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
@@ -75,7 +80,7 @@ const ProfileContainer = (props) => {
               </Text>
               <Text style={[styles.text, { fontSize: 16 }]}>Followers</Text>
             </View>
-            <Image style={styles.profilePic} source={require()} />
+            <Image style={styles.profilePic} source={require("../../assets/photos/6.png")} />
             <View style={{ alignItems: "center" }}>
               <Text style={[styles.text, { fontSize: 18 }]}>
                 {user.following ? user.following.length : 0}
@@ -92,8 +97,8 @@ const ProfileContainer = (props) => {
           </Text>
 
           <View style={[styles.postInteractions]}>
-            <Button onPress={console.log("penis")} title="Follow" />
-            <Button onPress={console.log("balls")} title="Message" />
+            <Button onPress={()=>""} title="Follow" />
+            <Button onPress={()=>""} title="Message" />
           </View>
         </View>
       </View>
@@ -128,7 +133,7 @@ const ProfileContainer = (props) => {
               />
           }) : console.log("no data")} */}
       </View>
-  </View>
+    </SafeAreaView >
   );
 };
 
