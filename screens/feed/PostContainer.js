@@ -13,10 +13,13 @@ const { height, width } = Dimensions.get("window");
 
 import CommentContainer from "./CommentContainer";
 import LikeContainer from "./LikeContainer";
+import { useNavigation } from "@react-navigation/native";
 
 const PostContainer = (props) => {
   const [renderComments, setRenderComments] = useState(false);
   const [renderLikes, setRenderLikes] = useState(false);
+
+  const navigation = useNavigation();
 
   const { name, profilePhoto, timestamp, caption, imagePost, likes, comments } =
     props;
@@ -30,9 +33,7 @@ const PostContainer = (props) => {
   const profilePic = profilePhoto
     ? profilePhoto
     : require("../../assets/photos/7.png");
-  const image = imagePost
-    ? imagePost
-    : require("../../assets/photos/3.png");
+  const image = imagePost ? imagePost : require("../../assets/photos/3.png");
 
   return (
     <View style={styles.postContainer}>
@@ -104,7 +105,7 @@ const PostContainer = (props) => {
       </View>
 
       {renderComments && <CommentContainer comments={comments} />}
-      {renderLikes && <LikeContainer likes={likes} />}
+      {renderLikes && navigation.navigate("LikeContainer", likes)}
     </View>
   );
 };

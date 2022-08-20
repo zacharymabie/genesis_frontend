@@ -3,25 +3,14 @@ import { View, Text, FlatList } from "react-native";
 import { useState, useEffect } from "react";
 import WorkoutList from "./WorkoutList";
 
-const data = require("../../assets/data/workouts.json");
-
 const WorkoutListContainer = (props) => {
-  const [workouts, setWorkouts] = useState([]);
-
-  useEffect(() => {
-    setWorkouts(data);
-
-    return () => {
-      setPrograms([]);
-    };
-  }, []);
+  let data = props.data;
 
   return (
     <View>
-      <Text> Workouts </Text>
       <View>
         <FlatList
-          data={workouts}
+          data={data}
           renderItem={({ item }) => <WorkoutList key={item.id} item={item} />}
           keyExtractor={(item) => item.id}
         />
