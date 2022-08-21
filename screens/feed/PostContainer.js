@@ -4,37 +4,67 @@ import {
   Text,
   View,
   Image,
-  SafeAreaView,
   Button,
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-const { height, width } = Dimensions.get("window");
-
-import CommentContainer from "./CommentContainer";
-import LikeContainer from "./LikeContainer";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import baseURL from "../../assets/common/baseUrl";
+const { width } = Dimensions.get("window");
 
 const PostContainer = (props) => {
-  // const [renderComments, setRenderComments] = useState(false);
-  // const [renderLikes, setRenderLikes] = useState(false);
+  const [likesData, setLikesData] = useState({});
 
   const navigation = useNavigation();
 
-  const { name, profilePhoto, timestamp, caption, imagePost, likes, comments } =
+  const { name, profilePhoto, timestamp, caption, imagePost, likes, comments, postId } =
     props;
-
-  // console.log(
-  //     "BONKER//////////////////////////////////////",
-  //     profilePhoto,
-  //     imagePost,
-  // );
 
   const profilePic = profilePhoto
     ? profilePhoto
     : require("../../assets/photos/7.png");
   const image = imagePost ? imagePost : require("../../assets/photos/3.png");
 
+
+  const handleLike = () => {
+    //GET Current Likes on post
+    axios
+    .get(`${baseURL}posts/likes/${postId}`)
+    .then((res) => {
+      setLikesData(res.data);
+    })
+    .catch((error) => {
+      console.log("API Error", error.response.data);
+    });
+
+    // console.log("LIKES DATA::::::;",likesData)
+    const likesArr = likesData.likes
+    // console.log(`LIKESARR: ${likesArr}`)
+    // console.log(`LIKESARR: ${likesArr[0]}`)
+    let userIdArr = []
+    likesArr.map(like => {
+      userIdArr.push({user: like.user.id})
+    })
+
+    const newLike =  "62f627a8fc65975e12b69c05"
+
+    userIdArr.push({user: newLike})
+    // console.log("USERIDARR::::::", userIdArr)
+
+    const {data} = axios.put(`${baseURL}posts/like/${postId}`,{
+      // likes: [{user: "62f627a8fc65975e12b69c05"}]
+      likes: userIdArr
+    },{
+        headers:{
+            "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
+        }
+    }).then(res => {
+        console.log(res);
+        console.log(res.data)
+    })
+    .catch(error => console.log(error.response.data));
+  }
 
   return (
     <View style={styles.postContainer}>
@@ -99,7 +129,7 @@ const PostContainer = (props) => {
       </View>
 
       <View style={[styles.postInteractions]}>
-        <Button onPress={() => console.log("Like")} title="Like" />
+        <Button onPress={() => handleLike()} title="Like" />
         <Button onPress={() => console.log("Comment")} title="Comment" />
         <Button onPress={() => console.log("Share")} title="Share" />
         <Button onPress={() => console.log("Send")} title="Send" />

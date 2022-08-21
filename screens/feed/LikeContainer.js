@@ -27,13 +27,14 @@ const LikeContainer = ({route}) => {
     return (
     <ScrollView>
         <View style={styles.container}>
-            {data.map(like => {
+            {data.length > 0 ? data.map(like => {
                     return <Like 
                         key={like.id}
-                        name={like.id}
+                        name={like.user.username}
                         // profilePhoto={like.user.profilePic}
                     />
-            })}
+            }) : 
+            <Text>No Likes</Text>}
         </View>
     </ScrollView>
     );

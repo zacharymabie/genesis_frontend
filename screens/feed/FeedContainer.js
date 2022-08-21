@@ -25,7 +25,6 @@ const { height, width } = Dimensions.get("window");
 
 const FeedContainer = ({ navigation }) => {
   const [posts, setPost] = useState([]);
-  const [newPost, setNewPost] = useState(false);
 
   axios
     .get(`${baseURL}posts`)
@@ -52,27 +51,16 @@ const FeedContainer = ({ navigation }) => {
                 imagePost={item.image}
                 likes={item.likes}
                 comments={item.comments}
+                postId={item.id}
               />
             )}
             keyExtractor={(item) => item.id}
           />
-          {/* {posts.map(post => {
-                        return <PostContainer 
-                            key={post.id}
-                            name={post.author.name}
-                            profilePhoto={post.author.profilePic}
-                            timestamp={post.timestamp}
-                            caption={post.caption}
-                            imagePost={post.image}
-                            likes={post.likes}
-                            comments={post.comments}
-                        />
-                })} */}
         </View>
 
         <View style={styles.footer}>
-          <Button onPress={() => setNewPost(true)} title="New Post" />
-          {newPost && navigation.navigate("NewPost")}
+          <Button onPress={() => navigation.navigate("NewPost")} title="New Post" />
+
         </View>
       </View>
     </SafeAreaView>

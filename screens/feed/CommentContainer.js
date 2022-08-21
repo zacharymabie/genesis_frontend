@@ -27,7 +27,7 @@ const CommentContainer = ({route}) => {
     return (
     <ScrollView>
         <View style={styles.container}>
-            {data.map(comment => {
+            {data.length > 0 ? data.map(comment => {
                     return <Comment 
                         key={comment.id}
                         name={comment.author.name}
@@ -35,7 +35,8 @@ const CommentContainer = ({route}) => {
                         timestamp={comment.timestamp}
                         content={comment.content}
                     />
-            })}
+            }) : 
+            <Text>No Comments</Text>}
         </View>
     </ScrollView>
     );

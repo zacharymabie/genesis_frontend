@@ -16,7 +16,7 @@ import axios from "axios";
 
 var { height, width } = Dimensions.get('window')
 
-const NewPost = () => {
+const NewPost = ({navigation}) => {
     const [text, onChangeText] = useState("Placeholder")
     const [uploadImage, setUploadImage] = useState("")
     const [image, setImage] = useState({url:'',public_id:''})
@@ -67,6 +67,7 @@ const NewPost = () => {
             console.log(res.data)
         })
         .catch(error => console.log(error.response.data));
+        navigation.navigate("FeedContainer")
     }
 
     return (
