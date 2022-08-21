@@ -13,10 +13,10 @@ const Stack = createNativeStackNavigator();
 const FeedNav = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="FeedContainer" component={FeedContainer} />
-      <Stack.Screen name="NewPost" component={NewPost} />
-      <Stack.Screen name="LikeContainer" component={LikeContainer} />
-      <Stack.Screen name="CommentContainer" component={CommentContainer} />
+      <Stack.Screen name="FeedContainer" component={FeedContainer} options={{title:""}}/>
+      <Stack.Screen name="NewPost" component={NewPost} options={{title:"New Post"}}/>
+      <Stack.Screen name="LikeContainer" component={LikeContainer} options={{title:"Likes"}}/>
+      <Stack.Screen name="CommentContainer" component={CommentContainer} options={{title:"Comments"}}/>
     </Stack.Navigator>
   );
 };

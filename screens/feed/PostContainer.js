@@ -16,8 +16,8 @@ import LikeContainer from "./LikeContainer";
 import { useNavigation } from "@react-navigation/native";
 
 const PostContainer = (props) => {
-  const [renderComments, setRenderComments] = useState(false);
-  const [renderLikes, setRenderLikes] = useState(false);
+  // const [renderComments, setRenderComments] = useState(false);
+  // const [renderLikes, setRenderLikes] = useState(false);
 
   const navigation = useNavigation();
 
@@ -34,6 +34,7 @@ const PostContainer = (props) => {
     ? profilePhoto
     : require("../../assets/photos/7.png");
   const image = imagePost ? imagePost : require("../../assets/photos/3.png");
+
 
   return (
     <View style={styles.postContainer}>
@@ -89,10 +90,10 @@ const PostContainer = (props) => {
 
       <View style={[{ margin: 5, flexDirection: "row", alignItems: "center" }]}>
         {/* <Text style={{fontSize:16}}>{likes.length} Likes | {comments.length} Comments</Text> */}
-        <TouchableOpacity onPress={() => setRenderLikes(true)}>
+        <TouchableOpacity onPress={() => navigation.navigate("LikeContainer", {likes: likes})}>
           <Text style={{ fontSize: 16 }}>{likes.length} Likes | </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setRenderComments(true)}>
+        <TouchableOpacity onPress={() => navigation.navigate("CommentContainer", {comments: comments})}>
           <Text style={{ fontSize: 16 }}>{comments.length} Comments</Text>
         </TouchableOpacity>
       </View>
@@ -104,8 +105,8 @@ const PostContainer = (props) => {
         <Button onPress={() => console.log("Send")} title="Send" />
       </View>
 
-      {renderComments && <CommentContainer comments={comments} />}
-      {renderLikes && navigation.navigate("LikeContainer", likes)}
+      {/* {renderComments && <CommentContainer comments={comments} />} */}
+      {/* {renderLikes && navigation.navigate("LikeContainer", {likes: likes})} */}
     </View>
   );
 };

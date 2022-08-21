@@ -14,13 +14,20 @@ import Like from "./Like";
 
 var { width } = Dimensions.get('window')
 
-const LikeContainer = (props) => {
-    const {likes} = props;
- 
+const LikeContainer = ({route}) => {
+    const [data, setData] = useState(()=>[])
+
+    useEffect(() => {
+        const {likes} = route.params 
+        setData(likes)
+      }, []); // 👈️ empty dependencies array
+    
+    console.log(data)
+    
     return (
     <ScrollView>
         <View style={styles.container}>
-            {likes.map(like => {
+            {data.map(like => {
                     return <Like 
                         key={like.id}
                         name={like.id}
