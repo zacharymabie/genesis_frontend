@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
   View,
@@ -10,10 +11,16 @@ import {
 import ExerciseContainer from "../exercises/ExerciseContainer";
 import ExerciseList from "../exercises/ExerciseList";
 import NewWorkoutExerciseList from "./NewWorkoutExerciseList";
+import { useState } from "react";
+import PickExercise from "./PickExercise";
 
 const { width, height } = Dimensions.get("window");
 
 const NewWorkout = () => {
+  const navigation = useNavigation();
+
+  const [exercises, setExercises] = useState([]);
+
   return (
     <View style={styles.container}>
       <View>
@@ -30,9 +37,14 @@ const NewWorkout = () => {
           />
         </View>
         <View style={styles.exerciseList}>
-          <ExerciseContainer pick={false} />
+          <PickExercise />
         </View>
-        <Button title="Add Exercise" />
+        <View>
+          <Button
+            title="Start"
+            onPress={() => navigation.navigate("InWorkout")}
+          />
+        </View>
       </View>
     </View>
   );
@@ -42,6 +54,7 @@ const styles = StyleSheet.create({
   container: {
     borderWidth: 2,
     margin: 10,
+    height: height / 1.35,
   },
   title: {
     fontSize: 30,
@@ -53,13 +66,13 @@ const styles = StyleSheet.create({
     height: 40,
   },
   description: {
-    height: height / 5,
+    height: height / 6,
   },
   exerciseList: {
     height: height / 2,
   },
   workoutInfo: {
-    height: height / 3,
+    height: height / 4,
   },
 });
 
