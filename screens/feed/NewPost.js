@@ -76,6 +76,9 @@ const NewPost = ({navigation}) => {
             <View style={styles.postContainer}>
                 <View style={styles.header}>
                     <Text style={[styles.text, {fontSize:24}]}>New Post</Text>
+                    {/* <Image source={{uri:'https://res.cloudinary.com/dad1w2mdl/image/upload/v1661164445/bsjhr744yy9buvxy9ifw.jpg'}}
+                        style={{width:200,height:200,borderRadius:100}}
+                    /> */}
                 </View>
                 <View style={styles.body}>
                     {image && image.url ? (

@@ -24,7 +24,7 @@ const PostContainer = (props) => {
   const profilePic = profilePhoto
     ? profilePhoto
     : require("../../assets/photos/7.png");
-  const image = imagePost ? imagePost : require("../../assets/photos/3.png");
+  // const image = imagePost != "" ? {uri:imagePost} : require("../../assets/photos/3.png");
 
   useEffect(() => {
     axios
@@ -116,8 +116,8 @@ const PostContainer = (props) => {
       >
         <Text style={styles.text}>{caption}</Text>
         <Image
+          source={{uri: imagePost}}
           style={styles.image}
-          source={require("../../assets/photos/3.png")}
         />
         {/* <Image style={styles.image} source={{uri: imagePost}}/> */}
       </View>
@@ -173,8 +173,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "left",
     width: width,
-    paddingLeft: 10,
-    paddingRight: 10,
   },
   postInteractions: {
     maxHeight: 60,
@@ -196,8 +194,8 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   image: {
-    maxWidth: "100%",
-    maxHeight: Dimensions.get("window").width,
+    width:width,
+    height:width,
   },
   text: {
     margin: 8,
