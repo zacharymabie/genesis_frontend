@@ -15,9 +15,9 @@ const { width } = Dimensions.get("window");
 
 const PostContainer = (props) => {
   const [likesData, setLikesData] = useState({});
+  const [liked, setLiked] = useState(false); //true means liked, false means not liked
 
   const navigation = useNavigation();
-
   const { name, profilePhoto, timestamp, caption, imagePost, likes, comments, postId } =
     props;
 
@@ -26,9 +26,7 @@ const PostContainer = (props) => {
     : require("../../assets/photos/7.png");
   const image = imagePost ? imagePost : require("../../assets/photos/3.png");
 
-
-  const handleLike = () => {
-    //GET Current Likes on post
+  useEffect(() => {
     axios
     .get(`${baseURL}posts/likes/${postId}`)
     .then((res) => {
@@ -37,20 +35,26 @@ const PostContainer = (props) => {
     .catch((error) => {
       console.log("API Error", error.response.data);
     });
+    return(
+      setLikesData({})
+    )
+  }, []); // 👈️ empty dependencies array
 
-    // console.log("LIKES DATA::::::;",likesData)
+  const handleLike = () => {
+    //GET Current Likes on post
     const likesArr = likesData.likes
-    // console.log(`LIKESARR: ${likesArr}`)
-    // console.log(`LIKESARR: ${likesArr[0]}`)
     let userIdArr = []
     likesArr.map(like => {
       userIdArr.push({user: like.user.id})
     })
 
-    const newLike =  "62f627a8fc65975e12b69c05"
-
-    userIdArr.push({user: newLike})
-    // console.log("USERIDARR::::::", userIdArr)
+    if(!liked){
+      const newLike =  "62f627a8fc65975e12b69c05"
+      userIdArr.push({user: newLike})
+      setLiked(true)
+    } else {
+      setLiked(false)
+    }
 
     const {data} = axios.put(`${baseURL}posts/like/${postId}`,{
       // likes: [{user: "62f627a8fc65975e12b69c05"}]
@@ -123,13 +127,13 @@ const PostContainer = (props) => {
         <TouchableOpacity onPress={() => navigation.navigate("LikeContainer", {likes: likes})}>
           <Text style={{ fontSize: 16 }}>{likes.length} Likes | </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("CommentContainer", {comments: comments})}>
+        <TouchableOpacity onPress={() => navigation.navigate("CommentContainer", {comments: comments, postId: postId})}>
           <Text style={{ fontSize: 16 }}>{comments.length} Comments</Text>
         </TouchableOpacity>
       </View>
 
       <View style={[styles.postInteractions]}>
-        <Button onPress={() => handleLike()} title="Like" />
+        <Button onPress={() => handleLike()} title={liked ? "Unlike" : "Like"} />
         <Button onPress={() => console.log("Comment")} title="Comment" />
         <Button onPress={() => console.log("Share")} title="Share" />
         <Button onPress={() => console.log("Send")} title="Send" />
