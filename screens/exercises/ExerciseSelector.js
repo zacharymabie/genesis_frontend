@@ -1,47 +1,88 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Button,
+  Dimensions,
+  Pressable,
+} from "react-native";
+
+const { height, width } = Dimensions.get("window");
 
 const ExerciseSelector = (props) => {
-  const [buttonTitle, setButtonTitle] = useState("Add");
-  const { name, remarks, restTime } = props;
+  const [buttonTitle, setButtonTitle] = useState("+");
+  const { item, name, remarks, restTime, setFunction } = props;
 
   const buttonChange = (title) => {
-    if (title === "Add") {
-      setButtonTitle("Delete");
+    if (title === "+") {
+      setButtonTitle("-");
+      setFunction(item);
     } else {
-      setButtonTitle("Add");
+      setButtonTitle("+");
     }
   };
   return (
     <View style={styles.container}>
       <View style={styles.exerciseContainer}>
-        <View>
-          <Text style={styles.name}>{name}</Text>
-          <Text>{remarks}</Text>
+        <View style={styles.workoutDetails}>
+          <Text style={[styles.name, styles.text]}>{name}</Text>
+          <Text style={styles.text}>{remarks}</Text>
+          <Text style={styles.text}>{restTime}</Text>
         </View>
         <View>
-          <Text>{restTime}</Text>
+          <Pressable
+            style={styles.button}
+            onPress={() => buttonChange(buttonTitle)}
+          >
+            <Text style={styles.buttonText}>{buttonTitle}</Text>
+          </Pressable>
         </View>
-      </View>
-      <View>
-        <Button title={buttonTitle} onPress={() => buttonChange(buttonTitle)} />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-  },
+  container: {},
   exerciseContainer: {
-    borderWidth: 4,
-    width: 300,
+    margin: 10,
+    width: width / 1.1,
     height: 100,
+    backgroundColor: "white",
+    borderRadius: 4,
+    flexDirection: "row",
+    flex: 1,
+  },
+  button: {
+    paddingVertical: 8,
+    paddingHorizontal: 8,
+    height: 40,
+    width: 40,
+    margin: 5,
+    borderRadius: 30,
+    elevation: 3,
+    backgroundColor: "#A71E35",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 22,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+  },
+  workoutDetails: {
+    flex: 3,
+  },
+  text: {
+    color: "#A71E35",
   },
   name: {
     fontSize: 30,
   },
+  text: {},
 });
 
 export default ExerciseSelector;

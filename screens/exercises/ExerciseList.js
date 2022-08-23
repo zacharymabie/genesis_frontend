@@ -6,12 +6,12 @@ import ExerciseCard from "./ExerciseCard";
 import ExerciseSelector from "./ExerciseSelector";
 
 const ExerciseList = (props) => {
-  const { item, pick } = props;
+  const { item, pick, setFunction } = props;
   if (pick) {
     return (
       <View>
         <View>
-          <ExerciseSelector {...item} />
+          <ExerciseSelector item={item} setFunction={setFunction} {...item} />
         </View>
       </View>
     );

@@ -21,7 +21,27 @@ const Drawer = createDrawerNavigator();
 const Main = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          drawerStyle: {
+            backgroundColor: "#85182A",
+          },
+          headerShown: false,
+          drawerType: "front",
+          drawerLabelStyle: {
+            color: "white",
+            fontWeight: "bold",
+            fontSize: 20,
+            letterSpacing: 0.25,
+          },
+          drawerActiveTintColor:
+            "#ff1a00" /* font color for active screen label */,
+          activeBackgroundColor: "#68f" /* bg color for active screen */,
+          inactiveTintColor:
+            "grey" /* Font color for inactive screens' labels */,
+        }}
+      >
         <Drawer.Screen name="Feed" component={FeedNav} />
         <Drawer.Screen name="History" component={HistoryNav} />
         <Drawer.Screen name="Dashboard" component={DashboardNav} />

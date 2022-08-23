@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     width: 300,
     height: 100,
+    backgroundColor: "white",
   },
   name: {
     fontSize: 30,
