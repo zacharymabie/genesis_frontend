@@ -23,38 +23,47 @@ const Login = (props) => {
   };
 
   return (
-    <FormContainer title={"Login"}>
-      <Input
-        placeholder={"Enter Email"}
-        name={"email"}
-        id={"email"}
-        value={email}
-        onChangeText={(text) => setEmail(text.toLowerCase())}
-      />
-      <Input
-        placeholder={"Enter Password"}
-        name={"password"}
-        id={"password"}
-        secureTextEntry={true}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
-      <View style={styles.buttonGroup}>
-        {error ? <Error message={error} /> : null}
-        <Button title="Login" onPress={() => handleSubmit()} />
-      </View>
-      <View style={[{ marginTop: 40 }, styles.buttonGroup]}>
-        <Text style>Don't have an account yet? Join the Revolution below!</Text>
-        <Button
-          title="Register"
-          onPress={() => props.navigation.navigate("Register")}
+    <View style={styles.container}>
+      <FormContainer title={"Login"}>
+        <Input
+          placeholder={"Enter Email"}
+          name={"email"}
+          id={"email"}
+          value={email}
+          onChangeText={(text) => setEmail(text.toLowerCase())}
+          style={styles.input}
         />
-      </View>
-    </FormContainer>
+        <Input
+          placeholder={"Enter Password"}
+          name={"password"}
+          id={"password"}
+          secureTextEntry={true}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
+        <View style={styles.buttonGroup}>
+          {error ? <Error message={error} /> : null}
+          <Button title="Login" onPress={() => handleSubmit()} />
+        </View>
+        <View style={[{ marginTop: 40 }, styles.buttonGroup]}>
+          <Text style>Don't have an account yet? Join the Revolution below!</Text>
+          <Button
+            title="Register"
+            onPress={() => props.navigation.navigate("Register")}
+          />
+        </View>
+      </FormContainer>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor:'#A71E34'
+  },
   buttonGroup: {
     width: "80%",
   },
@@ -62,6 +71,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignSelf: "center",
   },
+  input:{
+
+  }
 });
 
 export default Login;

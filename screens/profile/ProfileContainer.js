@@ -2,75 +2,109 @@ import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   StyleSheet,
-  ActivityIndicator,
-  ScrollView,
   Dimensions,
   Text,
   Image,
   FlatList,
   Button,
-  TouchableHighlightComponent,
-  SafeAreaView
+  TouchableOpacity,
+  Modal,
+  TextInput,
+  Pressable
 } from "react-native";
 
 import PostContainer from "../feed/PostContainer";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
+import * as ImagePicker from 'expo-image-picker';
+
 
 const { height, width } = Dimensions.get("window");
 
-const ProfileContainer = (props) => {
+const ProfileContainer = ({navigation}) => {
   const [user, setUser] = useState({});
   const [posts, setPosts] = useState([]);
+  const [uploadImage, setUploadImage] = useState("")
+  const [modalVisible, setModalVisible] = useState(false);
+  const [text, onChangeText] = useState("")
 
-  
   useEffect(() => {
     axios
+    // .get(`${baseURL}users/62f5085c782749ee7c18e94c`)
       .get(`${baseURL}users/62f8cd7b1df83bbe60782743`)
       .then((res) => {
         setUser(res.data);
       })
       .catch((error) => {
-        console.log("API Error");
+        console.log("API Error1");
       });
     
+      setUploadImage("")
     },[]);
+    
+    const userID = user.id;
+    axios
+      .get(`${baseURL}posts/user/${userID}`)
+      .then((res) => {
+        setPosts(res.data);
+      })
+      .catch((error) => {
+        console.log(`${userID}`)
+        console.log("Alhamdulilah");
+      });
 
-  //{
-  //     "_id": "62f8cd7b1df83bbe60782743",
-  //     "username": "zachmabie",
-  //     "name": "Zach",
-  //     "email": "zachmabie@gmail.com",
-  //     "isAdmin": true,
-  //     "age": 21,
-  //     "weight": 87,
-  //     "height": 200,
-  //     "profilePic": "http://127.0.0.1:4000/public/uploads/PPmosh.jpg-1660476162511.jpeg",
-  //     "followed": [
-  //         "62f8db4d9ad99740bee29711",
-  //         "62f8db4d9ad99740bee29712"
-  //     ],
-  //     "following": [
-  //         "62f8db4d9ad99740bee29715",
-  //         "62f8db4d9ad99740bee29716"
-  //     ],
-  //     "__v": 0,
-  //     "id": "62f8cd7b1df83bbe60782743"
-  // }
-
-  const userID = user.id;
-
-  axios
-    .get(`${baseURL}posts/user/${userID}`)
-    .then((res) => {
-      setPosts(res.data);
-    })
-    .catch((error) => {
-      console.log("API Error");
+  const handleUpload = async () => {
+    let permissionResult = 
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted){
+        alert("Camera access is required")
+        return
+    }
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4,3],
+        base64: true,
     });
+    if(pickerResult.cancelled){
+        return;
+    }
+    let base64Image = `data:image/jpg;base64,${pickerResult.base64}`
+    setUploadImage(base64Image)
+    handleChangePic()
+  }
+
+  const handleChangePic = () => {
+    const {data} = axios.put(`${baseURL}users/setprofilepic/${userID}`,{
+      image: uploadImage
+    },{
+        headers:{
+            "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
+        }
+    }).then(res => {
+        console.log(res);
+        console.log(res.data)
+    })
+    .catch(error => console.log(error.response.data));
+  }
+
+  const handleChangeBio = () => {
+    axios.put(`${baseURL}users/setbio/${userID}`,{
+      bio: text
+    },{
+        headers:{
+            "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
+        }
+    }).then(res => {
+        console.log(res);
+        console.log(res.data)
+    })
+    .catch(error => console.log(error.response.data));
+
+    setModalVisible(!modalVisible) //Close Modal
+  }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.container}>
         <View style={styles.profile}>
           <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
@@ -80,7 +114,16 @@ const ProfileContainer = (props) => {
               </Text>
               <Text style={[styles.text, { fontSize: 16 }]}>Followers</Text>
             </View>
-            <Image style={styles.profilePic} source={require("../../assets/photos/6.png")} />
+            <TouchableOpacity
+              onPress={()=>handleUpload()}
+            > 
+              {uploadImage ? 
+                <Image style={styles.profilePic} source={{uri: uploadImage}} />
+                : user.profilePic != "" ?
+                <Image style={styles.profilePic} source={{uri: user.profilePic}} />
+                : <Image style={styles.profilePic} source={require("../../assets/user.png")} />
+              }
+            </TouchableOpacity>
             <View style={{ alignItems: "center" }}>
               <Text style={[styles.text, { fontSize: 18 }]}>
                 {user.following ? user.following.length : 0}
@@ -91,14 +134,61 @@ const ProfileContainer = (props) => {
 
           <Text style={[styles.text, { fontSize: 26 }]}>{user.name}</Text>
           <Text style={[styles.text, { fontSize: 18 }]}>@{user.username}</Text>
-          <Text style={[styles.bio]}>
-            Bio here is my bio poopoo and peepee and balls. I like to poop and
-            pee and workout :P I am a proper gym lad
-          </Text>
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+          >
+            <Text style={[styles.bio,{color:"#fff"}]}>
+              {text != "" ? text : user.bio}
+            </Text>
+              <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
+              }}
+              >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <TextInput 
+                    style={styles.input}
+                    onChangeText={onChangeText}
+                    value={text}
+                    multiline={true}
+                  />
+                  <View style={{alignItems: 'center', justifyContent: 'space-evenly', flexDirection:'row'}}>
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => setModalVisible(!modalVisible)}
+                    >
+                      <Text style={styles.textStyle}>Cancel</Text>
+                    </Pressable>
+                    <Pressable
+                      style={[styles.button, styles.buttonSubmit]}
+                      onPress={() => handleChangeBio()}
+                    >
+                      <Text style={styles.textStyle}>Submit</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+          </TouchableOpacity>
 
           <View style={[styles.postInteractions]}>
-            <Button onPress={()=>""} title="Follow" />
-            <Button onPress={()=>""} title="Message" />
+            <Pressable
+              style={[styles.button, {backgroundColor:"white"}]}
+              onPress={() => navigation.navigate("Login")}
+            >
+              <Text style={styles.textStyle}>Login</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, {backgroundColor:"white"}]}
+              onPress={() => navigation.navigate("Register")}
+            >
+              <Text style={styles.textStyle}>Register</Text>
+            </Pressable>
           </View>
         </View>
       </View>
@@ -116,6 +206,7 @@ const ProfileContainer = (props) => {
               imagePost={item.image}
               likes={item.likes}
               comments={item.comments}
+              postId={item.id}
             />
           )}
           keyExtractor={(item) => item.id}
@@ -133,7 +224,7 @@ const ProfileContainer = (props) => {
               />
           }) : console.log("no data")} */}
       </View>
-    </SafeAreaView >
+    </View >
   );
 };
 
@@ -147,7 +238,7 @@ const styles = StyleSheet.create({
   },
   profile: {
     flex: 1,
-    backgroundColor: "gainsboro",
+    backgroundColor: "#A71E34",
     alignItems: "center",
     width: width,
     maxHeight: height / 2,
@@ -163,6 +254,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: "bold",
+    color: "#fff"
   },
   bio: {
     textAlign: "center",
@@ -174,6 +266,7 @@ const styles = StyleSheet.create({
   postsContainer: {
     maxHeight: height / 2,
     justifyContent: "flex-end",
+    backgroundColor:"#A71E34"
   },
   postInteractions: {
     marginTop: 15,
@@ -182,6 +275,58 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: width*.9
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    margin:5
+  },
+  buttonSubmit: {
+    backgroundColor: "blue",
+  },
+  buttonClose: {
+    backgroundColor: "red",
+  },
+  textStyle: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  },
+  input:{
+    borderWidth: 1,
+    borderRadius:10,
+    width: width*.85,
+    height: width*.25,
+    padding: 8,
+    fontSize: 18,
+    marginBottom: 10
+},
 });
 
 export default ProfileContainer;

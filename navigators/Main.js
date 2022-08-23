@@ -15,6 +15,7 @@ import ProfileContainer from "../screens/profile/ProfileContainer";
 import FeedNav from "./FeedNav";
 import HistoryNav from "./HistoryNav";
 import DashboardNav from "./DashboardNav";
+import ProfileNav from "./ProfileNav";
 
 const Drawer = createDrawerNavigator();
 
@@ -25,7 +26,7 @@ const Main = () => {
         <Drawer.Screen name="Feed" component={FeedNav} />
         <Drawer.Screen name="History" component={HistoryNav} />
         <Drawer.Screen name="Dashboard" component={DashboardNav} />
-        <Drawer.Screen name="Profile" component={ProfileContainer} />
+        <Drawer.Screen name="Profile" component={ProfileNav} />
         <Drawer.Screen name="Log Out" component={PickExercise} />
       </Drawer.Navigator>
     </NavigationContainer>
