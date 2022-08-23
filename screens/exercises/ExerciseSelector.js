@@ -53,6 +53,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     flexDirection: "row",
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   button: {
     paddingVertical: 8,
@@ -75,14 +77,19 @@ const styles = StyleSheet.create({
   },
   workoutDetails: {
     flex: 3,
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
-    color: "#A71E35",
+    color: "#85182A",
+    letterSpacing: 0.25,
   },
   name: {
-    fontSize: 30,
+    color: "#85182A",
+    fontSize: 25,
+    letterSpacing: 0.25,
+    fontWeight: "bold",
   },
-  text: {},
 });
 
 export default ExerciseSelector;

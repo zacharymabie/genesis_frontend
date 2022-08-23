@@ -1,5 +1,7 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Dimensions } from "react-native";
+
+const { height, width } = Dimensions.get("window");
 
 const WorkoutCard = (props) => {
   const { name, description, author } = props;
@@ -9,10 +11,14 @@ const WorkoutCard = (props) => {
         <Text style={styles.name}>{name}</Text>
       </View>
       <View>
-        <Text>{description}</Text>
+        <Text style={styles.description}>{description}</Text>
       </View>
       <View>
         <Text>{author.username}</Text>
+      </View>
+      <View>
+        <Text style={styles.timestamp}>18/06/2022</Text>
+        {/* Todo */}
       </View>
     </View>
   );
@@ -20,12 +26,28 @@ const WorkoutCard = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 4,
-    width: 300,
-    height: 100,
+    backgroundColor: "white",
+    margin: 10,
+    width: width / 1.1,
+    height: height / 9,
+    padding: 10,
+    alignItems: "center",
+    borderRadius: 4,
   },
   name: {
     fontSize: 30,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "#85182A",
+  },
+  description: {
+    letterSpacing: 0.25,
+    color: "#85182A",
+  },
+  timestamp: {
+    letterSpacing: 0.25,
+    color: "#85182A",
+    fontWeight: "bold",
   },
 });
 

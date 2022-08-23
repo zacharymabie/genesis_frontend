@@ -9,10 +9,10 @@ const ExerciseCard = (props) => {
         <Text style={styles.name}>{name}</Text>
       </View>
       <View>
-        <Text>{remarks}</Text>
+        <Text style={styles.text}>{remarks}</Text>
       </View>
       <View>
-        <Text>{restTime}</Text>
+        <Text style={styles.text}>{restTime}</Text>
       </View>
     </View>
   );
@@ -20,13 +20,21 @@ const ExerciseCard = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 4,
+    alignItems: "center",
+    borderRadius: 4,
     width: 300,
     height: 100,
-    backgroundColor: "white",
+    backgroundColor: "#85182A",
   },
   name: {
-    fontSize: 30,
+    fontSize: 25,
+    letterSpacing: 0.25,
+    color: "white",
+    fontWeight: "bold",
+  },
+  text: {
+    letterSpacing: 0.25,
+    color: "white",
   },
 });
 

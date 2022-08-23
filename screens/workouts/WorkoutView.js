@@ -34,20 +34,23 @@ const WorkoutView = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 0,
+    margin: 20,
     width: (width * 7) / 8,
     height: height - 150,
-    borderRadius: 15,
-    borderWidth: 5,
+    borderRadius: 4,
+    backgroundColor: "white",
     flexDirection: "column",
   },
   imageContainer: {
     flex: 1,
   },
   image: { flex: 1, width: "100%", height: "100%" },
-  workoutInfo: { flex: 1 },
+  workoutInfo: { flex: 1, alignItems: "center" },
   name: {
     fontSize: 30,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "#85182A",
     padding: "2%",
   },
   exercises: {

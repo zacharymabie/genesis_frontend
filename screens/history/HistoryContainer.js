@@ -23,7 +23,7 @@ const HistoryContainer = () => {
   }, []);
 
   return (
-    <View>
+    <View style={styles.container}>
       <View>
         <Text style={styles.title}>Past Workouts</Text>
       </View>
@@ -35,9 +35,15 @@ const HistoryContainer = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#85182A",
+  },
   title: {
-    fontSize: 40,
-    fontWeight: "500",
+    fontSize: 30,
+    fontWeight: "bold",
+    alignSelf: "center",
+    letterSpacing: 0.25,
+    color: "white",
   },
   list: {
     alignItems: "center",
