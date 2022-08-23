@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,15 +11,36 @@ import {
 import ExerciseContainer from "../exercises/ExerciseContainer";
 import ExerciseList from "../exercises/ExerciseList";
 import NewWorkoutExerciseList from "./NewWorkoutExerciseList";
-import { useState } from "react";
 import PickExercise from "./PickExercise";
-
+import axios from "axios";
+import baseURL from "../../assets/common/baseUrl";
 const { width, height } = Dimensions.get("window");
 
 const NewWorkout = () => {
   const navigation = useNavigation();
 
-  const [exercises, setExercises] = useState([]);
+  const [allExercises, setAllExercises] = useState([]);
+  const [selectedExercises, setSelectedExercises] = useState([]);
+  const [workoutName, setWorkoutName] = useState("");
+  const [workoutDescription, setWorkoutDescription] = useState("");
+
+  useEffect(() => {
+    axios
+      .get(`${baseURL}exercises`)
+      .then((res) => {
+        setAllExercises(res.data);
+      })
+      .catch((error) => {
+        console.log("API Error");
+      });
+  }, []);
+
+  const setFunction = (data) => {
+    let curr_data = [];
+    curr_data = selectedExercises.concat(data);
+    setSelectedExercises(curr_data);
+    console.log(selectedExercises);
+  };
 
   return (
     <View style={styles.container}>
@@ -28,21 +49,35 @@ const NewWorkout = () => {
       </View>
       <View>
         <View style={styles.workoutInfo}>
-          <TextInput style={styles.textInput} placeholder="Name of Workout" />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Name of Workout"
+            onChangeText={(value) => setWorkoutName(value)}
+          />
           <TextInput
             style={[styles.textInput, styles.description]}
             placeholder="Description"
             multiline={true}
             numberOfLines={5}
+            onChangeText={(value) => setWorkoutDescription(value)}
           />
         </View>
         <View style={styles.exerciseList}>
-          <PickExercise />
+          <PickExercise data={allExercises} setFunction={setFunction} />
         </View>
         <View>
           <Button
             title="Start"
-            onPress={() => navigation.navigate("InWorkout")}
+            onPress={() =>
+              navigation.navigate({
+                name: "InWorkout",
+                params: {
+                  exercises: selectedExercises,
+                  name: workoutName,
+                  description: workoutDescription,
+                },
+              })
+            }
           />
         </View>
       </View>
@@ -52,18 +87,22 @@ const NewWorkout = () => {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 2,
-    margin: 10,
     height: height / 1.35,
+    backgroundColor: "#85182A",
+    flex: 1,
   },
   title: {
     fontSize: 30,
-    fontWeight: "500",
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+    textAlign: "center",
   },
   textInput: {
-    borderWidth: 2,
     margin: 5,
     height: 40,
+    backgroundColor: "white",
+    borderRadius: 4,
   },
   description: {
     height: height / 6,
