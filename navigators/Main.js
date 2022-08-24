@@ -16,6 +16,7 @@ import FeedNav from "./FeedNav";
 import HistoryNav from "./HistoryNav";
 import DashboardNav from "./DashboardNav";
 import ProfileNav from "./ProfileNav";
+import SearchNav from "./SearchNav";
 
 const Drawer = createDrawerNavigator();
 
@@ -43,6 +44,7 @@ const Main = () => {
             "grey" /* Font color for inactive screens' labels */,
         }}
       >
+        <Drawer.Screen name="Search" component={SearchNav} />
         <Drawer.Screen name="Feed" component={FeedNav} />
         <Drawer.Screen name="History" component={HistoryNav} />
         <Drawer.Screen name="Dashboard" component={DashboardNav} />

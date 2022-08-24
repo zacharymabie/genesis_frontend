@@ -21,7 +21,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 const { height, width } = Dimensions.get("window");
 
-const ProfileContainer = ({navigation, route}) => {
+const OtherProfile = ({navigation, route}) => {
   const [user, setUser] = useState({});
   const [posts, setPosts] = useState([]);
   const [uploadImage, setUploadImage] = useState("")
@@ -30,7 +30,7 @@ const ProfileContainer = ({navigation, route}) => {
 
 
 
-  const userID = "62f8cd7b1df83bbe60782743"
+  const userID = route.params.id
 
   useEffect(() => {
     axios
@@ -331,4 +331,4 @@ const styles = StyleSheet.create({
 },
 });
 
-export default ProfileContainer;
+export default OtherProfile;
