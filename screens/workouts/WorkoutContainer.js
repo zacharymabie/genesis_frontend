@@ -6,7 +6,7 @@ import WorkoutView from "./WorkoutView";
 const { height, width } = Dimensions.get("window");
 
 const data = require("../../assets/data/workouts.json");
-const WorkoutContainer = () => {
+const WorkoutContainer = ({ route }) => {
   const [workouts, setWorkouts] = useState(null);
   useEffect(() => {
     setWorkouts(data);
@@ -19,7 +19,12 @@ const WorkoutContainer = () => {
   }
   return (
     <View style={styles.container}>
-      <WorkoutView key={workouts.id} item={workouts} />
+      <WorkoutView
+        name={route.params.name}
+        author={route.params.author}
+        description={route.params.description}
+        exercises={route.params.exercises}
+      />
     </View>
   );
 };

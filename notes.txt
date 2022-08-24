@@ -3,3 +3,9 @@ Libraries to install:
 Navigation
 -> expo install react-native-screens react-native-safe-area-context
 -> expo install react-native-gesture-handler
+
+
+
+History 
+-  Will show all previously completed workouts 
+-> To achieve this Dates and workouts

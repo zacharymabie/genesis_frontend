@@ -16,6 +16,7 @@ import FeedNav from "./FeedNav";
 import HistoryNav from "./HistoryNav";
 import DashboardNav from "./DashboardNav";
 import ProfileNav from "./ProfileNav";
+import ExercisesNav from "./ExercisesNav";
 
 const Drawer = createDrawerNavigator();
 
@@ -45,6 +46,7 @@ const Main = () => {
       >
         <Drawer.Screen name="Feed" component={FeedNav} />
         <Drawer.Screen name="History" component={HistoryNav} />
+        <Drawer.Screen name="Exercises" component={ExercisesNav} />
         <Drawer.Screen name="Dashboard" component={DashboardNav} />
         <Drawer.Screen name="Profile" component={ProfileNav} />
         <Drawer.Screen name="Log Out" component={PickExercise} />

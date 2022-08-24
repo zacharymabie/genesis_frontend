@@ -15,17 +15,17 @@ import ExerciseContainer from "../exercises/ExerciseContainer";
 const { height, width } = Dimensions.get("window");
 
 const WorkoutView = (props) => {
-  const { item } = props;
+  const { name, author, description, exercises } = props;
   return (
     <View style={styles.container}>
       <View style={styles.workoutInfo}>
-        <Text style={styles.name}>{item[0].name}</Text>
-        <Text style={styles.author}>{item[0].author.username}</Text>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.author}>{author}</Text>
         {/* why dont authors work? */}
-        <Text>{item[0].description}</Text>
+        <Text>{description}</Text>
       </View>
       <View style={styles.exercises}>
-        <ExerciseContainer items={item[0].exercises} />
+        <ExerciseContainer items={exercises} />
       </View>
       <Button title="Add Exercise" />
     </View>
