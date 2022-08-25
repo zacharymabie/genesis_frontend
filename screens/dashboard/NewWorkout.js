@@ -27,9 +27,9 @@ const NewWorkout = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}exercises`)
+      .get(`${baseURL}users/62f627a8fc65975e12b69c05`)
       .then((res) => {
-        setAllExercises(res.data);
+        setAllExercises(res.data.exerciseList);
       })
       .catch((error) => {
         console.log("API Error");
