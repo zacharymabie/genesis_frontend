@@ -39,7 +39,7 @@ const Main = () => {
         <Drawer.Screen name="Search" component={SearchNav} />
         <Drawer.Screen name="Feed" component={FeedNav} />
         <Drawer.Screen name="History" component={HistoryNav} />
-        <Drawer.Screen name="Exercises" component={ExercisesNav} />
+        <Drawer.Screen name="ExercisesNav" component={ExercisesNav} options={{title:"Exercises"}}/>
         <Drawer.Screen name="Dashboard" component={DashboardNav} />
         <Drawer.Screen name="Profile" component={ProfileNav} />
         <Drawer.Screen name="Log Out" component={PickExercise} />
