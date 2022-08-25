@@ -1,32 +1,50 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   View,
   StyleSheet,
   Dimensions,
   FlatList,
-  Text,
-  TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput
 } from "react-native";
 
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
 import UserSearchView from "./UserSearchView";
+import { useNavigation } from "@react-navigation/native";
 
 
 const { height, width } = Dimensions.get("window");
 
-const Search = ({ navigation }) => {
+const Search = () => {
     const [filteredData, setFilteredData] = useState([])
     const [masterData, setMasterData] = useState([])
     const [search, setSearch] = useState('')
+    const navigation = useNavigation()
 
     useEffect(()=>{
         fetchData();
         return () => {
-        
+            setFilteredData([])
+            setMasterData([])
         }
     },[])
+
+    // useLayoutEffect(()=>{
+
+    //     navigation.setOptions({
+    //         headerTransparent:false,
+    //         headerSearchBarOptions:{
+    //             placeholder:"Search",
+    //             onChangeText: (event) => {
+    //                 searchFilter(event.nativeEvent.text)
+    //             },
+    //             autoCapitalize: false
+    //         }
+    //     })
+
+    // },[navigation])
+
 
     const fetchData = () => {
         axios.get(`${baseURL}users`)
@@ -42,7 +60,7 @@ const Search = ({ navigation }) => {
     const ItemSeparatorView = () => {
         return(
             <View
-                style={{
+            style={{
                     height:0.5, width: width, backgroundColor:"#c8c8c8"
                 }}
             />
@@ -52,12 +70,15 @@ const Search = ({ navigation }) => {
     const searchFilter = (text) => {
         if(text){
             const newData = masterData.filter((item) => {
-                const itemData = item.username.toUpperCase()
+                const usernameData = item.username ? item.username.toUpperCase() : "".toUpperCase()
                 const textData = text.toUpperCase()
-                return itemData.indexOf(textData) > -1
+                return usernameData.includes(textData)
             })
+            console.log("TEXT",text)
+            console.log("NEWDATA:::",newData)
             setFilteredData(newData)
             setSearch(text)
+            console.log("FilteredDATA",filteredData)
         } else {
             setFilteredData(masterData)
             setSearch(text)
@@ -84,6 +105,7 @@ const Search = ({ navigation }) => {
                     >
                         <UserSearchView
                             key={item.id}
+                            name={item.name}
                             username={item.username}
                             profilePic={item.profilePic}
                         />
@@ -104,12 +126,14 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height:50,
-    width:width*.9,
+    width:width*.95,
     padding:5,
-    borderWidth:2,
-    borderRadius:5,
+    paddingLeft:15,
+    borderWidth:2.5,
+    borderRadius:25,
     borderColor:"#A11D33",
-    backgroundColor:"#fff"
+    backgroundColor:"#fff",
+    fontSize:22,
   }
 });
 

@@ -191,6 +191,12 @@ const ProfileContainer = ({navigation, route}) => {
             >
               <Text style={styles.textStyle}>Register</Text>
             </Pressable>
+            <Pressable
+              style={[styles.button, {backgroundColor:"white"}]}
+              onPress={() => alert("Follow")}
+            >
+              <Text style={styles.textStyle}>Follow</Text>
+            </Pressable>
           </View>
         </View>
       </View>

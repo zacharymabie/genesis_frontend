@@ -15,15 +15,16 @@ var { height, width } = Dimensions.get('window')
 
 const UserSearchView = (props) => {
 
-    const {username, profilePic} = props;
+    const {name, username, profilePic} = props;
 
   return (
     <View style={styles.postContainer}>
         <View style={styles.postHeader}>
             <View style={styles.leftContainer}>
                 <Image style={styles.profileImage} source={profilePic != "" ? {uri:profilePic} : require("../../assets/user.png")}/>
-                <View style={[styles.leftContainer, {flexDirection: 'column', padding:5}]}>
-                    <Text style={[styles.text,{fontWeight:'bold', margin:0, width:width * .65}]}>{username}</Text>
+                <View style={[styles.textContainer]}>
+                    <Text style={[styles.text,{fontWeight:'bold', margin:0, width:width * .65}]}>{name}</Text>
+                    <Text style={[styles.text,{fontSize:16, margin:0, width:width * .65}]}>@{username}</Text>
                 </View>
             </View>
         </View>
@@ -64,7 +65,15 @@ const styles = StyleSheet.create({
     text:{
         margin:8,
         fontSize:18,
-    }
+    },
+    textContainer: {
+        paddingLeft:10,
+        flex: 1,
+        justifyContent: 'flex-start',
+        flexDirection: 'column', 
+        padding:5,
+    },
+
   });
   
 export default UserSearchView;
