@@ -7,6 +7,7 @@ import {
   Text,
   Button,
   Dimensions,
+  TouchableHighlight,
 } from "react-native";
 import ExerciseContainer from "../exercises/ExerciseContainer";
 import ExerciseList from "../exercises/ExerciseList";
@@ -66,8 +67,8 @@ const NewWorkout = () => {
           <PickExercise data={allExercises} setFunction={setFunction} />
         </View>
         <View>
-          <Button
-            title="Start"
+          <TouchableHighlight
+            style={styles.button}
             onPress={() =>
               navigation.navigate({
                 name: "InWorkout",
@@ -78,7 +79,13 @@ const NewWorkout = () => {
                 },
               })
             }
-          />
+            underlayColor="lightgrey"
+            activeOpacity={1}
+          >
+            <View>
+              <Text style={styles.buttonText}>Start</Text>
+            </View>
+          </TouchableHighlight>
         </View>
       </View>
     </View>
@@ -112,6 +119,25 @@ const styles = StyleSheet.create({
   },
   workoutInfo: {
     height: height / 4,
+  },
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    margin: 10,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "white",
+    width: "80%",
+    alignSelf: "center",
+    justifyContent: "flex-end",
+  },
+  buttonText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "black",
+    alignSelf: "center",
   },
 });
 

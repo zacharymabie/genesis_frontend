@@ -10,8 +10,20 @@ const Stack = createNativeStackNavigator();
 
 const DashboardNav = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="DashboardContainer" component={DashboardContainer} />
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#85182A",
+        },
+        headerTitleStyle: {
+          fontWeight: "bold",
+          letterSpacing: 0.25,
+          color: "white",
+          fontSize: 25,
+        },
+      }}
+    >
+      <Stack.Screen name="Dashboard" component={DashboardContainer} />
       <Stack.Screen name="NewWorkout" component={NewWorkout} />
       <Stack.Screen name="PickExercise" component={PickExercise} />
       <Stack.Screen name="InWorkout" component={InWorkout} />
