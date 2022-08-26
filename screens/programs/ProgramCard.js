@@ -16,7 +16,7 @@ const ProgramCard = (props) => {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={require("/Users/zachelliott/Desktop/Genesis/genesis_frontend/assets/favicon.png")}
+          // source={require("/Users/zachelliott/Desktop/Genesis/genesis_frontend/assets/favicon.png")}
           resizeMode="cover"
           style={styles.image}
         />

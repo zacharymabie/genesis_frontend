@@ -27,82 +27,175 @@ const OtherProfile = ({navigation, route}) => {
   const [uploadImage, setUploadImage] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
   const [text, onChangeText] = useState("")
-
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
+  const [isFollowed, setIsFollowed] = useState(false); //true means liked, false means not liked
+//   const [followerCount, setFollowerCount] = useState(0); 
+//   const [followingCount, setFollowingCount] = useState(0); 
 
 
   const userID = route.params.id
+  const followerID = "62f8cd7b1df83bbe60782743"
 
-  useEffect(() => {
+    useEffect(() => {
+    //get and set USER data    
     axios
-      .get(`${baseURL}users/${userID}`)
-      .then((res) => {
+        .get(`${baseURL}users/${userID}`)
+        .then((res) => {
         setUser(res.data);
-      })
-      .catch((error) => {
+        })
+        .catch((error) => {
         console.log("API Error1");
-      });
-    
-      setUploadImage("")
+        });
+
+        setUploadImage("")
     },[]);
-    
+    //GET and Set USER'S Posts
     axios
-      .get(`${baseURL}posts/user/${userID}`)
-      .then((res) => {
+        .get(`${baseURL}posts/user/${userID}`)
+        .then((res) => {
         setPosts(res.data);
-      })
-      .catch((error) => {
+        })
+        .catch((error) => {
         console.log(`${userID}`)
         console.log("Alhamdulilah");
-      });
+        });
 
-  const handleUpload = async () => {
-    let permissionResult = 
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permissionResult.granted){
-        alert("Camera access is required")
-        return
-    }
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        aspect: [4,3],
-        base64: true,
-    });
-    if(pickerResult.cancelled){
-        return;
-    }
-    let base64Image = `data:image/jpg;base64,${pickerResult.base64}`
-    setUploadImage(base64Image)
-    handleChangePic()
-  }
+    useEffect(() => {
+        axios
+        .get(`${baseURL}users/followers/${userID}`)
+        .then((res) => {
+            setFollowers(res.data);
+        })
+        .catch((error) => {
+            console.log("API Error", error.response.data);
+        });
+        axios
+        .get(`${baseURL}users/following/${followerID}`)
+        .then((res) => {
+            setFollowing(res.data);
+        })
+        .catch((error) => {
+            console.log("API Error", error.response.data);
+        });
+        return(
+            setFollowers([]),
+            setFollowing([])
+        )
+    }, []); // 👈️ empty dependencies array
 
-  const handleChangePic = () => {
-    const {data} = axios.put(`${baseURL}users/setprofilepic/${userID}`,{
-      image: uploadImage
-    },{
-        headers:{
-            "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
-        }
-    }).then(res => {
-        console.log(res);
-        console.log(res.data)
+
+//   const handleUpload = async () => {
+//     let permissionResult = 
+//         await ImagePicker.requestMediaLibraryPermissionsAsync();
+//     if (!permissionResult.granted){
+//         alert("Camera access is required")
+//         return
+//     }
+//     let pickerResult = await ImagePicker.launchImageLibraryAsync({
+//         allowsEditing: true,
+//         aspect: [4,3],
+//         base64: true,
+//     });
+//     if(pickerResult.cancelled){
+//         return;
+//     }
+//     let base64Image = `data:image/jpg;base64,${pickerResult.base64}`
+//     setUploadImage(base64Image)
+//     handleChangePic()
+//   }
+
+//   const handleChangePic = () => {
+//     const {data} = axios.put(`${baseURL}users/setprofilepic/${userID}`,{
+//       image: uploadImage
+//     },{
+//         headers:{
+//             "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
+//         }
+//     }).then(res => {
+//         console.log(res);
+//         console.log(res.data)
+//     })
+//     .catch(error => console.log(error.response.data));
+//   }
+
+//   const handleChangeBio = () => {
+//     axios.put(`${baseURL}users/setbio/${userID}`,{
+//       bio: text
+//     },{
+//         headers:{
+//             "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
+//         }
+//     }).then(res => {
+//         console.log(res);
+//         console.log(res.data)
+//     })
+//     .catch(error => console.log(error.response.data));
+
+//     setModalVisible(!modalVisible) //Close Modal
+//   }
+
+  const handleFollow = () => {
+    const followerIDArr = followers.followed
+    let followerArr = []
+    followerIDArr.map(follower => {
+        followerArr.push({
+            user: follower,
+            followedUser: userID
+        })
     })
-    .catch(error => console.log(error.response.data));
-  }
-
-  const handleChangeBio = () => {
-    axios.put(`${baseURL}users/setbio/${userID}`,{
-      bio: text
-    },{
-        headers:{
-            "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
-        }
-    }).then(res => {
-        console.log(res);
-        console.log(res.data)
+    console.log(`followerID:${followerID}`)
+    console.log(`userID:${userID}`)
+    if(!isFollowed){
+      followerArr.push({
+        user: followerID,
+        followedUser: userID
+      })
+      setIsFollowed(true)
+    } else {
+      setIsFollowed(false)
+    }
+    //add follower
+    axios.put(`${baseURL}users/newfollower/${userID}`,{
+        followed: followerArr
+      },{
+          headers:{
+              "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
+          }
+      }).then(res => {
+          console.log(res);
+          console.log(res.data)
+      })
+      .catch(error => console.log(error.response.data));
+    
+    //following
+    const followingIDArr = following.following
+    let followingArr = []
+    followingIDArr.map(following => {
+        followingArr.push({
+            user: followerID,
+            followedUser: following
+        })
     })
-    .catch(error => console.log(error.response.data));
 
-    setModalVisible(!modalVisible) //Close Modal
+    followingArr.push({
+        user: followerID,
+        followedUser: userID
+    })
+
+    //add following
+    axios.put(`${baseURL}users/newfollowing/${followerID}`,{
+        following: followingArr
+      },{
+          headers:{
+              "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
+          }
+      }).then(res => {
+          console.log(res);
+          console.log(res.data)
+      })
+      .catch(error => console.log(error.response.data));
+      
   }
 
   return (
@@ -112,7 +205,8 @@ const OtherProfile = ({navigation, route}) => {
           <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
             <View style={{ alignItems: "center" }}>
               <Text style={[styles.text, { fontSize: 18 }]}>
-                {user.follow ? user.followed.length : 0}
+                {user.followed ? user.followed.length : 0}
+                {/* {followerCount} */}
               </Text>
               <Text style={[styles.text, { fontSize: 16 }]}>Followers</Text>
             </View>
@@ -129,6 +223,7 @@ const OtherProfile = ({navigation, route}) => {
             <View style={{ alignItems: "center" }}>
               <Text style={[styles.text, { fontSize: 18 }]}>
                 {user.following ? user.following.length : 0}
+                {/* {followingCount} */}
               </Text>
               <Text style={[styles.text, { fontSize: 16 }]}>Following</Text>
             </View>
@@ -193,9 +288,9 @@ const OtherProfile = ({navigation, route}) => {
             </Pressable>
             <Pressable
               style={[styles.button, {backgroundColor:"white"}]}
-              onPress={() => alert("Follow")}
+              onPress={() => handleFollow()}
             >
-              <Text style={styles.textStyle}>Follow</Text>
+              <Text style={styles.textStyle}>{isFollowed ? "Unfollow" : "Follow"}</Text>
             </Pressable>
           </View>
         </View>

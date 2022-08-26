@@ -18,12 +18,12 @@ const PostContainer = (props) => {
   const [liked, setLiked] = useState(false); //true means liked, false means not liked
 
   const navigation = useNavigation();
-  const { name, profilePhoto, timestamp, caption, imagePost, likes, comments, postId } =
+  const { name, profilePhoto, timestamp, caption, imagePost, likes, comments, postId, userId } =
     props;
 
-  const profilePic = profilePhoto
-    ? profilePhoto
-    : require("../../assets/photos/7.png");
+  const profilePic = profilePhoto != ""
+    ? {uri : profilePhoto}
+    : require("../../assets/user.png");
   // const image = imagePost != "" ? {uri:imagePost} : require("../../assets/photos/3.png");
 
   useEffect(() => {
@@ -74,10 +74,12 @@ const PostContainer = (props) => {
     <View style={styles.postContainer}>
       <View style={styles.postHeader}>
         <View style={styles.leftContainer}>
-          <Image
-            style={styles.profileImage}
-            source={require("../../assets/photos/7.png")}
-          />
+          <TouchableOpacity onPress={()=>navigation.navigate("OtherProfile", {id: userId})}>
+            <Image
+              style={styles.profileImage}
+              source={profilePic}
+            />
+          </TouchableOpacity>
           {/* <Image style={styles.profileImage} source={{uri: profilePic}}/> */}
           <View
             style={[
@@ -85,14 +87,16 @@ const PostContainer = (props) => {
               { flexDirection: "column", padding: 5 },
             ]}
           >
-            <Text
-              style={[
-                styles.text,
-                { fontWeight: "bold", margin: 0, width: width * 0.65 },
-              ]}
-            >
-              {name}
-            </Text>
+            <TouchableOpacity onPress={()=>navigation.navigate("OtherProfile", {id: userId})}>
+              <Text
+                style={[
+                  styles.text,
+                  { fontWeight: "bold", margin: 0, width: width * 0.65 },
+                ]}
+              >
+                {name}
+              </Text>
+            </TouchableOpacity>
             <Text
               style={[
                 styles.text,
@@ -116,7 +120,7 @@ const PostContainer = (props) => {
       >
         <Text style={styles.text}>{caption}</Text>
         <Image
-          source={{uri: imagePost}}
+          source={{uri:imagePost}}
           style={styles.image}
         />
         {/* <Image style={styles.image} source={{uri: imagePost}}/> */}

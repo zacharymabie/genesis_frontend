@@ -25,15 +25,24 @@ const { height, width } = Dimensions.get("window");
 
 const FeedContainer = ({ navigation }) => {
   const [posts, setPost] = useState([]);
+  const [refreshing, setRefreshing] = useState(false)
 
-  axios
-    .get(`${baseURL}posts`)
-    .then((res) => {
-      setPost(res.data);
-    })
-    .catch((error) => {
-      console.log("API Error");
-    });
+  useEffect(()=>{
+    getData()
+  }, [])
+
+  const getData = () => {
+    setRefreshing(true)
+    axios
+      .get(`${baseURL}posts`)
+      .then((res) => {
+        setPost(res.data);
+      })
+      .catch((error) => {
+        console.log("API Error");
+      })
+    .finally(setRefreshing(false))
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -52,9 +61,12 @@ const FeedContainer = ({ navigation }) => {
                 likes={item.likes}
                 comments={item.comments}
                 postId={item.id}
+                userId={item.id}
               />
             )}
             keyExtractor={(item) => item.id}
+            refreshing={refreshing}
+            onRefresh={() => getData()}
           />
         </View>
 
