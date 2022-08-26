@@ -57,7 +57,6 @@ const ViewExercises = () => {
         <TouchableHighlight
           style={styles.button}
           onPress={() => {
-            console.log(exerciseIds);
             navigation.navigate({
               name: "Create Exercise",
               params: {
@@ -81,10 +80,12 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#85182A",
     flex: 1,
+    width: "100%",
   },
   list: {
     alignItems: "center",
     height: height / 1.25,
+    width: "100%",
   },
   button: {
     paddingVertical: 12,

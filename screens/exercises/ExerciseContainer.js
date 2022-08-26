@@ -38,7 +38,7 @@ const ExerciseContainer = (props) => {
   } else {
     return (
       <View>
-        <Text style={styles.title2}>Exercises:</Text>
+        <Text style={styles.title2}>Exercises</Text>
         <View style={styles.list2}>
           <FlatList
             data={items}
@@ -61,10 +61,11 @@ const styles = StyleSheet.create({
     color: "white",
   },
   title2: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "#85182A",
+    textAlign: "center",
   },
   list: {
     alignItems: "center",

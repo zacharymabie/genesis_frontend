@@ -7,8 +7,17 @@ import axios from "axios";
 
 const HistoryContainer = () => {
   const [workouts, setWorkouts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
+    getData();
+    return () => {
+      setWorkouts([]);
+    };
+  }, []);
+
+  const getData = () => {
+    setRefreshing(true);
     axios
       .get(`${baseURL}workouts`)
       .then((res) => {
@@ -16,16 +25,18 @@ const HistoryContainer = () => {
       })
       .catch((error) => {
         console.log("API Error");
-      });
-    return () => {
-      setWorkouts([]);
-    };
-  }, []);
+      })
+      .finally(setRefreshing(false));
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.list}>
-        <WorkoutListContainer data={workouts} />
+        <WorkoutListContainer
+          data={workouts}
+          refreshing={refreshing}
+          function={getData}
+        />
       </View>
     </View>
   );

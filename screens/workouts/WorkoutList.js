@@ -19,6 +19,7 @@ const WorkoutList = (props) => {
             author: item.author.username,
             description: item.description,
             exercises: item.exercises,
+            id: item.id,
           },
         })
       }

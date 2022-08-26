@@ -13,6 +13,8 @@ const WorkoutListContainer = (props) => {
           data={data}
           renderItem={({ item }) => <WorkoutList key={item.id} item={item} />}
           keyExtractor={(item) => item.id}
+          refreshing={props.refreshing}
+          onRefresh={() => props.function()}
         />
       </View>
     </View>

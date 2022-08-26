@@ -25,14 +25,14 @@ const ProfileNav = () => {
       }}
     >
       <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ title: "Login" }}
-      />
-      <Stack.Screen
         name="ProfileContainer"
         component={ProfileContainer}
         options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ title: "Login" }}
       />
       <Stack.Screen
         name="Register"

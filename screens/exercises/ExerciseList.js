@@ -7,6 +7,7 @@ import ExerciseSelector from "./ExerciseSelector";
 
 const ExerciseList = (props) => {
   const { item, pick, setFunction } = props;
+  console.log(item);
   if (pick) {
     return (
       <View>

@@ -24,6 +24,7 @@ const WorkoutContainer = ({ route }) => {
         author={route.params.author}
         description={route.params.description}
         exercises={route.params.exercises}
+        id={route.params.id}
       />
     </View>
   );
