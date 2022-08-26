@@ -11,10 +11,34 @@ const Stack = createNativeStackNavigator();
 
 const ProfileNav = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="ProfileContainer" component={ProfileContainer} options={{title:""}}/>
-      <Stack.Screen name="Login" component={Login} options={{title:""}}/>
-      <Stack.Screen name="Register" component={Register} options={{title:""}}/>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#85182A",
+        },
+        headerTitleStyle: {
+          fontWeight: "bold",
+          letterSpacing: 0.25,
+          color: "white",
+          fontSize: 25,
+        },
+      }}
+    >
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ title: "Login" }}
+      />
+      <Stack.Screen
+        name="ProfileContainer"
+        component={ProfileContainer}
+        options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        options={{ title: "Register" }}
+      />
     </Stack.Navigator>
   );
 };

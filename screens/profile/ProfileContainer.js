@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -10,100 +10,130 @@ import {
   TouchableOpacity,
   Modal,
   TextInput,
-  Pressable
+  Pressable,
 } from "react-native";
 
 import PostContainer from "../feed/PostContainer";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 
+import AuthGlobal from "../../context/store/AuthGlobal";
+import { logoutUser } from "../../context/actions/Auth.actions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { set } from "react-native-reanimated";
 
 const { height, width } = Dimensions.get("window");
 
-const ProfileContainer = ({navigation, route}) => {
+const ProfileContainer = ({ navigation, route }) => {
   const [user, setUser] = useState({});
   const [posts, setPosts] = useState([]);
-  const [uploadImage, setUploadImage] = useState("")
+  const [uploadImage, setUploadImage] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [text, onChangeText] = useState("")
+  const [text, onChangeText] = useState("");
 
+  const [userID, setUserID] = useState("");
+  //Auth code
 
+  const context = useContext(AuthGlobal);
+  useEffect(() => {
+    if (
+      context.stateUser.isAuthenticated === false ||
+      context.stateUser.isAuthenticated === null
+    ) {
+      navigation.navigate("Login");
+    }
 
-  const userID = "62f8cd7b1df83bbe60782743"
+    AsyncStorage.getItem("jwt")
+      .then((res) => {
+        let user_id = context.stateUser.user.userId;
+        setUserID(user_id);
+        axios
+          .get(`${baseURL}users/${user_id}`)
+          .then((res) => {
+            setUser(res.data);
+          })
+          .catch((error) => {
+            console.log("API Error1");
+          });
+        axios
+          .get(`${baseURL}posts/user/${user_id}`)
+          .then((res) => {
+            setPosts(res.data);
+          })
+          .catch((error) => {
+            console.log(`${userID}`);
+            console.log("Alhamdulilah");
+          });
+      })
+      .catch((error) => console.log(error));
+  }, [context.stateUser.isAuthenticated]);
 
   useEffect(() => {
-    axios
-      .get(`${baseURL}users/${userID}`)
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((error) => {
-        console.log("API Error1");
-      });
-    
-      setUploadImage("")
-    },[]);
-    
-    axios
-      .get(`${baseURL}posts/user/${userID}`)
-      .then((res) => {
-        setPosts(res.data);
-      })
-      .catch((error) => {
-        console.log(`${userID}`)
-        console.log("Alhamdulilah");
-      });
+    setUploadImage("");
+  }, []);
 
   const handleUpload = async () => {
-    let permissionResult = 
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permissionResult.granted){
-        alert("Camera access is required")
-        return
+    let permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
+      alert("Camera access is required");
+      return;
     }
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        aspect: [4,3],
-        base64: true,
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
     });
-    if(pickerResult.cancelled){
-        return;
+    if (pickerResult.cancelled) {
+      return;
     }
-    let base64Image = `data:image/jpg;base64,${pickerResult.base64}`
-    setUploadImage(base64Image)
-    handleChangePic()
-  }
+    let base64Image = `data:image/jpg;base64,${pickerResult.base64}`;
+    setUploadImage(base64Image);
+    handleChangePic();
+  };
 
   const handleChangePic = () => {
-    const {data} = axios.put(`${baseURL}users/setprofilepic/${userID}`,{
-      image: uploadImage
-    },{
-        headers:{
-            "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
+    const { data } = axios
+      .put(
+        `${baseURL}users/setprofilepic/${userID}`,
+        {
+          image: uploadImage,
+        },
+        {
+          headers: {
+            Authorization: `Bearer 62f8cd7b1df83bbe60782743`,
+          },
         }
-    }).then(res => {
+      )
+      .then((res) => {
         console.log(res);
-        console.log(res.data)
-    })
-    .catch(error => console.log(error.response.data));
-  }
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error.response.data));
+  };
 
   const handleChangeBio = () => {
-    axios.put(`${baseURL}users/setbio/${userID}`,{
-      bio: text
-    },{
-        headers:{
-            "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
+    axios
+      .put(
+        `${baseURL}users/setbio/${userID}`,
+        {
+          bio: text,
+        },
+        {
+          headers: {
+            Authorization: `Bearer 62f8cd7b1df83bbe60782743`,
+          },
         }
-    }).then(res => {
+      )
+      .then((res) => {
         console.log(res);
-        console.log(res.data)
-    })
-    .catch(error => console.log(error.response.data));
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error.response.data));
 
-    setModalVisible(!modalVisible) //Close Modal
-  }
+    setModalVisible(!modalVisible); //Close Modal
+  };
 
   return (
     <View style={styles.container}>
@@ -116,15 +146,23 @@ const ProfileContainer = ({navigation, route}) => {
               </Text>
               <Text style={[styles.text, { fontSize: 16 }]}>Followers</Text>
             </View>
-            <TouchableOpacity
-              onPress={()=>handleUpload()}
-            > 
-              {uploadImage ? 
-                <Image style={styles.profilePic} source={{uri: uploadImage}} />
-                : user.profilePic != "" ?
-                <Image style={styles.profilePic} source={{uri: user.profilePic}} />
-                : <Image style={styles.profilePic} source={require("../../assets/user.png")} />
-              }
+            <TouchableOpacity onPress={() => handleUpload()}>
+              {uploadImage ? (
+                <Image
+                  style={styles.profilePic}
+                  source={{ uri: uploadImage }}
+                />
+              ) : user.profilePic != "" ? (
+                <Image
+                  style={styles.profilePic}
+                  source={{ uri: user.profilePic }}
+                />
+              ) : (
+                <Image
+                  style={styles.profilePic}
+                  source={require("../../assets/user.png")}
+                />
+              )}
             </TouchableOpacity>
             <View style={{ alignItems: "center" }}>
               <Text style={[styles.text, { fontSize: 18 }]}>
@@ -136,13 +174,11 @@ const ProfileContainer = ({navigation, route}) => {
 
           <Text style={[styles.text, { fontSize: 26 }]}>{user.name}</Text>
           <Text style={[styles.text, { fontSize: 18 }]}>@{user.username}</Text>
-          <TouchableOpacity
-            onPress={() => setModalVisible(true)}
-          >
-            <Text style={[styles.bio,{color:"#fff"}]}>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Text style={[styles.bio, { color: "#fff" }]}>
               {text != "" ? text : user.bio}
             </Text>
-              <Modal
+            <Modal
               animationType="slide"
               transparent={true}
               visible={modalVisible}
@@ -150,16 +186,22 @@ const ProfileContainer = ({navigation, route}) => {
                 Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
               }}
-              >
+            >
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <TextInput 
+                  <TextInput
                     style={styles.input}
                     onChangeText={onChangeText}
                     value={text}
                     multiline={true}
                   />
-                  <View style={{alignItems: 'center', justifyContent: 'space-evenly', flexDirection:'row'}}>
+                  <View
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "space-evenly",
+                      flexDirection: "row",
+                    }}
+                  >
                     <Pressable
                       style={[styles.button, styles.buttonClose]}
                       onPress={() => setModalVisible(!modalVisible)}
@@ -180,19 +222,19 @@ const ProfileContainer = ({navigation, route}) => {
 
           <View style={[styles.postInteractions]}>
             <Pressable
-              style={[styles.button, {backgroundColor:"white"}]}
+              style={[styles.button, { backgroundColor: "white" }]}
               onPress={() => navigation.navigate("Login")}
             >
               <Text style={styles.textStyle}>Login</Text>
             </Pressable>
             <Pressable
-              style={[styles.button, {backgroundColor:"white"}]}
+              style={[styles.button, { backgroundColor: "white" }]}
               onPress={() => navigation.navigate("Register")}
             >
               <Text style={styles.textStyle}>Register</Text>
             </Pressable>
             <Pressable
-              style={[styles.button, {backgroundColor:"white"}]}
+              style={[styles.button, { backgroundColor: "white" }]}
               onPress={() => alert("Follow")}
             >
               <Text style={styles.textStyle}>Follow</Text>
@@ -232,7 +274,7 @@ const ProfileContainer = ({navigation, route}) => {
               />
           }) : console.log("no data")} */}
       </View>
-    </View >
+    </View>
   );
 };
 
@@ -262,7 +304,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: "bold",
-    color: "#fff"
+    color: "#fff",
   },
   bio: {
     textAlign: "center",
@@ -274,7 +316,7 @@ const styles = StyleSheet.create({
   postsContainer: {
     maxHeight: height / 2,
     justifyContent: "flex-end",
-    backgroundColor:"#A71E34"
+    backgroundColor: "#A71E34",
   },
   postInteractions: {
     marginTop: 15,
@@ -298,18 +340,18 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: width*.9
+    width: width * 0.9,
   },
   button: {
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    margin:5
+    margin: 5,
   },
   buttonSubmit: {
     backgroundColor: "blue",
@@ -320,21 +362,21 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "black",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
+    textAlign: "center",
   },
-  input:{
+  input: {
     borderWidth: 1,
-    borderRadius:10,
-    width: width*.85,
-    height: width*.25,
+    borderRadius: 10,
+    width: width * 0.85,
+    height: width * 0.25,
     padding: 8,
     fontSize: 18,
-    marginBottom: 10
-},
+    marginBottom: 10,
+  },
 });
 
 export default ProfileContainer;

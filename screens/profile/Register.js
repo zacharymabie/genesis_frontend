@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TouchableHighlight,
+} from "react-native";
 import FormContainer from "../../shared/Form/FormContainer";
 import Input from "../../shared/Form/Input";
 import Error from "../../shared/Error";
@@ -44,42 +50,61 @@ const Register = (props) => {
   };
 
   return (
-    <KeyboardAwareScrollView viewIsInsideTabBar={true} extraHeight={200}>
-      <FormContainer title={"Register"}>
+    <KeyboardAwareScrollView
+      style={styles.container}
+      viewIsInsideTabBar={true}
+      extraHeight={200}
+    >
+      <FormContainer>
         <Input
           placeholder={"Email"}
-          name={"email"}
+          name={"Email"}
           id={"email"}
           onChangeText={(text) => setEmail(text.toLowerCase())}
         />
         <Input
           placeholder={"Username"}
-          name={"username"}
+          name={"Username"}
           id={"username"}
           onChangeText={(text) => setUsername(text)}
         />
         <Input
           placeholder={"Name"}
-          name={"name"}
+          name={"Name"}
           id={"name"}
           onChangeText={(text) => setName(text)}
         />
         <Input
           placeholder={"Password"}
-          name={"password"}
+          name={"Password"}
           id={"password"}
           secureTextEntry={true}
           onChangeText={(text) => setPassword(text)}
         />
         <View>{error ? <Error message={error} /> : null}</View>
         <View>
-          <Button title={"Register"} onPress={() => register()} />
+          <TouchableHighlight
+            style={styles.button}
+            onPress={() => register()}
+            underlayColor="lightgrey"
+            activeOpacity={1}
+          >
+            <View>
+              <Text style={styles.buttonText}>Register</Text>
+            </View>
+          </TouchableHighlight>
         </View>
         <View>
-          <Button
-            title={"Back to Login"}
+          <TouchableHighlight
+            style={styles.button}
             onPress={() => props.navigation.navigate("Login")}
-          />
+            underlayColor="lightgrey"
+            activeOpacity={1}
+          >
+            <View>
+              <Text style={styles.buttonText}>Back to Login</Text>
+            </View>
+          </TouchableHighlight>
         </View>
       </FormContainer>
     </KeyboardAwareScrollView>
@@ -87,10 +112,33 @@ const Register = (props) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#85182A",
+  },
   buttonGroup: {
     width: "80%",
     margin: 10,
     alignItems: "center",
+  },
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    margin: 10,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "white",
+    width: "80%",
+    alignSelf: "center",
+    justifyContent: "flex-end",
+  },
+  buttonText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "black",
+    alignSelf: "center",
   },
 });
 export default Register;
