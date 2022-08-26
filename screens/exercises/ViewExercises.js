@@ -7,19 +7,35 @@ import {
   StyleSheet,
   Pressable,
   TouchableHighlight,
+  Dimensions,
 } from "react-native";
 import ExerciseList from "./ExerciseList";
 
 import baseURL from "../../assets/common/baseUrl";
+import { useNavigation } from "@react-navigation/native";
+
+const { height, width } = Dimensions.get("window");
 
 const ViewExercises = () => {
   const [exercises, setExercises] = useState([]);
+  const [exerciseIds, setExerciseIds] = useState([]);
+
+  const navigation = useNavigation();
+
+  const appendId = (exercise) => {
+    let curr_ids = exerciseIds;
+    curr_ids.push(exercise.id);
+    setExerciseIds(curr_ids);
+  };
 
   useEffect(() => {
     axios
-      .get(`${baseURL}exercises`)
+      .get(`${baseURL}users/62f627a8fc65975e12b69c05`)
       .then((res) => {
-        setExercises(res.data);
+        setExercises(res.data.exerciseList);
+        res.data.exerciseList.map((exercise) => {
+          appendId(exercise);
+        });
       })
       .catch((error) => {
         console.log("API Error");
@@ -40,7 +56,15 @@ const ViewExercises = () => {
       <View>
         <TouchableHighlight
           style={styles.button}
-          onPress={() => console.log("Headshot bang")}
+          onPress={() => {
+            console.log(exerciseIds);
+            navigation.navigate({
+              name: "Create Exercise",
+              params: {
+                exerciseIds: exerciseIds,
+              },
+            });
+          }}
           underlayColor="lightgrey"
           activeOpacity={1}
         >
@@ -60,6 +84,7 @@ const styles = StyleSheet.create({
   },
   list: {
     alignItems: "center",
+    height: height / 1.25,
   },
   button: {
     paddingVertical: 12,

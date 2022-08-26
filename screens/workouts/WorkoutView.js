@@ -27,7 +27,6 @@ const WorkoutView = (props) => {
       <View style={styles.exercises}>
         <ExerciseContainer items={exercises} />
       </View>
-      <Button title="Add Exercise" />
     </View>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ViewExercises from "../screens/exercises/ViewExercises";
+import CreateExercise from "../screens/exercises/CreateExercise";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ const ExercisesNav = () => {
       }}
     >
       <Stack.Screen name="Exercises" component={ViewExercises} />
+      <Stack.Screen name="Create Exercise" component={CreateExercise} />
     </Stack.Navigator>
   );
 };
