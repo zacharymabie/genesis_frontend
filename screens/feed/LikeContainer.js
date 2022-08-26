@@ -31,7 +31,8 @@ const LikeContainer = ({route}) => {
                     return <Like 
                         key={like.id}
                         name={like.user.username}
-                        // profilePhoto={like.user.profilePic}
+                        userId={like.user.id}
+                        profilePhoto={like.user.profilePic}
                     />
             }) : 
             <Text>No Likes</Text>}
@@ -43,7 +44,7 @@ const LikeContainer = ({route}) => {
 const styles = StyleSheet.create({
   container: {
       flex: 1,
-      backgroundColor: 'gainsboro',
+      backgroundColor: '#85182A',
       alignItems: 'center',
       justifyContent: 'center',
       width: width,

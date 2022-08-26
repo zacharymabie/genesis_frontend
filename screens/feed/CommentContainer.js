@@ -27,7 +27,7 @@ const wait = (timeout) => {
 const CommentContainer = ({route}) => {
     const [data, setData] = useState([])
     const [modalVisible, setModalVisible] = useState(false);
-    const [text, onChangeText] = useState("Placeholder")
+    const [text, onChangeText] = useState("")
     const [postId, setPostId] = useState("")
     const [refreshing, setRefreshing] = useState(false);
 
@@ -38,10 +38,28 @@ const CommentContainer = ({route}) => {
       wait(2000).then(() => setRefreshing(false));
     }, []);
 
+    const getData = () => {
+      setRefreshing(true)
+      axios
+        .get(`${baseURL}posts/comments/${postId}`)
+        .then((res) => {
+          setData(res.data.comments);
+        })
+        .catch((error) => {
+          console.log("API Error");
+        })
+      .finally(setRefreshing(false))
+    }
+
     useEffect(() => {
         const {comments, postId} = route.params 
         setData(comments)
         setPostId(postId)
+
+        return () => {
+          setData([])
+          setPostId("")
+        }
 
       }, []); // 👈️ empty dependencies array
     
@@ -73,7 +91,6 @@ const CommentContainer = ({route}) => {
       .catch(error => console.log(error.response.data));
 
       setModalVisible(!modalVisible) //Close Popup
-      navigation.navigate("FeedContainer")
     }
     
     return (
@@ -81,7 +98,7 @@ const CommentContainer = ({route}) => {
     refreshControl={
       <RefreshControl
         refreshing={refreshing}
-        onRefresh={onRefresh}
+        onRefresh={getData}
       />
     }>
         <View style={styles.container}>
@@ -89,15 +106,22 @@ const CommentContainer = ({route}) => {
               return <Comment 
               key={comment.id}
               name={comment.author.name}
+              username={comment.author.username}
+              userId={comment.author.id}
               profilePhoto={comment.author.profilePic}
               timestamp={comment.timestamp}
               content={comment.content}
               />
             }) : 
-            <Text>No Comments</Text>}
+            <Text style={{color:"#fff"}}>No Comments</Text>}
         </View>
         <View style={styles.footer}>
-          <Button onPress={() => setModalVisible(true)} title="New Comment" />
+          <Pressable
+            style={[styles.button,{backgroundColor:"#fff"}]}
+            onPress={() => setModalVisible(true)}
+          >
+            <Text style={[styles.textStyle, {color:"black"}]}>New Comment</Text>
+          </Pressable>
           <Modal
             animationType="slide"
             transparent={true}
@@ -117,13 +141,13 @@ const CommentContainer = ({route}) => {
                 />
                 <View style={{alignItems: 'center', justifyContent: 'space-evenly', flexDirection:'row'}}>
                   <Pressable
-                    style={[styles.button, styles.buttonClose]}
+                    style={[styles.button]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
                     <Text style={styles.textStyle}>Cancel</Text>
                   </Pressable>
                   <Pressable
-                    style={[styles.button, styles.buttonSubmit]}
+                    style={[styles.button]}
                     onPress={() => handlePostComment()}
                   >
                     <Text style={styles.textStyle}>Submit</Text>
@@ -142,14 +166,14 @@ const CommentContainer = ({route}) => {
 const styles = StyleSheet.create({
   container: {
       flex: 1,
-      backgroundColor: 'gainsboro',
+      backgroundColor: '#85182A',
       alignItems: 'center',
       justifyContent: 'center',
       width: width,
   },
   footer: {
     flex: 1,
-    backgroundColor: "gainsboro",
+    backgroundColor: "#85182A",
     alignItems: "center",
     justifyContent: "center",
     width: width,
@@ -181,13 +205,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    margin:5
-  },
-  buttonSubmit: {
-    backgroundColor: "blue",
-  },
-  buttonClose: {
-    backgroundColor: "red",
+    margin:5,
+    backgroundColor:"#85182A"
   },
   textStyle: {
     color: "white",

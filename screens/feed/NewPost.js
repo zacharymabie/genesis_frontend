@@ -5,10 +5,11 @@ import {
     View,
     Image,
     TextInput,
-    Button,
+    TouchableHighlight,
     Dimensions,
     TouchableOpacity,
     SafeAreaView,
+    Pressable
 
   } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
@@ -17,7 +18,7 @@ import axios from "axios";
 var { height, width } = Dimensions.get('window')
 
 const NewPost = ({navigation}) => {
-    const [text, onChangeText] = useState("Placeholder")
+    const [text, onChangeText] = useState("")
     const [uploadImage, setUploadImage] = useState("")
     const [image, setImage] = useState({url:'',public_id:''})
     const [postData, setPostData] = useState({})
@@ -74,12 +75,7 @@ const NewPost = ({navigation}) => {
         <SafeAreaView style={styles.container}>
 
             <View style={styles.postContainer}>
-                <View style={styles.header}>
-                    <Text style={[styles.text, {fontSize:24}]}>New Post</Text>
-                    {/* <Image source={{uri:'https://res.cloudinary.com/dad1w2mdl/image/upload/v1661164445/bsjhr744yy9buvxy9ifw.jpg'}}
-                        style={{width:200,height:200,borderRadius:100}}
-                    /> */}
-                </View>
+
                 <View style={styles.body}>
                     {image && image.url ? (
                         <Image
@@ -100,9 +96,14 @@ const NewPost = ({navigation}) => {
                             }}
                         />
                     : <View>
-                        <Text>Image Here</Text>
                     </View>}
-                    <Button onPress={()=>handleUpload()} title="Choose Photo"/>
+                    <Pressable
+                        style={[styles.buttonSmall]}
+                        onPress={() => handleUpload()}
+                    >
+                        <Text style={styles.textStyle}>Upload Photo</Text>
+                    </Pressable>
+                    {/* <Button onPress={()=>handleUpload()} title="Choose Photo"/> */}
                     <Text style={styles.text}>Caption:</Text>
                     <TextInput 
                         style={styles.input}
@@ -111,12 +112,15 @@ const NewPost = ({navigation}) => {
                         multiline={true}
                     />
                 </View>
-                <View style={styles.footer}>
-                    <TouchableOpacity
-                        onPress={()=>handlePost()}
+                <View style={{width:width}}>
+                    <TouchableHighlight
+                        style={styles.button}
+                        onPress={() => handlePost()}
+                        underlayColor="lightgrey"
+                        activeOpacity={1}
                     >
-                        <Text style={{fontSize:22, color:'red'}}>Create</Text>
-                    </TouchableOpacity>
+                        <Text style={styles.buttonText}>Create</Text>
+                    </TouchableHighlight>
                 </View>
 
             </View>
@@ -127,7 +131,7 @@ const NewPost = ({navigation}) => {
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:"#fff",
+        backgroundColor:"#85182A",
         justifyContent:'center',
         alignItems:'center'
     },  
@@ -135,21 +139,15 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         maxHeight: Dimensions.get('window').width + 320,
-        backgroundColor: "#fff",
+        backgroundColor: "#85182A",
         alignItems: "center",
         justifyContent: "space-evenly",
         marginTop: 10,
         marginBottom: 5
     },
-    header:{
-
-    },
     body:{
         alignItems: "center",
         justifyContent: "center",
-    },
-    footer:{
-
     },
     input:{
         borderWidth: 1,
@@ -157,12 +155,45 @@ const styles = StyleSheet.create({
         width: width*.95,
         height: width*.3,
         padding: 8,
-        fontSize: 18
+        fontSize: 18,
+        backgroundColor:"#fff"
     },
     text:{
         fontSize:16,
-        fontWeight: 'bold'
-    }
+        fontWeight: 'bold',
+        color:"#fff"
+    },
+    buttonSmall: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        margin:5,
+        backgroundColor:"#fff"
+    },
+    textStyle: {
+        color: "black",
+        fontWeight: "bold",
+        textAlign: "center",
+        fontSize:18
+    },
+    button: {
+        paddingVertical: 12,
+        paddingHorizontal: 12,
+        margin: 10,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: "white",
+        width: "80%",
+        alignSelf: "center",
+      },
+      buttonText: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: "bold",
+        letterSpacing: 0.25,
+        color: "black",
+        alignSelf: "center",
+      },
   });
   
 export default NewPost;

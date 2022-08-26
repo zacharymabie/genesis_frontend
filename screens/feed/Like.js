@@ -4,27 +4,35 @@ import {
     Text,
     View,
     Image,
-    SafeAreaView,
-    Button,
     Dimensions,
     TouchableOpacity
   } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 
 var { height, width } = Dimensions.get('window')
 
 const Like = (props) => {
 
-    const {name} = props;
+    const {profilePic, name, userId} = props;
+    const navigation = useNavigation();
+
+    const handleNavigate = () => {
+        navigation.navigate("OtherProfile", {id: userId})
+    }
 
   return (
     <View style={styles.postContainer}>
         <View style={styles.postHeader}>
             <View style={styles.leftContainer}>
-                <Image style={styles.profileImage} source={{uri: "/Users/ZachMabie/Desktop/genesis_frontend/assets/photos/5.png"}}/>
-                <View style={[styles.leftContainer, {flexDirection: 'column', padding:5}]}>
+                <TouchableOpacity onPress={()=>handleNavigate()}>
+                    <Image style={styles.profileImage} source={{uri: "/Users/ZachMabie/Desktop/genesis_frontend/assets/photos/5.png"}}/>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                onPress={()=>handleNavigate()}
+                style={[styles.leftContainer, {flexDirection: 'column', padding:5}]}>
                     <Text style={[styles.text,{fontWeight:'bold', margin:0, width:width * .65}]}>{name}</Text>
-                </View>
+                </TouchableOpacity>
             </View>
         </View>
     </View>

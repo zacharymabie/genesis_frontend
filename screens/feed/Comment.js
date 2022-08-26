@@ -4,29 +4,37 @@ import {
     Text,
     View,
     Image,
-    SafeAreaView,
     Button,
     Dimensions,
     TouchableOpacity
   } from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
 
 var { height, width } = Dimensions.get('window')
 
 const Comment = (props) => {
 
-    const {name, profilePhoto, timestamp, content} = props;
+    const {name, profilePhoto, timestamp, content, username, userId} = props;
+    const navigation = useNavigation();
+
+    const handleNavigate = () => {
+        navigation.navigate("OtherProfile", {id: userId})
+    }
 
   return (
     <View style={styles.postContainer}>
         <View style={styles.postHeader}>
             <View style={styles.leftContainer}>
-
-                <Image style={styles.profileImage} source={{uri: "/Users/ZachMabie/Desktop/genesis_frontend/assets/photos/5.png"}}/>
-                <View style={[styles.leftContainer, {flexDirection: 'column', padding:5}]}>
+                <TouchableOpacity onPress={()=>handleNavigate()}>
+                    <Image style={styles.profileImage} source={{uri: profilePhoto}}/>   
+                </TouchableOpacity>
+                <TouchableOpacity 
+                onPress={()=>handleNavigate()}
+                style={[styles.leftContainer, {flexDirection: 'column', padding:5}]}>
                     <Text style={[styles.text,{fontWeight:'bold', margin:0, width:width * .65}]}>{name}</Text>
                     <Text style={[styles.text,{fontSize:16, margin:0, width:width * .65}]}>{timestamp.substring(0,10)}</Text>
-                </View>
+                </TouchableOpacity>
             </View>
             <View style={styles.rightContainer}>
                 <Button onPress={() => alert('button')} title="..."/>

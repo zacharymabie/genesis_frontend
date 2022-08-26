@@ -2,24 +2,16 @@ import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   StyleSheet,
-  ActivityIndicator,
-  ScrollView,
   Dimensions,
   Text,
-  Image,
   FlatList,
-  Button,
+  TouchableHighlight,
   SafeAreaView,
 } from "react-native";
 
 import PostContainer from "./PostContainer";
-import NewPost from "./NewPost";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
-import { NavigationHelpersContext } from "@react-navigation/native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// const data = require("../../assets/data/posts.json")
 
 const { height, width } = Dimensions.get("window");
 
@@ -29,6 +21,9 @@ const FeedContainer = ({ navigation }) => {
 
   useEffect(()=>{
     getData()
+    return () => {
+      setPost([])
+    }
   }, [])
 
   const getData = () => {
@@ -61,7 +56,7 @@ const FeedContainer = ({ navigation }) => {
                 likes={item.likes}
                 comments={item.comments}
                 postId={item.id}
-                userId={item.id}
+                userId={item.author.id}
               />
             )}
             keyExtractor={(item) => item.id}
@@ -70,8 +65,17 @@ const FeedContainer = ({ navigation }) => {
           />
         </View>
 
+            
         <View style={styles.footer}>
-          <Button onPress={() => navigation.navigate("NewPost")} title="New Post" />
+        <TouchableHighlight
+            style={styles.button}
+            onPress={() => navigation.navigate("NewPost")}
+            underlayColor="lightgrey"
+            activeOpacity={1}
+          >
+              <Text style={styles.buttonText}>New Post</Text>
+          </TouchableHighlight>
+          {/* <Button onPress={() => navigation.navigate("NewPost")} title="New Post" /> */}
 
         </View>
       </View>
@@ -82,13 +86,13 @@ const FeedContainer = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#85182A",
     alignItems: "center",
     justifyContent: "center",
   },
   main: {
     flex: 1,
-    backgroundColor: "gainsboro",
+    backgroundColor: "#85182A",
     alignItems: "center",
     justifyContent: "center",
     width: width,
@@ -96,11 +100,29 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 1,
-    backgroundColor: "gainsboro",
+    backgroundColor: "#85182A",
     alignItems: "center",
     justifyContent: "center",
     width: width,
     maxHeight: height / 10,
+  },
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    margin: 10,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "white",
+    width: "80%",
+    alignSelf: "center",
+  },
+  buttonText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "black",
+    alignSelf: "center",
   },
 });
 

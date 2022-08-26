@@ -7,6 +7,7 @@ import {
   Button,
   Dimensions,
   TouchableOpacity,
+  Pressable
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -68,6 +69,10 @@ const PostContainer = (props) => {
         console.log(res.data)
     })
     .catch(error => console.log(error.response.data));
+  }
+
+  const handleComment = () => {
+    alert("Comment")
   }
 
   return (
@@ -137,10 +142,20 @@ const PostContainer = (props) => {
       </View>
 
       <View style={[styles.postInteractions]}>
-        <Button onPress={() => handleLike()} title={liked ? "Unlike" : "Like"} />
-        <Button onPress={() => console.log("Comment")} title="Comment" />
-        <Button onPress={() => console.log("Share")} title="Share" />
-        <Button onPress={() => console.log("Send")} title="Send" />
+        <Pressable
+          style={[styles.button]}
+          onPress={() => handleLike()}
+        >
+          <Text style={styles.textStyle}>{liked ? "Unlike" : "Like"}</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.button]}
+          onPress={() => navigation.navigate("CommentContainer", {comments: comments, postId: postId})}
+        >
+          <Text style={styles.textStyle}>Comment</Text>
+        </Pressable>
+        {/* <Button onPress={() => handleLike()} title={liked ? "Unlike" : "Like"} /> */}
+        {/* <Button onPress={() => console.log("Comment")} title="Comment" /> */}
       </View>
 
       {/* {renderComments && <CommentContainer comments={comments} />} */}
@@ -204,6 +219,18 @@ const styles = StyleSheet.create({
   text: {
     margin: 8,
     fontSize: 18,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    margin:5,
+    backgroundColor: "#85182A"
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
   },
 });
 
