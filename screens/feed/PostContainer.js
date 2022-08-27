@@ -12,11 +12,14 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
+import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 const { width } = Dimensions.get("window");
 
 const PostContainer = (props) => {
   const [likesData, setLikesData] = useState({});
   const [liked, setLiked] = useState(false); //true means liked, false means not liked
+  const [likeCount, setLikeCount] = useState(0)
 
   const navigation = useNavigation();
   const { name, profilePhoto, timestamp, caption, imagePost, likes, comments, postId, userId } =
@@ -25,25 +28,30 @@ const PostContainer = (props) => {
   const profilePic = profilePhoto != ""
     ? {uri : profilePhoto}
     : require("../../assets/user.png");
-  // const image = imagePost != "" ? {uri:imagePost} : require("../../assets/photos/3.png");
 
   useEffect(() => {
+    getLikesData()
+    setLikeCount(likes.length)
+    return(()=>{
+      setLikesData({})
+      setLikeCount(0)
+    })
+  }, []); // 👈️ empty dependencies array
+
+  const getLikesData = () => {
     axios
     .get(`${baseURL}posts/likes/${postId}`)
     .then((res) => {
-      setLikesData(res.data);
+      setLikesData(res.data.likes);
     })
     .catch((error) => {
       console.log("API Error", error.response.data);
     });
-    return(
-      setLikesData({})
-    )
-  }, []); // 👈️ empty dependencies array
+  }
 
   const handleLike = () => {
     //GET Current Likes on post
-    const likesArr = likesData.likes
+    const likesArr = likesData
     let userIdArr = []
     likesArr.map(like => {
       userIdArr.push({user: like.user.id})
@@ -52,8 +60,11 @@ const PostContainer = (props) => {
     if(!liked){
       const newLike =  "62f627a8fc65975e12b69c05"
       userIdArr.push({user: newLike})
+      let count = likeCount
+      setLikeCount(count+1)
       setLiked(true)
     } else {
+      setLikeCount(likes.length)
       setLiked(false)
     }
 
@@ -71,10 +82,6 @@ const PostContainer = (props) => {
     .catch(error => console.log(error.response.data));
   }
 
-  const handleComment = () => {
-    alert("Comment")
-  }
-
   return (
     <View style={styles.postContainer}>
       <View style={styles.postHeader}>
@@ -85,7 +92,6 @@ const PostContainer = (props) => {
               source={profilePic}
             />
           </TouchableOpacity>
-          {/* <Image style={styles.profileImage} source={{uri: profilePic}}/> */}
           <View
             style={[
               styles.leftContainer,
@@ -128,13 +134,11 @@ const PostContainer = (props) => {
           source={{uri:imagePost}}
           style={styles.image}
         />
-        {/* <Image style={styles.image} source={{uri: imagePost}}/> */}
       </View>
 
       <View style={[{ margin: 5, flexDirection: "row", alignItems: "center" }]}>
-        {/* <Text style={{fontSize:16}}>{likes.length} Likes | {comments.length} Comments</Text> */}
-        <TouchableOpacity onPress={() => navigation.navigate("LikeContainer", {likes: likes})}>
-          <Text style={{ fontSize: 16 }}>{likes.length} Likes | </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("LikeContainer", {likes: likes, postId: postId})}>
+          <Text style={{ fontSize: 16 }}>{likeCount} Likes | </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("CommentContainer", {comments: comments, postId: postId})}>
           <Text style={{ fontSize: 16 }}>{comments.length} Comments</Text>
@@ -146,20 +150,15 @@ const PostContainer = (props) => {
           style={[styles.button]}
           onPress={() => handleLike()}
         >
-          <Text style={styles.textStyle}>{liked ? "Unlike" : "Like"}</Text>
+          <Text style={styles.textStyle}>{liked ?<Ionicons name="ios-heart-dislike" size={26} color="white" /> : <Ionicons name="ios-heart" size={26} color="white" />}</Text>
         </Pressable>
         <Pressable
           style={[styles.button]}
           onPress={() => navigation.navigate("CommentContainer", {comments: comments, postId: postId})}
         >
-          <Text style={styles.textStyle}>Comment</Text>
+          <Text style={styles.textStyle}><FontAwesome name="comments" size={26} color="white" /></Text>
         </Pressable>
-        {/* <Button onPress={() => handleLike()} title={liked ? "Unlike" : "Like"} /> */}
-        {/* <Button onPress={() => console.log("Comment")} title="Comment" /> */}
       </View>
-
-      {/* {renderComments && <CommentContainer comments={comments} />} */}
-      {/* {renderLikes && navigation.navigate("LikeContainer", {likes: likes})} */}
     </View>
   );
 };

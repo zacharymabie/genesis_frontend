@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 
 var { height, width } = Dimensions.get('window')
 
-const Like = (props) => {
+const Follower = (props) => {
 
     const {profilePic, name, userId} = props;
     const navigation = useNavigation();
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
     }
   });
   
-export default Like;
+export default Follower;

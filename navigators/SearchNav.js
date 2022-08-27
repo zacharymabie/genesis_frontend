@@ -5,14 +5,28 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Search from "../screens/profile/Search.js"
 import OtherProfile from "../screens/profile/OtherProfile.js";
+import FollowContainer from "../screens/profile/FollowContainer.js";
 
 const Stack = createNativeStackNavigator();
 
 const SearchNav = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      // screenOptions={{
+      //   headerStyle: {
+      //     backgroundColor: "#85182A",
+      //   },
+      //   headerTitleStyle: {
+      //     fontWeight: "bold",
+      //     letterSpacing: 0.25,
+      //     color: "white",
+      //     fontSize: 25,
+      //   },
+      // }}
+    >
       <Stack.Screen name="SearchScreen" component={Search} options={{title:""}}/>
       <Stack.Screen name="OtherProfile" component={OtherProfile} options={{title:""}}/>
+      <Stack.Screen name="FollowContainer" component={FollowContainer} options={{title:""}}/>
     </Stack.Navigator>
   );
 };

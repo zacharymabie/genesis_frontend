@@ -10,34 +10,36 @@ import {
   RefreshControl
 } from "react-native";
 
-import Like from "./Like";
+import Follower from "./Follower";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
 
 var { width } = Dimensions.get('window')
 
-const LikeContainer = ({route}) => {
+const FollowContainer = ({route}) => {
     const [data, setData] = useState(()=>[])
-    const [postId, setPostId] = useState("")
+    const [userId, setUserId] = useState("")
     const [refreshing, setRefreshing] = useState(false);
 
 
     useEffect(() => {
-        const {likes, postId} = route.params 
-        setData(likes)
-        setPostId(postId)
+        const {userId} = route.params 
+        console.log(`userID:::::${userId}`)
+        getData()
+        setUserId(userId)
       return () => {
         setData([])
-        setPostId("")
+        setUserId("")
       }
     }, []); // 👈️ empty dependencies array
     
     const getData = () => {
       setRefreshing(true)
+      console.log(`${baseURL}users/followers/${userId}`)
       axios
-        .get(`${baseURL}posts/likes/${postId}`)
+        .get(`${baseURL}users/followers/${userId}`)
         .then((res) => {
-          setData(res.data.likes);
+          setData(res.data.followed);
         })
         .catch((error) => {
           console.log("API Error");
@@ -55,15 +57,15 @@ const LikeContainer = ({route}) => {
       />
     }>
         <View style={styles.container}>
-            {data.length > 0 ? data.map(like => {
-                    return <Like 
-                        key={like.id}
-                        name={like.user.username}
-                        userId={like.user.id}
-                        profilePic={like.user.profilePic}
+            {data.length > 0 ? data.map(follower => {
+                    return <Follower 
+                        key={follower.id}
+                        name={follower.user.username}
+                        userId={follower.user.id}
+                        profilePic={follower.user.profilePic}
                     />
             }) : 
-            <Text>No Likes</Text>}
+            <Text>No Followers</Text>}
         </View>
     </ScrollView>
     );
@@ -79,5 +81,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LikeContainer;
+export default FollowContainer;
 

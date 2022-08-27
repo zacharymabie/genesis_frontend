@@ -12,6 +12,7 @@ import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
 import UserSearchView from "./UserSearchView";
 import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from '@expo/vector-icons';
 
 
 const { height, width } = Dimensions.get("window");
@@ -87,10 +88,11 @@ const Search = () => {
 
     return (
         <View style={styles.container}>
-            <View>
-                {/* <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" /> */}
+            <View 
+                style={styles.textInput}
+            >
+                <Ionicons name="search" size={24} color="black" />
                 <TextInput 
-                    style={styles.textInput}
                     value={search}
                     onChangeText={text => searchFilter(text)}
                     autoCapitalize={false}
@@ -125,6 +127,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textInput: {
+    alignItems:'center',
+    justifyContent:'flex-start',
+    flexDirection:'row',
     height:50,
     width:width*.95,
     padding:5,

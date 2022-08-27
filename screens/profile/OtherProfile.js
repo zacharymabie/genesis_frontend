@@ -16,8 +16,6 @@ import {
 import PostContainer from "../feed/PostContainer";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
-import * as ImagePicker from 'expo-image-picker';
-
 
 const { height, width } = Dimensions.get("window");
 
@@ -25,14 +23,9 @@ const OtherProfile = ({navigation, route}) => {
   const [user, setUser] = useState({});
   const [posts, setPosts] = useState([]);
   const [uploadImage, setUploadImage] = useState("")
-  const [modalVisible, setModalVisible] = useState(false);
-  const [text, onChangeText] = useState("")
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false); //true means liked, false means not liked
-//   const [followerCount, setFollowerCount] = useState(0); 
-//   const [followingCount, setFollowingCount] = useState(0); 
-
 
   const userID = route.params.id
   const followerID = "62f8cd7b1df83bbe60782743"
@@ -83,57 +76,6 @@ const OtherProfile = ({navigation, route}) => {
             setFollowing([])
         )
     }, []); // 👈️ empty dependencies array
-
-
-//   const handleUpload = async () => {
-//     let permissionResult = 
-//         await ImagePicker.requestMediaLibraryPermissionsAsync();
-//     if (!permissionResult.granted){
-//         alert("Camera access is required")
-//         return
-//     }
-//     let pickerResult = await ImagePicker.launchImageLibraryAsync({
-//         allowsEditing: true,
-//         aspect: [4,3],
-//         base64: true,
-//     });
-//     if(pickerResult.cancelled){
-//         return;
-//     }
-//     let base64Image = `data:image/jpg;base64,${pickerResult.base64}`
-//     setUploadImage(base64Image)
-//     handleChangePic()
-//   }
-
-//   const handleChangePic = () => {
-//     const {data} = axios.put(`${baseURL}users/setprofilepic/${userID}`,{
-//       image: uploadImage
-//     },{
-//         headers:{
-//             "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
-//         }
-//     }).then(res => {
-//         console.log(res);
-//         console.log(res.data)
-//     })
-//     .catch(error => console.log(error.response.data));
-//   }
-
-//   const handleChangeBio = () => {
-//     axios.put(`${baseURL}users/setbio/${userID}`,{
-//       bio: text
-//     },{
-//         headers:{
-//             "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
-//         }
-//     }).then(res => {
-//         console.log(res);
-//         console.log(res.data)
-//     })
-//     .catch(error => console.log(error.response.data));
-
-//     setModalVisible(!modalVisible) //Close Modal
-//   }
 
   const handleFollow = () => {
     const followerIDArr = followers.followed
@@ -204,22 +146,18 @@ const OtherProfile = ({navigation, route}) => {
         <View style={styles.profile}>
           <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
             <View style={{ alignItems: "center" }}>
-              <Text style={[styles.text, { fontSize: 18 }]}>
-                {user.followed ? user.followed.length : 0}
-                {/* {followerCount} */}
-              </Text>
-              <Text style={[styles.text, { fontSize: 16 }]}>Followers</Text>
+                <Text style={[styles.text, { fontSize: 18 }]}>
+                  {user.followed ? user.followed.length : 0}
+                  {/* {followerCount} */}
+                </Text>
+                <Text style={[styles.text, { fontSize: 16 }]}>Followers</Text>
             </View>
-            <TouchableOpacity
-              onPress={()=>handleUpload()}
-            > 
               {uploadImage ? 
                 <Image style={styles.profilePic} source={{uri: uploadImage}} />
                 : user.profilePic != "" ?
                 <Image style={styles.profilePic} source={{uri: user.profilePic}} />
                 : <Image style={styles.profilePic} source={require("../../assets/user.png")} />
               }
-            </TouchableOpacity>
             <View style={{ alignItems: "center" }}>
               <Text style={[styles.text, { fontSize: 18 }]}>
                 {user.following ? user.following.length : 0}
@@ -231,47 +169,11 @@ const OtherProfile = ({navigation, route}) => {
 
           <Text style={[styles.text, { fontSize: 26 }]}>{user.name}</Text>
           <Text style={[styles.text, { fontSize: 18 }]}>@{user.username}</Text>
-          <TouchableOpacity
-            onPress={() => setModalVisible(true)}
-          >
-            <Text style={[styles.bio,{color:"#fff"}]}>
-              {text != "" ? text : user.bio}
-            </Text>
-              <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-                setModalVisible(!modalVisible);
-              }}
-              >
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <TextInput 
-                    style={styles.input}
-                    onChangeText={onChangeText}
-                    value={text}
-                    multiline={true}
-                  />
-                  <View style={{alignItems: 'center', justifyContent: 'space-evenly', flexDirection:'row'}}>
-                    <Pressable
-                      style={[styles.button, styles.buttonClose]}
-                      onPress={() => setModalVisible(!modalVisible)}
-                    >
-                      <Text style={styles.textStyle}>Cancel</Text>
-                    </Pressable>
-                    <Pressable
-                      style={[styles.button, styles.buttonSubmit]}
-                      onPress={() => handleChangeBio()}
-                    >
-                      <Text style={styles.textStyle}>Submit</Text>
-                    </Pressable>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-          </TouchableOpacity>
+            <View>
+              <Text style={[styles.bio,{color:"#fff"}]}>
+                {user.bio}
+              </Text>
+            </View>
 
           <View style={[styles.postInteractions]}>
             <Pressable
