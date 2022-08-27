@@ -48,23 +48,25 @@ const ProfileContainer = ({ navigation, route }) => {
       .then((res) => {
         let user_id = context.stateUser.user.userId;
         setUserID(user_id);
-        axios
-          .get(`${baseURL}users/${user_id}`)
-          .then((res) => {
-            setUser(res.data);
-          })
-          .catch((error) => {
-            console.log("API Error1");
-          });
-        axios
-          .get(`${baseURL}posts/user/${user_id}`)
-          .then((res) => {
-            setPosts(res.data);
-          })
-          .catch((error) => {
-            console.log(`${userID}`);
-            console.log("Alhamdulilah");
-          });
+        if (user_id) {
+          axios
+            .get(`${baseURL}users/${user_id}`)
+            .then((res) => {
+              setUser(res.data);
+            })
+            .catch((error) => {
+              console.log("API Error1");
+            });
+          axios
+            .get(`${baseURL}posts/user/${user_id}`)
+            .then((res) => {
+              setPosts(res.data);
+            })
+            .catch((error) => {
+              console.log(`${userID}`);
+              console.log("Alhamdulilah");
+            });
+        }
       })
       .catch((error) => console.log(error));
   }, [context.stateUser.isAuthenticated]);

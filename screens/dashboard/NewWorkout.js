@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -15,6 +15,9 @@ import NewWorkoutExerciseList from "./NewWorkoutExerciseList";
 import PickExercise from "./PickExercise";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AuthGlobal from "../../context/store/AuthGlobal";
+
 const { width, height } = Dimensions.get("window");
 
 const NewWorkout = () => {
@@ -25,15 +28,20 @@ const NewWorkout = () => {
   const [workoutName, setWorkoutName] = useState("");
   const [workoutDescription, setWorkoutDescription] = useState("");
 
+  const context = useContext(AuthGlobal);
   useEffect(() => {
-    axios
-      .get(`${baseURL}users/62f627a8fc65975e12b69c05`)
-      .then((res) => {
-        setAllExercises(res.data.exerciseList);
-      })
-      .catch((error) => {
-        console.log("API Error");
-      });
+    AsyncStorage.getItem("jwt").then((res) => {
+      if (context.stateUser.user.userId) {
+        axios
+          .get(`${baseURL}users/${context.stateUser.user.userId}`)
+          .then((res) => {
+            setAllExercises(res.data.exerciseList);
+          })
+          .catch((error) => {
+            console.log("API Error");
+          });
+      }
+    });
   }, []);
 
   const setFunction = (data) => {
@@ -46,15 +54,14 @@ const NewWorkout = () => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>New Workout</Text>
-      </View>
-      <View>
         <View style={styles.workoutInfo}>
+          <Text style={styles.inputLabel}> Name: </Text>
           <TextInput
             style={styles.textInput}
             placeholder="Name of Workout"
             onChangeText={(value) => setWorkoutName(value)}
           />
+          <Text style={styles.inputLabel}> Description: </Text>
           <TextInput
             style={[styles.textInput, styles.description]}
             placeholder="Description"
@@ -76,6 +83,7 @@ const NewWorkout = () => {
                   exercises: selectedExercises,
                   name: workoutName,
                   description: workoutDescription,
+                  userId: context.stateUser.user.userId,
                 },
               })
             }
@@ -98,27 +106,31 @@ const styles = StyleSheet.create({
     backgroundColor: "#85182A",
     flex: 1,
   },
-  title: {
-    fontSize: 30,
+  inputLabel: {
+    fontSize: 16,
+    lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",
-    textAlign: "center",
+    alignSelf: "flex-start",
   },
   textInput: {
+    alignSelf: "center",
     margin: 5,
     height: 40,
     backgroundColor: "white",
     borderRadius: 4,
+    width: width / 1.1,
   },
   description: {
-    height: height / 6,
+    height: height / 9.2,
   },
   exerciseList: {
     height: height / 2,
   },
   workoutInfo: {
     height: height / 4,
+    margin: 15,
   },
   button: {
     paddingVertical: 12,

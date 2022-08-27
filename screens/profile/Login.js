@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#A71E34",
+    backgroundColor: "#85182A",
   },
   buttonGroup: {
     width: "80%",

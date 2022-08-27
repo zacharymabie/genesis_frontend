@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { add } from "react-native-reanimated";
 import baseURL from "../../assets/common/baseUrl";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AuthGlobal from "../../context/store/AuthGlobal";
 
 import InWorkoutCard from "../exercises/InWorkoutCard";
 import InWorkoutList from "../exercises/InWorkoutList";
@@ -20,16 +22,18 @@ const InWorkout = ({ route }) => {
 
   const navigation = useNavigation();
 
+  const context = useContext(AuthGlobal);
+
   const workoutDetails = {
     name: route.params.name,
-    author: "62f627a8fc65975e12b69c05",
+    author: route.params.userId,
     description: route.params.description,
     exercises: [],
   };
 
   const addExercise = (item) => {
-    updatedExercises = postRequest.exercises.concat([item]);
-    updatedRequest = postRequest;
+    let updatedExercises = postRequest.exercises.concat([item]);
+    let updatedRequest = postRequest;
     updatedRequest.exercises = updatedExercises;
     console.log(updatedRequest);
     setPostRequest(updatedRequest);
@@ -84,6 +88,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#85182A",
     alignItems: "center",
+    flex: 1,
   },
   list: {
     height: "90%",

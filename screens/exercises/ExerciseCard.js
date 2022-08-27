@@ -1,7 +1,16 @@
 import axios from "axios";
 import React from "react";
-import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  Dimensions,
+} from "react-native";
 import baseURL from "../../assets/common/baseUrl";
+
+const { height, width } = Dimensions.get("window");
+
 const ExerciseCard = (props) => {
   const { name, remarks, restTime, sets, id } = props;
 
@@ -27,7 +36,7 @@ const ExerciseCard = (props) => {
 
       {sets ? (
         sets.map((set) => (
-          <Text style={styles.text}>
+          <Text style={styles.sets}>
             Weight: {set.weight} Reps: {set.reps}
           </Text>
         ))
@@ -53,9 +62,10 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     borderRadius: 4,
-    width: 300,
+    width: width / 1.2,
     height: 100,
     backgroundColor: "#85182A",
+    margin: 5,
   },
   container2: {
     alignItems: "center",
@@ -74,6 +84,11 @@ const styles = StyleSheet.create({
   text: {
     letterSpacing: 0.25,
     color: "white",
+  },
+  sets: {
+    letterSpacing: 0.25,
+    color: "white",
+    fontWeight: "bold",
   },
   button: {
     paddingVertical: 12,

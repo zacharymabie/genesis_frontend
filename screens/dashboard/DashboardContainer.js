@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Dimensions,
   Pressable,
+  TouchableHighlight,
 } from "react-native";
 import ProgramList from "../programs/ProgramList";
 import ProgramContainer from "../programs/ProgramsContainer";
@@ -18,35 +19,46 @@ const DashboardContainer = () => {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Pressable
+      <View style={styles.buttonContainer}>
+        <TouchableHighlight
           style={styles.button}
           onPress={() => navigation.navigate("NewWorkout")}
+          underlayColor="lightgrey"
+          activeOpacity={1}
         >
-          <Text style={styles.buttonText}>Start New Workout</Text>
-        </Pressable>
+          <View>
+            <Text style={styles.buttonText}>Start New Workout</Text>
+          </View>
+        </TouchableHighlight>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: "#85182A", flex: 1 },
+  container: {
+    backgroundColor: "#85182A",
+    flex: 1,
+  },
+  buttonContainer: {},
   button: {
     paddingVertical: 12,
     paddingHorizontal: 12,
-    margin: 5,
+    margin: 10,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: "#A71E35",
+    backgroundColor: "white",
+    width: "80%",
+    alignSelf: "center",
+    justifyContent: "flex-end",
   },
   buttonText: {
-    fontSize: 22,
+    fontSize: 16,
     lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
-    color: "white",
-    textAlign: "center",
+    color: "black",
+    alignSelf: "center",
   },
 });
 

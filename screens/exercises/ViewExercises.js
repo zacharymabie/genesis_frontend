@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   FlatList,
   View,
@@ -12,6 +12,8 @@ import {
 import ExerciseList from "./ExerciseList";
 
 import baseURL from "../../assets/common/baseUrl";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AuthGlobal from "../../context/store/AuthGlobal";
 import { useNavigation } from "@react-navigation/native";
 
 const { height, width } = Dimensions.get("window");
@@ -19,7 +21,8 @@ const { height, width } = Dimensions.get("window");
 const ViewExercises = () => {
   const [exercises, setExercises] = useState([]);
   const [exerciseIds, setExerciseIds] = useState([]);
-
+  const [refreshing, setRefreshing] = useState(false);
+  const context = useContext(AuthGlobal);
   const navigation = useNavigation();
 
   const appendId = (exercise) => {
@@ -29,6 +32,29 @@ const ViewExercises = () => {
   };
 
   useEffect(() => {
+    AsyncStorage.getItem("jwt").then((res) => {
+      console.log(context.stateUser.user.userId);
+      if (context.stateUser.user.userId) {
+        axios
+          .get(`${baseURL}users/${context.stateUser.user.userId}`)
+          .then((res) => {
+            setExercises(res.data.exerciseList);
+            res.data.exerciseList.map((exercise) => {
+              appendId(exercise);
+            });
+          })
+          .catch((error) => {
+            console.log("API Error");
+          });
+      }
+    });
+    return () => {
+      setExercises([]);
+    };
+  }, [context.stateUser.isAuthenticated]);
+
+  const getData = () => {
+    setRefreshing(true);
     axios
       .get(`${baseURL}users/62f627a8fc65975e12b69c05`)
       .then((res) => {
@@ -39,11 +65,9 @@ const ViewExercises = () => {
       })
       .catch((error) => {
         console.log("API Error");
-      });
-    return () => {
-      setExercises([]);
-    };
-  }, []);
+      })
+      .finally(setRefreshing(false));
+  };
 
   return (
     <View style={styles.container}>
@@ -51,6 +75,8 @@ const ViewExercises = () => {
         <FlatList
           data={exercises}
           renderItem={({ item }) => <ExerciseList pick={false} item={item} />}
+          refreshing={refreshing}
+          onRefresh={() => getData()}
         />
       </View>
       <View>
@@ -83,9 +109,9 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   list: {
-    alignItems: "center",
     height: height / 1.25,
     width: "100%",
+    alignItems: "center",
   },
   button: {
     paddingVertical: 12,
