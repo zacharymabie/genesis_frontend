@@ -7,6 +7,7 @@ import {
   Dimensions,
   Pressable,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 const { height, width } = Dimensions.get("window");
 
@@ -16,10 +17,8 @@ const ExerciseSelector = (props) => {
 
   const buttonChange = (title) => {
     if (title === "+") {
-      setButtonTitle("-");
+      setButtonTitle("✓");
       setFunction(item);
-    } else {
-      setButtonTitle("+");
     }
   };
   return (
@@ -32,10 +31,22 @@ const ExerciseSelector = (props) => {
         </View>
         <View>
           <Pressable
-            style={styles.button}
+            style={
+              buttonTitle != "✓"
+                ? styles.button
+                : [styles.button, { backgroundColor: "white" }]
+            }
             onPress={() => buttonChange(buttonTitle)}
           >
-            <Text style={styles.buttonText}>{buttonTitle}</Text>
+            <Text
+              style={
+                buttonTitle != "✓"
+                  ? styles.buttonText
+                  : [styles.buttonText, { color: "black" }]
+              }
+            >
+              {buttonTitle}
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -81,7 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
-    color: "#85182A",
+    color: "black",
     letterSpacing: 0.25,
   },
   name: {

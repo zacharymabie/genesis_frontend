@@ -14,7 +14,7 @@ const WorkoutListContainer = (props) => {
           renderItem={({ item }) => <WorkoutList key={item.id} item={item} />}
           keyExtractor={(item) => item.id}
           refreshing={props.refreshing}
-          onRefresh={() => props.function()}
+          onRefresh={() => props.function(props.user_id)}
         />
       </View>
     </View>

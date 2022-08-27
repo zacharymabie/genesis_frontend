@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     letterSpacing: 0.25,
-    color: "#A71E35",
+    color: "black",
     margin: 30,
   },
   buttons: {

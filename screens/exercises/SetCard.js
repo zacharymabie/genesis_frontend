@@ -98,14 +98,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     borderWidth: 3,
-    borderColor: "#85182A",
+    borderColor: "black",
   },
   labels: {
     fontSize: 12,
     lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
-    color: "#85182A",
+    color: "black",
   },
   checkButton: {
     borderRadius: 4,

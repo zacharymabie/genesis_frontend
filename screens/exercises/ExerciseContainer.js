@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     letterSpacing: 0.25,
-    color: "#85182A",
+    color: "black",
     textAlign: "center",
   },
   list: {
