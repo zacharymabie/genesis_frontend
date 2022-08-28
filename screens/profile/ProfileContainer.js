@@ -225,15 +225,13 @@ const ProfileContainer = ({ navigation, route }) => {
           <View style={[styles.postInteractions]}>
             <Pressable
               style={[styles.button, { backgroundColor: "white" }]}
-              onPress={() => navigation.navigate("Login")}
+              onPress={() => {
+                AsyncStorage.removeItem("jwt");
+                logoutUser(context.dispatch);
+                navigation.navigate("Login");
+              }}
             >
-              <Text style={styles.textStyle}>Login</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, { backgroundColor: "white" }]}
-              onPress={() => navigation.navigate("Register")}
-            >
-              <Text style={styles.textStyle}>Register</Text>
+              <Text style={styles.textStyle}>Logout</Text>
             </Pressable>
             <Pressable
               style={[styles.button, { backgroundColor: "white" }]}

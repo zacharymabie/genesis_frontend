@@ -32,7 +32,11 @@ const ProfileNav = () => {
       <Stack.Screen
         name="Login"
         component={Login}
-        options={{ title: "Login" }}
+        options={{
+          title: "Login",
+          headerBackVisible: false,
+          gestureEnabled: false,
+        }}
       />
       <Stack.Screen
         name="Register"

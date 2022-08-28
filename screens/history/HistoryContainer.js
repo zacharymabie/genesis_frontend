@@ -14,7 +14,6 @@ const HistoryContainer = () => {
   const context = useContext(AuthGlobal);
   useEffect(() => {
     AsyncStorage.getItem("jwt").then((res) => {
-      console.log(context.stateUser.user.userId);
       if (context.stateUser.user.userId) {
         axios
           .get(`${baseURL}workouts/user/${context.stateUser.user.userId}`)
