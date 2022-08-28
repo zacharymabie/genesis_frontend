@@ -21,6 +21,8 @@ const Search = () => {
     const [filteredData, setFilteredData] = useState([])
     const [masterData, setMasterData] = useState([])
     const [search, setSearch] = useState('')
+    const [refreshing, setRefreshing] = useState(false)
+
     const navigation = useNavigation()
 
     useEffect(()=>{
@@ -48,6 +50,7 @@ const Search = () => {
 
 
     const fetchData = () => {
+        setRefreshing(true)
         axios.get(`${baseURL}users`)
         .then((res) => {
           setFilteredData(res.data);
@@ -55,7 +58,8 @@ const Search = () => {
         })
         .catch((error) => {
           console.log("GET Error");
-        });
+        })
+        .finally(setRefreshing(false))
     }
 
     const ItemSeparatorView = () => {
@@ -114,6 +118,8 @@ const Search = () => {
                     </TouchableOpacity>
                 )}
                 ItemSeparatorComponent={ItemSeparatorView}
+                refreshing={refreshing}
+                onRefresh={() => fetchData()}
             />
         </View>
     );

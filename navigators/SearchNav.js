@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Search from "../screens/profile/Search.js"
 import OtherProfile from "../screens/profile/OtherProfile.js";
-import FollowContainer from "../screens/profile/FollowContainer.js";
+import FollowerContainer from "../screens/profile/FollowerContainer.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +26,7 @@ const SearchNav = () => {
     >
       <Stack.Screen name="SearchScreen" component={Search} options={{title:""}}/>
       <Stack.Screen name="OtherProfile" component={OtherProfile} options={{title:""}}/>
-      <Stack.Screen name="FollowContainer" component={FollowContainer} options={{title:""}}/>
+      <Stack.Screen name="FollowerContainer" component={FollowerContainer} options={{title:""}}/>
     </Stack.Navigator>
   );
 };

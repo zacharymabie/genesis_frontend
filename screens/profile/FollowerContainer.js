@@ -18,15 +18,15 @@ var { width } = Dimensions.get('window')
 
 const FollowContainer = ({route}) => {
     const [data, setData] = useState(()=>[])
-    const [userId, setUserId] = useState("")
+    const [userID, setUserId] = useState("")
     const [refreshing, setRefreshing] = useState(false);
 
 
     useEffect(() => {
-        const {userId} = route.params 
+        const {userId, followType} = route.params 
         console.log(`userID:::::${userId}`)
-        getData()
         setUserId(userId)
+        getData()
       return () => {
         setData([])
         setUserId("")
@@ -35,11 +35,12 @@ const FollowContainer = ({route}) => {
     
     const getData = () => {
       setRefreshing(true)
-      console.log(`${baseURL}users/followers/${userId}`)
+      console.log(`SHIMATA${baseURL}users/${route.params.followType}/${route.params.userId}`)
+      console.log(`${route.params.userId}`)
       axios
-        .get(`${baseURL}users/followers/${userId}`)
+        .get(`${baseURL}users/${route.params.followType}/${route.params.userId}`)
         .then((res) => {
-          setData(res.data.followed);
+          route.params.followType=="followers"? setData(res.data.followed) : setData(res.data.following);
         })
         .catch((error) => {
           console.log("API Error");
@@ -58,6 +59,7 @@ const FollowContainer = ({route}) => {
     }>
         <View style={styles.container}>
             {data.length > 0 ? data.map(follower => {
+                    console.log("FOLLOWERDATA",follower)
                     return <Follower 
                         key={follower.id}
                         name={follower.user.username}

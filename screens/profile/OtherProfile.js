@@ -16,6 +16,7 @@ import {
 import PostContainer from "../feed/PostContainer";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 const { height, width } = Dimensions.get("window");
 
@@ -26,12 +27,40 @@ const OtherProfile = ({navigation, route}) => {
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false); //true means liked, false means not liked
+  const [refreshing, setRefreshing] = useState(false)
+  // const [followerCount, setFollowerCount] = useState(0)
+
 
   const userID = route.params.id
   const followerID = "62f8cd7b1df83bbe60782743"
 
-    useEffect(() => {
-    //get and set USER data    
+  useEffect(() => {
+    getUserData();
+    getUserPosts();
+    getFollowers();
+    getFollowing();
+    // setFollowerCount(user.followed ? user.followed.length : 0)
+
+    return()=>{
+      setUser({})
+      setPosts([])
+      setUploadImage("")
+      setFollowers([])
+      setFollowing([])
+      setIsFollowed(false)
+      // setFollowerCount(0)
+    }
+  }, []); 
+
+  const fetchData = () => {
+    setRefreshing(true)
+    getUserData()
+    getUserPosts()
+    setRefreshing(false)
+  }
+    
+  //get and set USER data    
+  const getUserData = () => {
     axios
         .get(`${baseURL}users/${userID}`)
         .then((res) => {
@@ -40,10 +69,9 @@ const OtherProfile = ({navigation, route}) => {
         .catch((error) => {
         console.log("API Error1");
         });
-
-        setUploadImage("")
-    },[]);
-    //GET and Set USER'S Posts
+  }
+  //GET and Set USER'S Posts
+  const getUserPosts = () => {
     axios
         .get(`${baseURL}posts/user/${userID}`)
         .then((res) => {
@@ -52,38 +80,37 @@ const OtherProfile = ({navigation, route}) => {
         .catch((error) => {
         console.log(`${userID}`)
         console.log("Alhamdulilah");
-        });
+        })
+  }
 
-    useEffect(() => {
-        axios
-        .get(`${baseURL}users/followers/${userID}`)
-        .then((res) => {
-            setFollowers(res.data);
-        })
-        .catch((error) => {
-            console.log("API Error", error.response.data);
-        });
-        axios
-        .get(`${baseURL}users/following/${followerID}`)
-        .then((res) => {
-            setFollowing(res.data);
-        })
-        .catch((error) => {
-            console.log("API Error", error.response.data);
-        });
-        return(
-            setFollowers([]),
-            setFollowing([])
-        )
-    }, []); // 👈️ empty dependencies array
+  const getFollowers = () => {
+    axios
+    .get(`${baseURL}users/followers/${userID}`)
+    .then((res) => {
+        setFollowers(res.data.followed);
+    })
+    .catch((error) => {
+        console.log("API Error", error.response.data);
+    });
+  }
+
+  const getFollowing = () => {
+    axios
+    .get(`${baseURL}users/following/${followerID}`)
+    .then((res) => {
+        setFollowing(res.data.following);
+    })
+    .catch((error) => {
+        console.log("API Error", error.response.data);
+    });
+  }
 
   const handleFollow = () => {
-    const followerIDArr = followers.followed
+    const followerIDArr = followers
     let followerArr = []
     followerIDArr.map(follower => {
         followerArr.push({
-            user: follower,
-            followedUser: userID
+            user: follower.user.id
         })
     })
     console.log(`followerID:${followerID}`)
@@ -91,10 +118,14 @@ const OtherProfile = ({navigation, route}) => {
     if(!isFollowed){
       followerArr.push({
         user: followerID,
-        followedUser: userID
+        // followedUser: userID
       })
+      // let count = followerCount
+      // setFollowerCount(count++)
       setIsFollowed(true)
     } else {
+      // let count = followerCount
+      // setFollowerCount(count--)
       setIsFollowed(false)
     }
     //add follower
@@ -111,18 +142,18 @@ const OtherProfile = ({navigation, route}) => {
       .catch(error => console.log(error.response.data));
     
     //following
-    const followingIDArr = following.following
+    const followingIDArr = following
     let followingArr = []
     followingIDArr.map(following => {
         followingArr.push({
-            user: followerID,
-            followedUser: following
+            user: following.user.id
+            // followedUser: following
         })
     })
 
     followingArr.push({
-        user: followerID,
-        followedUser: userID
+        user: userID,
+        // followedUser: userID
     })
 
     //add following
@@ -138,6 +169,7 @@ const OtherProfile = ({navigation, route}) => {
       })
       .catch(error => console.log(error.response.data));
       
+
   }
 
   return (
@@ -145,26 +177,30 @@ const OtherProfile = ({navigation, route}) => {
       <View style={styles.container}>
         <View style={styles.profile}>
           <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-            <View style={{ alignItems: "center" }}>
+            <TouchableOpacity 
+            onPress={()=>navigation.navigate("FollowerContainer", {userId:userID, followType:"followers"})}
+            style={{ alignItems: "center" }}>
                 <Text style={[styles.text, { fontSize: 18 }]}>
                   {user.followed ? user.followed.length : 0}
                   {/* {followerCount} */}
                 </Text>
                 <Text style={[styles.text, { fontSize: 16 }]}>Followers</Text>
-            </View>
+            </TouchableOpacity>
               {uploadImage ? 
                 <Image style={styles.profilePic} source={{uri: uploadImage}} />
                 : user.profilePic != "" ?
                 <Image style={styles.profilePic} source={{uri: user.profilePic}} />
                 : <Image style={styles.profilePic} source={require("../../assets/user.png")} />
               }
-            <View style={{ alignItems: "center" }}>
+            <TouchableOpacity 
+            onPress={()=>navigation.navigate("FollowerContainer", {userId:userID, followType:"following"})}
+            style={{ alignItems: "center" }}>
               <Text style={[styles.text, { fontSize: 18 }]}>
                 {user.following ? user.following.length : 0}
                 {/* {followingCount} */}
               </Text>
               <Text style={[styles.text, { fontSize: 16 }]}>Following</Text>
-            </View>
+            </TouchableOpacity>
           </View>
 
           <Text style={[styles.text, { fontSize: 26 }]}>{user.name}</Text>
@@ -176,7 +212,7 @@ const OtherProfile = ({navigation, route}) => {
             </View>
 
           <View style={[styles.postInteractions]}>
-            <Pressable
+            {/* <Pressable
               style={[styles.button, {backgroundColor:"white"}]}
               onPress={() => navigation.navigate("Login")}
             >
@@ -187,7 +223,7 @@ const OtherProfile = ({navigation, route}) => {
               onPress={() => navigation.navigate("Register")}
             >
               <Text style={styles.textStyle}>Register</Text>
-            </Pressable>
+            </Pressable> */}
             <Pressable
               style={[styles.button, {backgroundColor:"white"}]}
               onPress={() => handleFollow()}
@@ -215,19 +251,9 @@ const OtherProfile = ({navigation, route}) => {
             />
           )}
           keyExtractor={(item) => item.id}
+          refreshing={refreshing}
+          onRefresh={() => fetchData()}
         />
-        {/* {posts ? posts.map(post => {
-              return <PostContainer 
-                  key={post.id}
-                  name={post.author.name}
-                  profilePhoto={post.author.profilePic}
-                  timestamp={post.timestamp}
-                  caption={post.caption}
-                  imagePost={post.image}
-                  likes={post.likes}
-                  comments={post.comments}
-              />
-          }) : console.log("no data")} */}
       </View>
     </View >
   );
