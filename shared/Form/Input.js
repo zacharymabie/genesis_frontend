@@ -17,6 +17,7 @@ const Input = (props) => {
         onFocus={props.onFocus}
         secureTextEntry={props.secureTextEntry}
         keyboardType={props.keyboardType}
+        autoCapitalize="none"
       ></TextInput>
     </View>
   );

@@ -5,6 +5,7 @@ const { height, width } = Dimensions.get("window");
 
 const WorkoutCard = (props) => {
   const { name, description, author, timestamp } = props;
+  let date = new Date(timestamp);
   return (
     <View style={styles.container}>
       <View>
@@ -17,7 +18,7 @@ const WorkoutCard = (props) => {
         <Text>{author.username}</Text>
       </View>
       <View>
-        <Text style={styles.timestamp}>{timestamp}</Text>
+        <Text style={styles.timestamp}>{date.toDateString()}</Text>
         {/* Todo */}
       </View>
     </View>
