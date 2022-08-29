@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   View,
@@ -17,6 +17,8 @@ import {
 import Comment from "./Comment";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
+import AuthGlobal from "../../context/store/AuthGlobal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 var { height, width } = Dimensions.get('window')
 
@@ -30,6 +32,9 @@ const CommentContainer = ({route}) => {
     const [text, onChangeText] = useState("")
     const [postId, setPostId] = useState("")
     const [refreshing, setRefreshing] = useState(false);
+    const context = useContext(AuthGlobal);
+
+    const myUserID = context.stateUser.user.userId;
 
     const navigation = useNavigation();
 
@@ -74,7 +79,7 @@ const CommentContainer = ({route}) => {
       })
 
       commentsArr.push({
-        author: "62f8cd7b1df83bbe60782743",
+        author: myUserID,
         content: text
       })
 

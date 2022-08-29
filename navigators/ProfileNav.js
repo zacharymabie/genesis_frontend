@@ -6,6 +6,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ProfileContainer from "../screens/profile/ProfileContainer";
 import Login from "../screens/profile/Login";
 import Register from "../screens/profile/Register";
+import FollowerContainer from "../screens/profile/FollowerContainer"
+
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +45,7 @@ const ProfileNav = () => {
         component={Register}
         options={{ title: "Register" }}
       />
+      <Stack.Screen name="FollowerContainer" component={FollowerContainer} options={{title:""}}/>
     </Stack.Navigator>
   );
 };

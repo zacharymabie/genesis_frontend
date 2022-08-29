@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -6,17 +6,15 @@ import {
   Text,
   Image,
   FlatList,
-  Button,
   TouchableOpacity,
-  Modal,
-  TextInput,
   Pressable
 } from "react-native";
 
 import PostContainer from "../feed/PostContainer";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
-import { TouchableHighlight } from "react-native-gesture-handler";
+import AuthGlobal from "../../context/store/AuthGlobal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { height, width } = Dimensions.get("window");
 
@@ -28,29 +26,73 @@ const OtherProfile = ({navigation, route}) => {
   const [following, setFollowing] = useState([]);
   const [isFollowed, setIsFollowed] = useState(false); //true means liked, false means not liked
   const [refreshing, setRefreshing] = useState(false)
-  // const [followerCount, setFollowerCount] = useState(0)
-
+  // const [userID, setUserID] = useState("")
+  // const [followerID, setFollowerID] = useState("")
+  const context = useContext(AuthGlobal);
 
   const userID = route.params.id
-  const followerID = "62f8cd7b1df83bbe60782743"
+  const followerID = context.stateUser.user.userId
 
   useEffect(() => {
-    getUserData();
-    getUserPosts();
-    getFollowers();
-    getFollowing();
-    // setFollowerCount(user.followed ? user.followed.length : 0)
+    AsyncStorage.getItem("jwt")
+      .then((res) => {
+        console.log("USERID", context.stateUser.user.userId)
+        console.log("RES",res)
+        console.log("StateUser",context.stateUser.user)
+        if(context.stateUser.user.userId){
+          let user_id = context.stateUser.user.userId;
+          // setFollowerID(user_id);
+          getUserData();
+          getUserPosts();
+          getFollowers();
+          getFollowing();
+        }
+        })
+      .catch((error) => console.log(error));
 
-    return()=>{
-      setUser({})
-      setPosts([])
-      setUploadImage("")
-      setFollowers([])
-      setFollowing([])
-      setIsFollowed(false)
-      // setFollowerCount(0)
-    }
-  }, []); 
+      return()=>{
+        setUser({})
+        setPosts([])
+        setUploadImage("")
+        setFollowers([])
+        setFollowing([])
+        setIsFollowed(false)
+        // setUserID("")
+        // setFollowerID("")
+        // setFollowerCount(0)
+      }
+  }, [context.stateUser.isAuthenticated]);
+
+  // useEffect(() => {
+  //   getUserData();
+  //   getUserPosts();
+  //   getFollowers();
+  //   getFollowing();
+  //   // setFollowerCount(user.followed ? user.followed.length : 0)
+
+  //   return()=>{
+  //     setUser({})
+  //     setPosts([])
+  //     setUploadImage("")
+  //     setFollowers([])
+  //     setFollowing([])
+  //     setIsFollowed(false)
+  //     setUserID("")
+  //     // setFollowerCount(0)
+  //   }
+  // }, []); 
+
+  const checkFollowing = () => {
+    let result = false
+    followers.map(follower => {
+      if (followerID == follower.user.id){
+        setIsFollowed(true)
+        result = true
+      }
+    })
+    console.log(result)
+  }
+
 
   const fetchData = () => {
     setRefreshing(true)
@@ -92,6 +134,7 @@ const OtherProfile = ({navigation, route}) => {
     .catch((error) => {
         console.log("API Error", error.response.data);
     });
+    checkFollowing()
   }
 
   const getFollowing = () => {

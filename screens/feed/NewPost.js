@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import {
     StyleSheet,
     Text,
@@ -14,6 +14,8 @@ import {
   } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
+import AuthGlobal from "../../context/store/AuthGlobal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 var { height, width } = Dimensions.get('window')
 
@@ -22,6 +24,8 @@ const NewPost = ({navigation}) => {
     const [uploadImage, setUploadImage] = useState("")
     const [image, setImage] = useState({url:'',public_id:''})
     const [postData, setPostData] = useState({})
+    const context = useContext(AuthGlobal);
+    const myUserID = context.stateUser.user.userId
 
 
     const handleUpload = async () => {
@@ -46,15 +50,15 @@ const NewPost = ({navigation}) => {
     }
 
     const handlePost = () => {
-        setPostData({
-            author: "62f8cd7b1df83bbe60782743", //TODO: get author
-            caption:text,
-            image:uploadImage,
-            likes:[],
-            comments:[]
-        })
+        // setPostData({
+        //     author: "62f8cd7b1df83bbe60782743", //TODO: get author
+        //     caption:text,
+        //     image:uploadImage,
+        //     likes:[],
+        //     comments:[]
+        // })
         const {data} = axios.post("http://127.0.0.1:4000/api/v1/posts",{
-            author: "62f8cd7b1df83bbe60782743", //TODO: get author
+            author: myUserID, //TODO: get author
             caption:text,
             image:uploadImage,
             likes:[],

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,16 +14,22 @@ import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import AuthGlobal from "../../context/store/AuthGlobal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { width } = Dimensions.get("window");
 
 const PostContainer = (props) => {
   const [likesData, setLikesData] = useState({});
   const [liked, setLiked] = useState(false); //true means liked, false means not liked
   const [likeCount, setLikeCount] = useState(0)
+  const context = useContext(AuthGlobal);
+
 
   const navigation = useNavigation();
   const { name, profilePhoto, timestamp, caption, imagePost, likes, comments, postId, userId } =
     props;
+
+  const myUserID = context.stateUser.user.userId
 
   const profilePic = profilePhoto != ""
     ? {uri : profilePhoto}
@@ -58,7 +64,7 @@ const PostContainer = (props) => {
     })
 
     if(!liked){
-      const newLike =  "62f627a8fc65975e12b69c05"
+      const newLike =  myUserID
       userIdArr.push({user: newLike})
       let count = likeCount
       setLikeCount(count+1)

@@ -19,8 +19,8 @@ import baseURL from "../../assets/common/baseUrl";
 import * as ImagePicker from "expo-image-picker";
 
 import AuthGlobal from "../../context/store/AuthGlobal";
-import { logoutUser } from "../../context/actions/Auth.actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { logoutUser } from "../../context/actions/Auth.actions";
 import { set } from "react-native-reanimated";
 
 const { height, width } = Dimensions.get("window");
@@ -34,6 +34,13 @@ const ProfileContainer = ({ navigation, route }) => {
 
   const [userID, setUserID] = useState("");
   //Auth code
+
+  useEffect(() => {
+    setImagePicker()
+    return () => {
+      setUploadImage("");
+    }
+  }, []);
 
   const context = useContext(AuthGlobal);
   useEffect(() => {
@@ -71,9 +78,44 @@ const ProfileContainer = ({ navigation, route }) => {
       .catch((error) => console.log(error));
   }, [context.stateUser.isAuthenticated]);
 
-  useEffect(() => {
-    setUploadImage("");
-  }, []);
+  const refresh = () => {
+    axios
+    .get(`${baseURL}users/${context.stateUser.user.userId}`)
+    .then((res) => {
+      setUser(res.data);
+    })
+    .catch((error) => {
+      console.log("API Error1");
+    });
+  axios
+    .get(`${baseURL}posts/user/${context.stateUser.user.userId}`)
+    .then((res) => {
+      setPosts(res.data);
+    })
+    .catch((error) => {
+      console.log(`${userID}`);
+      console.log("Alhamdulilah");
+    });
+  }
+
+  const setImagePicker = async () => {
+    let permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
+      alert("Camera access is required");
+      return;
+    }
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
+    });
+    if (pickerResult.cancelled) {
+      return;
+    }
+    let base64Image = `data:image/jpg;base64,${pickerResult.base64}`;
+    setUploadImage(base64Image);
+  }
 
   const handleUpload = async () => {
     let permissionResult =
@@ -92,28 +134,47 @@ const ProfileContainer = ({ navigation, route }) => {
     }
     let base64Image = `data:image/jpg;base64,${pickerResult.base64}`;
     setUploadImage(base64Image);
-    handleChangePic();
+    // handleChangePic();
+    const { data } = axios
+    .put(
+      `${baseURL}users/setprofilepic/${userID}`,
+      {
+        image: base64Image,
+      },
+      {
+        headers: {
+          Authorization: `Bearer 62f8cd7b1df83bbe60782743`,
+        },
+      }
+    )
+    .then((res) => {
+      console.log("WEHHHHH WEHHHHHHh")
+      console.log(res);
+      console.log(res.data);
+    })
+    .catch((error) => console.log(error.response.data));
   };
 
-  const handleChangePic = () => {
-    const { data } = axios
-      .put(
-        `${baseURL}users/setprofilepic/${userID}`,
-        {
-          image: uploadImage,
-        },
-        {
-          headers: {
-            Authorization: `Bearer 62f8cd7b1df83bbe60782743`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        console.log(res.data);
-      })
-      .catch((error) => console.log(error.response.data));
-  };
+  // const handleChangePic = () => {
+  //   const { data } = axios
+  //     .put(
+  //       `${baseURL}users/setprofilepic/${userID}`,
+  //       {
+  //         image: uploadImage,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer 62f8cd7b1df83bbe60782743`,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       console.log("WEHHHHH WEHHHHHHh")
+  //       console.log(res);
+  //       console.log(res.data);
+  //     })
+  //     .catch((error) => console.log(error.response.data));
+  // };
 
   const handleChangeBio = () => {
     axios
@@ -142,12 +203,14 @@ const ProfileContainer = ({ navigation, route }) => {
       <View style={styles.container}>
         <View style={styles.profile}>
           <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-            <View style={{ alignItems: "center" }}>
+            <TouchableOpacity 
+            onPress={()=>navigation.navigate("FollowerContainer", {userId:userID, followType:"followers"})}
+            style={{ alignItems: "center" }}>
               <Text style={[styles.text, { fontSize: 18 }]}>
                 {user.follow ? user.followed.length : 0}
               </Text>
               <Text style={[styles.text, { fontSize: 16 }]}>Followers</Text>
-            </View>
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => handleUpload()}>
               {uploadImage ? (
                 <Image
@@ -166,12 +229,14 @@ const ProfileContainer = ({ navigation, route }) => {
                 />
               )}
             </TouchableOpacity>
-            <View style={{ alignItems: "center" }}>
+            <TouchableOpacity 
+            onPress={()=>navigation.navigate("FollowerContainer", {userId:userID, followType:"following"})}
+            style={{ alignItems: "center" }}>
               <Text style={[styles.text, { fontSize: 18 }]}>
                 {user.following ? user.following.length : 0}
               </Text>
               <Text style={[styles.text, { fontSize: 16 }]}>Following</Text>
-            </View>
+            </TouchableOpacity>
           </View>
 
           <Text style={[styles.text, { fontSize: 26 }]}>{user.name}</Text>
@@ -235,9 +300,9 @@ const ProfileContainer = ({ navigation, route }) => {
             </Pressable>
             <Pressable
               style={[styles.button, { backgroundColor: "white" }]}
-              onPress={() => alert("Follow")}
+              onPress={() => refresh()}
             >
-              <Text style={styles.textStyle}>Follow</Text>
+              <Text style={styles.textStyle}>Refresh</Text>
             </Pressable>
           </View>
         </View>
