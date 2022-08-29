@@ -1,10 +1,20 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableHighlight,
+  Dimensions,
+} from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AuthGlobal from "../../context/store/AuthGlobal";
+
+const { width, height } = Dimensions.get("window");
 
 const CreateExercise = ({ route }) => {
   const navigaton = useNavigation();
@@ -13,6 +23,7 @@ const CreateExercise = ({ route }) => {
   const [restTime, setRestTime] = useState("");
   const [remarks, setRemarks] = useState("");
   let curr_ids = route.params.exerciseIds;
+  const context = useContext(AuthGlobal);
 
   const appendId = (id) => {
     console.log(curr_ids);
@@ -22,33 +33,41 @@ const CreateExercise = ({ route }) => {
 
   //TODO change test id to user ID variable
   const addExercise = (exerciseIds) => {
-    const { data } = axios
-      .put(`${baseURL}users/list/62f627a8fc65975e12b69c05`, {
-        exercises: exerciseIds,
-      })
-      .then((res) => {
-        console.log(res);
-        console.log(res.data);
-      })
-      .catch((error) => console.log(error.response.data));
+    AsyncStorage.getItem("jwt").then((res) => {
+      if (context.stateUser.user.userId) {
+        const { data } = axios
+          .put(`${baseURL}users/list/${context.stateUser.user.userId}`, {
+            exercises: exerciseIds,
+          })
+          .then((res) => {
+            console.log(res);
+            console.log(res.data);
+          })
+          .catch((error) => console.log(error.response.data));
+      }
+    });
   };
 
   const createExercise = () => {
-    const { data } = axios
-      .post(`${baseURL}exercises`, {
-        name: name,
-        restTime: parseInt(restTime),
-        remarks: remarks,
-        user: "62f627a8fc65975e12b69c05",
-      })
-      .then((res) => {
-        console.log(res);
-        console.log(res.data);
-        if (res.status == 200) {
-          addExercise(appendId(`${res.data.id}`));
-        }
-      })
-      .catch((error) => console.log(error));
+    AsyncStorage.getItem("jwt").then((res) => {
+      if (context.stateUser.user.userId) {
+        const { data } = axios
+          .post(`${baseURL}exercises`, {
+            name: name,
+            restTime: parseInt(restTime),
+            remarks: remarks,
+            user: context.stateUser.user.userId,
+          })
+          .then((res) => {
+            console.log(res);
+            console.log(res.data);
+            if (res.status == 200) {
+              addExercise(appendId(`${res.data.id}`));
+            }
+          })
+          .catch((error) => console.log(error));
+      }
+    });
   };
 
   return (
@@ -57,7 +76,7 @@ const CreateExercise = ({ route }) => {
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Name:</Text>
           <TextInput
-            style={styles.textInput}
+            style={[styles.textInput, styles.nameInput]}
             placeholder="eg. Barbell Bench Press"
             onChangeText={(value) => setName(value)}
           />
@@ -65,7 +84,7 @@ const CreateExercise = ({ route }) => {
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Rest Time (seconds):</Text>
           <TextInput
-            style={styles.textInput}
+            style={[styles.textInput, styles.restTimeInput]}
             placeholder="eg. 100"
             onChangeText={(value) => setRestTime(value)}
           />
@@ -73,7 +92,7 @@ const CreateExercise = ({ route }) => {
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Remarks:</Text>
           <TextInput
-            style={styles.textInput}
+            style={[styles.textInput, styles.remarksInput]}
             placeholder="Remarks for this exercise"
             onChangeText={(value) => setRemarks(value)}
           />
@@ -117,11 +136,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   textInput: {
-    margin: 5,
+    margin: 10,
     height: 40,
     backgroundColor: "white",
     borderRadius: 4,
   },
+  nameInput: {
+    width: width / 2,
+  },
+  restTimeInput: { width: width / 3.9 },
+  remarksInput: { width: width / 2.2 },
   button: {
     paddingVertical: 12,
     paddingHorizontal: 12,

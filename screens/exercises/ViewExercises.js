@@ -56,7 +56,7 @@ const ViewExercises = () => {
   const getData = () => {
     setRefreshing(true);
     axios
-      .get(`${baseURL}users/62f627a8fc65975e12b69c05`)
+      .get(`${baseURL}users/${context.stateUser.user.userId}`)
       .then((res) => {
         setExercises(res.data.exerciseList);
         res.data.exerciseList.map((exercise) => {

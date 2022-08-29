@@ -10,8 +10,8 @@ import AuthGlobal from "../../context/store/AuthGlobal";
 const HistoryContainer = () => {
   const [workouts, setWorkouts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-
   const context = useContext(AuthGlobal);
+
   useEffect(() => {
     AsyncStorage.getItem("jwt").then((res) => {
       if (context.stateUser.user.userId) {

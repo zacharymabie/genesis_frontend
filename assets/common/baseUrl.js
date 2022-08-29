@@ -1,10 +1,10 @@
 import { Platform } from "react-native";
 
-let baseURL = "";
+let baseURL = "https://genesisv1.herokuapp.com/api/v1/";
 
 {
   Platform.OS == "ios"
-    ? (baseURL = "http://localhost:4000/api/v1/")
+    ? (baseURL = "https://genesisv1.herokuapp.com/api/v1/")
     : console.log("Other platforms not supported yet");
 }
 
