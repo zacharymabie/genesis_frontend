@@ -17,6 +17,7 @@ import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthGlobal from "../../context/store/AuthGlobal";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const { width, height } = Dimensions.get("window");
 
@@ -52,51 +53,53 @@ const NewWorkout = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View>
-        <View style={styles.workoutInfo}>
-          <Text style={styles.inputLabel}> Name: </Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Name of Workout"
-            onChangeText={(value) => setWorkoutName(value)}
-          />
-          <Text style={styles.inputLabel}> Description: </Text>
-          <TextInput
-            style={[styles.textInput, styles.description]}
-            placeholder="Description"
-            multiline={true}
-            numberOfLines={5}
-            onChangeText={(value) => setWorkoutDescription(value)}
-          />
-        </View>
-        <View style={styles.exerciseList}>
-          <PickExercise data={allExercises} setFunction={setFunction} />
-        </View>
+    <KeyboardAwareScrollView>
+      <View style={styles.container}>
         <View>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={() =>
-              navigation.navigate({
-                name: "InWorkout",
-                params: {
-                  exercises: selectedExercises,
-                  name: workoutName,
-                  description: workoutDescription,
-                  userId: context.stateUser.user.userId,
-                },
-              })
-            }
-            underlayColor="lightgrey"
-            activeOpacity={1}
-          >
-            <View>
-              <Text style={styles.buttonText}>Start</Text>
-            </View>
-          </TouchableHighlight>
+          <View style={styles.workoutInfo}>
+            <Text style={styles.inputLabel}> Name: </Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Name of Workout"
+              onChangeText={(value) => setWorkoutName(value)}
+            />
+            <Text style={styles.inputLabel}> Description: </Text>
+            <TextInput
+              style={[styles.textInput, styles.description]}
+              placeholder="Description"
+              multiline={true}
+              numberOfLines={5}
+              onChangeText={(value) => setWorkoutDescription(value)}
+            />
+          </View>
+          <View style={styles.exerciseList}>
+            <PickExercise data={allExercises} setFunction={setFunction} />
+          </View>
+          <View>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={() =>
+                navigation.navigate({
+                  name: "InWorkout",
+                  params: {
+                    exercises: selectedExercises,
+                    name: workoutName,
+                    description: workoutDescription,
+                    userId: context.stateUser.user.userId,
+                  },
+                })
+              }
+              underlayColor="lightgrey"
+              activeOpacity={1}
+            >
+              <View>
+                <Text style={styles.buttonText}>Start</Text>
+              </View>
+            </TouchableHighlight>
+          </View>
         </View>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

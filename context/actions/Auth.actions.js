@@ -25,6 +25,7 @@ export const loginUser = (user, dispatch) => {
       }
     })
     .catch((err) => {
+      alert("Credentials not correct");
       console.log("Credentials not correct");
       logoutUser(dispatch);
     });

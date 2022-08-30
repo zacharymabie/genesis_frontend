@@ -7,13 +7,13 @@ import {
   Button,
   Dimensions,
   TouchableOpacity,
-  Pressable
+  Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import AuthGlobal from "../../context/store/AuthGlobal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const { width } = Dimensions.get("window");
@@ -21,82 +21,96 @@ const { width } = Dimensions.get("window");
 const PostContainer = (props) => {
   const [likesData, setLikesData] = useState({});
   const [liked, setLiked] = useState(false); //true means liked, false means not liked
-  const [likeCount, setLikeCount] = useState(0)
+  const [likeCount, setLikeCount] = useState(0);
   const context = useContext(AuthGlobal);
 
-
   const navigation = useNavigation();
-  const { name, profilePhoto, timestamp, caption, imagePost, likes, comments, postId, userId } =
-    props;
+  const {
+    name,
+    profilePhoto,
+    timestamp,
+    caption,
+    imagePost,
+    likes,
+    comments,
+    postId,
+    userId,
+  } = props;
 
-  const myUserID = context.stateUser.user.userId
+  const myUserID = context.stateUser.user.userId;
 
-  const profilePic = profilePhoto != ""
-    ? {uri : profilePhoto}
-    : require("../../assets/user.png");
+  const profilePic =
+    profilePhoto != ""
+      ? { uri: profilePhoto }
+      : require("../../assets/user.png");
 
   useEffect(() => {
-    getLikesData()
-    setLikeCount(likes.length)
-    return(()=>{
-      setLikesData({})
-      setLikeCount(0)
-    })
+    getLikesData();
+    setLikeCount(likes.length);
+    return () => {
+      setLikesData({});
+      setLikeCount(0);
+    };
   }, []); // 👈️ empty dependencies array
 
   const getLikesData = () => {
     axios
-    .get(`${baseURL}posts/likes/${postId}`)
-    .then((res) => {
-      setLikesData(res.data.likes);
-    })
-    .catch((error) => {
-      console.log("API Error", error.response.data);
-    });
-  }
+      .get(`${baseURL}posts/likes/${postId}`)
+      .then((res) => {
+        setLikesData(res.data.likes);
+      })
+      .catch((error) => {
+        console.log("API Error", error.response.data);
+      });
+  };
 
   const handleLike = () => {
     //GET Current Likes on post
-    const likesArr = likesData
-    let userIdArr = []
-    likesArr.map(like => {
-      userIdArr.push({user: like.user.id})
-    })
+    const likesArr = likesData;
+    let userIdArr = [];
+    likesArr.map((like) => {
+      userIdArr.push({ user: like.user.id });
+    });
 
-    if(!liked){
-      const newLike =  myUserID
-      userIdArr.push({user: newLike})
-      let count = likeCount
-      setLikeCount(count+1)
-      setLiked(true)
+    if (!liked) {
+      const newLike = myUserID;
+      userIdArr.push({ user: newLike });
+      let count = likeCount;
+      setLikeCount(count + 1);
+      setLiked(true);
     } else {
-      setLikeCount(likes.length)
-      setLiked(false)
+      setLikeCount(likes.length);
+      setLiked(false);
     }
 
-    const {data} = axios.put(`${baseURL}posts/like/${postId}`,{
-      // likes: [{user: "62f627a8fc65975e12b69c05"}]
-      likes: userIdArr
-    },{
-        headers:{
-            "Authorization" : `Bearer 62f8cd7b1df83bbe60782743`
+    const { data } = axios
+      .put(
+        `${baseURL}posts/like/${postId}`,
+        {
+          // likes: [{user: "62f627a8fc65975e12b69c05"}]
+          likes: userIdArr,
+        },
+        {
+          headers: {
+            Authorization: `Bearer 62f8cd7b1df83bbe60782743`,
+          },
         }
-    }).then(res => {
+      )
+      .then((res) => {
         console.log(res);
-        console.log(res.data)
-    })
-    .catch(error => console.log(error.response.data));
-  }
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error.response.data));
+  };
 
   return (
     <View style={styles.postContainer}>
       <View style={styles.postHeader}>
         <View style={styles.leftContainer}>
-          <TouchableOpacity onPress={()=>navigation.navigate("OtherProfile", {id: userId})}>
-            <Image
-              style={styles.profileImage}
-              source={profilePic}
-            />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("OtherProfile", { id: userId })}
+          >
+            <Image style={styles.profileImage} source={profilePic} />
           </TouchableOpacity>
           <View
             style={[
@@ -104,7 +118,11 @@ const PostContainer = (props) => {
               { flexDirection: "column", padding: 5 },
             ]}
           >
-            <TouchableOpacity onPress={()=>navigation.navigate("OtherProfile", {id: userId})}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("OtherProfile", { id: userId })
+              }
+            >
               <Text
                 style={[
                   styles.text,
@@ -136,33 +154,54 @@ const PostContainer = (props) => {
         ]}
       >
         <Text style={styles.text}>{caption}</Text>
-        <Image
-          source={{uri:imagePost}}
-          style={styles.image}
-        />
+        <Image source={{ uri: imagePost }} style={styles.image} />
       </View>
 
       <View style={[{ margin: 5, flexDirection: "row", alignItems: "center" }]}>
-        <TouchableOpacity onPress={() => navigation.navigate("LikeContainer", {likes: likes, postId: postId})}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("LikeContainer", {
+              likes: likes,
+              postId: postId,
+            })
+          }
+        >
           <Text style={{ fontSize: 16 }}>{likeCount} Likes | </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("CommentContainer", {comments: comments, postId: postId})}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("CommentContainer", {
+              comments: comments,
+              postId: postId,
+            })
+          }
+        >
           <Text style={{ fontSize: 16 }}>{comments.length} Comments</Text>
         </TouchableOpacity>
       </View>
 
       <View style={[styles.postInteractions]}>
-        <Pressable
-          style={[styles.button]}
-          onPress={() => handleLike()}
-        >
-          <Text style={styles.textStyle}>{liked ?<Ionicons name="ios-heart-dislike" size={26} color="white" /> : <Ionicons name="ios-heart" size={26} color="white" />}</Text>
+        <Pressable style={[styles.button]} onPress={() => handleLike()}>
+          <Text style={styles.textStyle}>
+            {liked ? (
+              <Ionicons name="ios-heart-dislike" size={26} color="white" />
+            ) : (
+              <Ionicons name="ios-heart" size={26} color="white" />
+            )}
+          </Text>
         </Pressable>
         <Pressable
           style={[styles.button]}
-          onPress={() => navigation.navigate("CommentContainer", {comments: comments, postId: postId})}
+          onPress={() =>
+            navigation.navigate("CommentContainer", {
+              comments: comments,
+              postId: postId,
+            })
+          }
         >
-          <Text style={styles.textStyle}><FontAwesome name="comments" size={26} color="white" /></Text>
+          <Text style={styles.textStyle}>
+            <FontAwesome name="comments" size={26} color="white" />
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -195,7 +234,7 @@ const styles = StyleSheet.create({
   },
   postMain: {
     flexDirection: "column",
-    alignItems: "left",
+    alignItems: "flex-start",
     width: width,
   },
   postInteractions: {
@@ -218,8 +257,8 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   image: {
-    width:width,
-    height:width,
+    width: width,
+    height: width,
   },
   text: {
     margin: 8,
@@ -229,13 +268,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    margin:5,
-    backgroundColor: "#85182A"
+    margin: 5,
+    backgroundColor: "#85182A",
   },
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
   },
 });
 
