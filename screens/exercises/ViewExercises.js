@@ -69,6 +69,14 @@ const ViewExercises = () => {
       .finally(setRefreshing(false));
   };
 
+  const showEmptyListView = () => {
+    return (
+      <View>
+        <Text style={styles.text}>No Exercises Yet!</Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.list}>
@@ -77,6 +85,7 @@ const ViewExercises = () => {
           renderItem={({ item }) => <ExerciseList pick={false} item={item} />}
           refreshing={refreshing}
           onRefresh={() => getData()}
+          ListEmptyComponent={() => showEmptyListView()}
         />
       </View>
       <View>
@@ -131,6 +140,15 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: "black",
     alignSelf: "center",
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+    alignSelf: "center",
+    margin: 20,
   },
 });
 

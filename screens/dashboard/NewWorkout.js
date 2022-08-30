@@ -53,8 +53,8 @@ const NewWorkout = () => {
   };
 
   return (
-    <KeyboardAwareScrollView>
-      <View style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container}>
+      <View>
         <View>
           <View style={styles.workoutInfo}>
             <Text style={styles.inputLabel}> Name: </Text>

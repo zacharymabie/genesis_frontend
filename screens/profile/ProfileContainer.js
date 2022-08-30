@@ -36,10 +36,10 @@ const ProfileContainer = ({ navigation, route }) => {
   //Auth code
 
   useEffect(() => {
-    setImagePicker()
+    //setImagePicker()
     return () => {
       setUploadImage("");
-    }
+    };
   }, []);
 
   const context = useContext(AuthGlobal);
@@ -80,23 +80,23 @@ const ProfileContainer = ({ navigation, route }) => {
 
   const refresh = () => {
     axios
-    .get(`${baseURL}users/${context.stateUser.user.userId}`)
-    .then((res) => {
-      setUser(res.data);
-    })
-    .catch((error) => {
-      console.log("API Error1");
-    });
-  axios
-    .get(`${baseURL}posts/user/${context.stateUser.user.userId}`)
-    .then((res) => {
-      setPosts(res.data);
-    })
-    .catch((error) => {
-      console.log(`${userID}`);
-      console.log("Alhamdulilah");
-    });
-  }
+      .get(`${baseURL}users/${context.stateUser.user.userId}`)
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((error) => {
+        console.log("API Error1");
+      });
+    axios
+      .get(`${baseURL}posts/user/${context.stateUser.user.userId}`)
+      .then((res) => {
+        setPosts(res.data);
+      })
+      .catch((error) => {
+        console.log(`${userID}`);
+        console.log("Alhamdulilah");
+      });
+  };
 
   const setImagePicker = async () => {
     let permissionResult =
@@ -115,7 +115,7 @@ const ProfileContainer = ({ navigation, route }) => {
     }
     let base64Image = `data:image/jpg;base64,${pickerResult.base64}`;
     setUploadImage(base64Image);
-  }
+  };
 
   const handleUpload = async () => {
     let permissionResult =
@@ -136,23 +136,23 @@ const ProfileContainer = ({ navigation, route }) => {
     setUploadImage(base64Image);
     // handleChangePic();
     const { data } = axios
-    .put(
-      `${baseURL}users/setprofilepic/${userID}`,
-      {
-        image: base64Image,
-      },
-      {
-        headers: {
-          Authorization: `Bearer 62f8cd7b1df83bbe60782743`,
+      .put(
+        `${baseURL}users/setprofilepic/${userID}`,
+        {
+          image: base64Image,
         },
-      }
-    )
-    .then((res) => {
-      console.log("WEHHHHH WEHHHHHHh")
-      console.log(res);
-      console.log(res.data);
-    })
-    .catch((error) => console.log(error.response.data));
+        {
+          headers: {
+            Authorization: `Bearer 62f8cd7b1df83bbe60782743`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log("WEHHHHH WEHHHHHHh");
+        console.log(res);
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error.response.data));
   };
 
   // const handleChangePic = () => {
@@ -203,9 +203,15 @@ const ProfileContainer = ({ navigation, route }) => {
       <View style={styles.container}>
         <View style={styles.profile}>
           <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-            <TouchableOpacity 
-            onPress={()=>navigation.navigate("FollowerContainer", {userId:userID, followType:"followers"})}
-            style={{ alignItems: "center" }}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("FollowerContainer", {
+                  userId: userID,
+                  followType: "followers",
+                })
+              }
+              style={{ alignItems: "center" }}
+            >
               <Text style={[styles.text, { fontSize: 18 }]}>
                 {user.follow ? user.followed.length : 0}
               </Text>
@@ -229,9 +235,15 @@ const ProfileContainer = ({ navigation, route }) => {
                 />
               )}
             </TouchableOpacity>
-            <TouchableOpacity 
-            onPress={()=>navigation.navigate("FollowerContainer", {userId:userID, followType:"following"})}
-            style={{ alignItems: "center" }}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("FollowerContainer", {
+                  userId: userID,
+                  followType: "following",
+                })
+              }
+              style={{ alignItems: "center" }}
+            >
               <Text style={[styles.text, { fontSize: 18 }]}>
                 {user.following ? user.following.length : 0}
               </Text>
