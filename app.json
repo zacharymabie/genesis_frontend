@@ -1,7 +1,10 @@
 {
   "expo": {
-    "name": "genesis_frontend",
-    "slug": "genesis_frontend",
+    "name": "genesis",
+    "slug": "genesis",
+    "owner": "zmemanagment",
+    "privacy": "public",
+    "description": "Ultimate gym app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,16 +21,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.zmemanagment.genesis"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.zmemanagment.genesis"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "61e492cc-9471-42ec-b608-be05fc000e05"
+      }
     }
   }
 }
